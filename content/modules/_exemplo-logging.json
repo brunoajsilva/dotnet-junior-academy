@@ -1,0 +1,70 @@
+{
+  "id": "logging",
+  "kind": "course",
+  "title": "Logging e Observabilidade",
+  "short": "Logging",
+  "tagline": "Registar o que a aplicação faz com ILogger, níveis e mensagens estruturadas, para perceber o que se passou em produção.",
+  "chapters": [
+    {
+      "id": "logging-1",
+      "t": "Registar com ILogger",
+      "intro": "Aprendes a escrever mensagens de log úteis e a escolher o nível certo, sem expor dados sensíveis.",
+      "lessons": [
+        {
+          "id": "logging-1-1",
+          "t": "ILogger e mensagens estruturadas",
+          "type": "code",
+          "lang": "cs",
+          "code": "public class DepositHandler\n{\n    private readonly ILogger<DepositHandler> _logger;\n\n    public DepositHandler(ILogger<DepositHandler> logger) => _logger = logger;\n\n    public void Handle(string accountNumber, decimal amount)\n    {\n        // named placeholders, not string concatenation\n        _logger.LogInformation(\"Deposit of {Amount} into account {AccountNumber}\", amount, accountNumber);\n    }\n}",
+          "points": [
+            "O ILogger<T> vem por Dependency Injection e o T identifica a classe que escreveu a mensagem.",
+            "Os marcadores {Amount} e {AccountNumber} ficam pesquisáveis, ao contrário de texto concatenado.",
+            "Nunca registes passwords, tokens ou dados pessoais completos."
+          ],
+          "more": {
+            "more": "Com marcadores nomeados, o sistema de logging guarda o valor de cada um como um campo próprio. Isso permite, mais tarde, pesquisar todas as mensagens de uma conta concreta sem fazer parsing de texto.\n\nA concatenação com $\"...\" produz o mesmo texto no ecrã, mas perde essa estrutura.",
+            "pit": "Registar o corpo completo de um pedido. Pode incluir passwords ou números de conta que não deviam sair da aplicação.",
+            "tryit": "Acrescenta um LogInformation ao teu handler de depósito e corre a API. Vê a mensagem na consola."
+          }
+        },
+        {
+          "id": "logging-1-2",
+          "t": "Níveis de log",
+          "type": "table",
+          "rows": [
+            ["Nível", "Quando usar"],
+            ["Information", "Um facto normal e relevante, como um depósito concluído."],
+            ["Warning", "Algo inesperado que a aplicação tratou, como um saldo insuficiente."],
+            ["Error", "Uma operação falhou e precisa de atenção."],
+            ["Debug", "Detalhe para desenvolvimento, desligado em produção."]
+          ]
+        },
+        {
+          "id": "logging-1-3",
+          "t": "Registar uma operação",
+          "type": "exercise",
+          "steps": [
+            { "lead": "Injetar", "text": "Injeta ILogger<T> no handler de levantamento." },
+            { "lead": "Sucesso", "text": "Regista um Information com a conta e o valor." },
+            { "lead": "Recusa", "text": "Regista um Warning quando o saldo é insuficiente." },
+            { "lead": "Verificar", "text": "Confirma na consola que nenhuma mensagem contém dados sensíveis." }
+          ],
+          "expected": null,
+          "hint": "Começa pelo caso de sucesso e só depois trata a recusa."
+        }
+      ],
+      "quiz": [
+        { "q": "Qual a vantagem dos marcadores nomeados no log?", "o": ["Os valores ficam pesquisáveis como campos", "O texto fica mais curto", "O log corre mais depressa", "Não precisa de ILogger"], "a": 0, "w": "Cada marcador é guardado como um campo próprio, por isso podes filtrar por conta ou valor." },
+        { "q": "Que nível usas para um saldo insuficiente tratado pela aplicação?", "o": ["Debug", "Warning", "Critical", "Trace"], "a": 1, "w": "É um acontecimento inesperado mas tratado: Warning." },
+        { "q": "Podes registar a password do cliente para ajudar a depurar?", "o": ["Sim, em Debug", "Sim, se estiver em hash", "Não, nunca", "Só em produção"], "a": 2, "w": "Dados sensíveis nunca devem aparecer em logs, em nenhum nível." }
+      ]
+    }
+  ],
+  "outro": {
+    "done": ["Injetar e usar ILogger", "Escrever mensagens estruturadas", "Escolher o nível de log certo"],
+    "practice": ["Registar também as transferências, com o nível certo", "Procurar nos logs todas as mensagens de uma conta", "Ler sobre níveis de log e filtros por categoria"],
+    "docs": [
+      { "t": "Logging no .NET", "u": "https://learn.microsoft.com/dotnet/core/extensions/logging" }
+    ]
+  }
+}

@@ -1,0 +1,2582 @@
+[
+ {
+  "n": 1,
+  "layout": "42_Custom Layout",
+  "title": "",
+  "sub": "",
+  "shapes": [
+   {
+    "name": "Google Shape;446;p73",
+    "paras": [
+     "Introdução ao .NET",
+     "Outubro de 2026",
+     "Training Team"
+    ]
+   }
+  ],
+  "notes": "Ler os quatro resultados em voz alta."
+ },
+ {
+  "n": 2,
+  "layout": "2_Custom Layout",
+  "title": "Privacidade",
+  "sub": "Aviso de",
+  "shapes": [
+   {
+    "name": "Google Shape;410;p71",
+    "paras": [
+     "Aviso de privacidade omitido."
+    ]
+   }
+  ],
+  "notes": ""
+ },
+ {
+  "n": 3,
+  "layout": "25_Custom Layout",
+  "title": "No fim do módulo, o formando sabe",
+  "sub": "Introdução ao .NET",
+  "shapes": [
+   {
+    "name": "Número 1",
+    "paras": [
+     "1"
+    ]
+   },
+   {
+    "name": "Título 1",
+    "paras": [
+     "Explicar o .NET"
+    ]
+   },
+   {
+    "name": "Descrição 1",
+    "paras": [
+     "Como o código C# é compilado e executado, e como se organiza uma solução."
+    ]
+   },
+   {
+    "name": "Número 2",
+    "paras": [
+     "2"
+    ]
+   },
+   {
+    "name": "Título 2",
+    "paras": [
+     "Construir uma API"
+    ]
+   },
+   {
+    "name": "Descrição 2",
+    "paras": [
+     "Controllers, rotas, códigos HTTP, validação e documentação com OpenAPI."
+    ]
+   },
+   {
+    "name": "Número 3",
+    "paras": [
+     "3"
+    ]
+   },
+   {
+    "name": "Título 3",
+    "paras": [
+     "Ligar as peças"
+    ]
+   },
+   {
+    "name": "Descrição 3",
+    "paras": [
+     "Dependency Injection e acesso à base de dados com o Entity Framework Core."
+    ]
+   },
+   {
+    "name": "Número 4",
+    "paras": [
+     "4"
+    ]
+   },
+   {
+    "name": "Título 4",
+    "paras": [
+     "Garantir qualidade"
+    ]
+   },
+   {
+    "name": "Descrição 4",
+    "paras": [
+     "Testes unitários com xUnit e organização do código em camadas."
+    ]
+   }
+  ],
+  "notes": "Ler os quatro resultados em voz alta."
+ },
+ {
+  "n": 4,
+  "layout": "25_Custom Layout",
+  "title": "Como funciona o módulo",
+  "sub": "Introdução ao .NET",
+  "shapes": [
+   {
+    "name": "Título Aprender",
+    "paras": [
+     "Aprender"
+    ]
+   },
+   {
+    "name": "Texto Aprender",
+    "paras": [
+     "Explicação curta com um exemplo real e leitura guiada da documentação oficial."
+    ]
+   },
+   {
+    "name": "Título Fazer",
+    "paras": [
+     "Fazer"
+    ]
+   },
+   {
+    "name": "Texto Fazer",
+    "paras": [
+     "Exercício prático em que o formando escreve o código, com apoio nas partes mais difíceis."
+    ]
+   },
+   {
+    "name": "Título Explicar",
+    "paras": [
+     "Explicar"
+    ]
+   },
+   {
+    "name": "Texto Explicar",
+    "paras": [
+     "O formando demonstra o que fez e responde a perguntas de «porquê»."
+    ]
+   },
+   {
+    "name": "Resumo",
+    "paras": [
+     "Um projeto que cresce. Todos os exercícios continuam a mesma API de apólices: começa numa solução vazia e termina com base de dados, testes e camadas."
+    ]
+   }
+  ],
+  "notes": "Cada capítulo segue o mesmo ritmo: ouvir, experimentar e explicar."
+ },
+ {
+  "n": 5,
+  "layout": "42_Custom Layout",
+  "title": "",
+  "sub": "",
+  "shapes": [],
+  "notes": "Visão geral dos seis capítulos do módulo e dos temas de cada um."
+ },
+ {
+  "n": 6,
+  "layout": "42_Custom Layout",
+  "title": "",
+  "sub": "",
+  "shapes": [
+   {
+    "name": "Google Shape;446;p73",
+    "paras": [
+     "A plataforma .NET",
+     "Capítulo 1 de 6",
+     "O que é o .NET e como se organiza uma solução."
+    ]
+   }
+  ],
+  "notes": "Apresentar o capítulo e os temas que vão ser abordados."
+ },
+ {
+  "n": 7,
+  "layout": "25_Custom Layout",
+  "title": "Como é que o .NET executa o teu código",
+  "sub": "A plataforma .NET",
+  "shapes": [
+   {
+    "name": "Título Código C#",
+    "paras": [
+     "Código C#"
+    ]
+   },
+   {
+    "name": "Detalhe Código C#",
+    "paras": [
+     "ficheiros .cs"
+    ]
+   },
+   {
+    "name": "Título Compilador",
+    "paras": [
+     "Compilador"
+    ]
+   },
+   {
+    "name": "Detalhe Compilador",
+    "paras": [
+     "Roslyn"
+    ]
+   },
+   {
+    "name": "Título IL",
+    "paras": [
+     "Intermediate",
+     "Language"
+    ]
+   },
+   {
+    "name": "Detalhe IL",
+    "paras": [
+     "",
+     "ficheiro .dll"
+    ]
+   },
+   {
+    "name": "Título Runtime",
+    "paras": [
+     "Runtime"
+    ]
+   },
+   {
+    "name": "Detalhe Runtime",
+    "paras": [
+     "CLR e compilador JIT"
+    ]
+   },
+   {
+    "name": "Título Código máquina",
+    "paras": [
+     "Código máquina"
+    ]
+   },
+   {
+    "name": "Detalhe Código máquina",
+    "paras": [
+     "",
+     "o processador executa"
+    ]
+   },
+   {
+    "name": "Título Multiplataforma",
+    "paras": [
+     "Multiplataforma"
+    ]
+   },
+   {
+    "name": "Texto Multiplataforma",
+    "paras": [
+     "Windows, Linux e macOS, incluindo containers."
+    ]
+   },
+   {
+    "name": "Título Biblioteca de classes",
+    "paras": [
+     "Biblioteca de classes"
+    ]
+   },
+   {
+    "name": "Texto Biblioteca de classes",
+    "paras": [
+     "Coleções, ficheiros, rede, JSON e muito mais, já incluídos."
+    ]
+   },
+   {
+    "name": "Título Memória gerida",
+    "paras": [
+     "Memória gerida"
+    ]
+   },
+   {
+    "name": "Texto Memória gerida",
+    "paras": [
+     "O garbage collector liberta a memória que já não é usada."
+    ]
+   }
+  ],
+  "notes": "Seguir a seta da esquerda para a direita. A compilação gera IL, que é igual em qualquer sistema; o JIT converte-a para código máquina na altura de executar."
+ },
+ {
+  "n": 8,
+  "layout": "25_Custom Layout",
+  "title": "SDK, runtime e versões",
+  "sub": "A plataforma .NET",
+  "shapes": [
+   {
+    "name": "Título SDK",
+    "paras": [
+     "SDK"
+    ]
+   },
+   {
+    "name": "Texto SDK",
+    "paras": [
+     "Para desenvolver: compilador, linha de comandos dotnet e templates de projetos."
+    ]
+   },
+   {
+    "name": "Título Runtime",
+    "paras": [
+     "Runtime"
+    ]
+   },
+   {
+    "name": "Texto Runtime",
+    "paras": [
+     "Para executar: é o que tem de existir no servidor onde a aplicação corre."
+    ]
+   },
+   {
+    "name": "Título Versões LTS",
+    "paras": [
+     "Versões LTS"
+    ]
+   },
+   {
+    "name": "Texto Versões LTS",
+    "paras": [
+     "As versões pares, como o .NET 10, têm suporte de longa duração (3 anos)."
+    ]
+   },
+   {
+    "name": "Título .NET Framework",
+    "paras": [
+     ".NET Framework"
+    ]
+   },
+   {
+    "name": "Texto .NET Framework",
+    "paras": [
+     "A plataforma antiga (4.x): só Windows e sem novas funcionalidades. Em projetos novos usa-se o .NET."
+    ]
+   }
+  ],
+  "notes": "Perguntar ao formando em que máquina é preciso o SDK e em que máquina basta o runtime. O .NET Framework só é mencionado para o formando o reconhecer em projetos antigos."
+ },
+ {
+  "n": 9,
+  "layout": "25_Custom Layout",
+  "title": "Soluções e Projetos",
+  "sub": "A plataforma .NET",
+  "shapes": [
+   {
+    "name": "Tabela",
+    "table": [
+     [
+      "Tarefa",
+      "Linha de comandos",
+      "Visual Studio"
+     ],
+     [
+      "Criar um projeto",
+      "dotnet new webapi",
+      "File > New > Project"
+     ],
+     [
+      "Adicionar à solução",
+      "dotnet sln add",
+      "Botão direito na Solution > Add > New Project"
+     ],
+     [
+      "Referenciar um projeto",
+      "dotnet add reference",
+      "Botão direito em Dependencies > Add Project Reference"
+     ],
+     [
+      "Instalar um pacote",
+      "dotnet add package",
+      "Botão direito no projeto > Manage NuGet Packages"
+     ],
+     [
+      "Compilar",
+      "dotnet build",
+      "Build > Build Solution (Ctrl+Shift+B)"
+     ],
+     [
+      "Executar",
+      "dotnet run",
+      "F5 (com debugger) ou Ctrl+F5 (sem)"
+     ],
+     [
+      "Testar",
+      "dotnet test",
+      "Test > Run All Tests (Test Explorer)"
+     ]
+    ]
+   }
+  ],
+  "notes": "Cada ação da interface corresponde a um comando. Usar a interface para explorar e a CLI para automatizar (scripts, pipelines de integração contínua). Pedir ao formando que repita uma das tarefas pelos dois caminhos."
+ },
+ {
+  "n": 10,
+  "layout": "25_Custom Layout",
+  "title": "Solução, projeto e NuGet",
+  "sub": "A plataforma .NET",
+  "shapes": [
+   {
+    "name": "Código C#",
+    "paras": [
+     "<Project Sdk=\"Microsoft.NET.Sdk.Web\">",
+     "  <PropertyGroup>",
+     "    <TargetFramework>net10.0</TargetFramework>",
+     "    <Nullable>enable</Nullable>",
+     "    <ImplicitUsings>enable</ImplicitUsings>",
+     "  </PropertyGroup>",
+     "  <ItemGroup>",
+     "    <PackageReference Include=\"Serilog\" Version=\"4.2.0\" />",
+     "    <ProjectReference Include=\"..\\Domain\\Domain.csproj\" />",
+     "  </ItemGroup>",
+     "</Project>"
+    ]
+   },
+   {
+    "name": "Pontos-chave",
+    "paras": [
+     ".sln agrupa projetos; .csproj descreve um projeto.",
+     "TargetFramework indica a versão do .NET.",
+     "PackageReference traz pacotes do NuGet.",
+     "ProjectReference liga projetos entre si."
+    ]
+   }
+  ],
+  "notes": "Abrir um .csproj real no editor. Mostrar que o Nullable ativa os avisos de null vistos em C#. A versão do pacote do exemplo é ilustrativa."
+ },
+ {
+  "n": 11,
+  "layout": "25_Custom Layout",
+  "title": "Exercício prático: a solução da seguradora",
+  "sub": "A plataforma .NET",
+  "shapes": [
+   {
+    "name": "Título passos",
+    "paras": [
+     "O que fazer"
+    ]
+   },
+   {
+    "name": "Lista de passos",
+    "paras": [
+     "Criar a solução: Insurance.Api, com três projetos: Api (webapi), ",
+     "Adicionar à solução: Domain (classlib) e Testes (xunit) ",
+     "Referenciar: o Domain na Api e a API nos Testes",
+     "Instalar um pacote na API via nuget: Newtonsoft.Json",
+     "Compilar e corer: a Api e abrir o endereço indicado no terminal"
+    ]
+   },
+   {
+    "name": "Resultado esperado",
+    "paras": [
+     "dotnet build",
+     "Build succeeded.",
+     "    0 Warning(s)",
+     "    0 Error(s)",
+     " ",
+     "dotnet run",
+     "Now listening on:",
+     "http://localhost:5xxx"
+    ]
+   },
+   {
+    "name": "Título extra",
+    "paras": [
+     "Extra"
+    ]
+   },
+   {
+    "name": "Texto extra",
+    "paras": [
+     "Mostrar a estrutura de pastas com o comando tree e explicar o que cada projeto vai ter."
+    ]
+   }
+  ],
+  "notes": "Deixar o formando usar só a linha de comandos. No fim, confirmar que a solução abre no IDE sem erros."
+ },
+ {
+  "n": 12,
+  "layout": "42_Custom Layout",
+  "title": "",
+  "sub": "",
+  "shapes": [
+   {
+    "name": "Google Shape;446;p73",
+    "paras": [
+     "ASP.NET Core e Web API",
+     "Capítulo 2 de 6",
+     "Arrancar uma aplicação web e expor endpoints REST."
+    ]
+   }
+  ],
+  "notes": "Apresentar o capítulo e os temas que vão ser abordados."
+ },
+ {
+  "n": 13,
+  "layout": "25_Custom Layout",
+  "title": "Program.cs: arrancar a aplicação",
+  "sub": "ASP.NET Core e Web API",
+  "shapes": [
+   {
+    "name": "Código C#",
+    "paras": [
+     "var builder = WebApplication.CreateBuilder(args);",
+     " ",
+     "builder.Services.AddControllers();",
+     "builder.Services.AddOpenApi();",
+     " ",
+     "var app = builder.Build();",
+     " ",
+     "app.MapOpenApi();",
+     "app.UseHttpsRedirection();",
+     "app.MapControllers();",
+     " ",
+     "app.Run();"
+    ]
+   },
+   {
+    "name": "Pontos-chave",
+    "paras": [
+     "builder regista serviços.",
+     "app define como os pedidos são tratados.",
+     "Run arranca o servidor Kestrel.",
+     "Tudo num só ficheiro, de cima para baixo."
+    ]
+   }
+  ],
+  "notes": "Explicar a separação em duas fases: primeiro o que a aplicação tem (serviços), depois o que faz com cada pedido (pipeline)."
+ },
+ {
+  "n": 14,
+  "layout": "25_Custom Layout",
+  "title": "Middleware: o pipeline de pedidos",
+  "sub": "ASP.NET Core e Web API",
+  "shapes": [
+   {
+    "name": "Título Pedido",
+    "paras": [
+     "Pedido"
+    ]
+   },
+   {
+    "name": "Detalhe Pedido",
+    "paras": [
+     "HTTP"
+    ]
+   },
+   {
+    "name": "Título HTTPS",
+    "paras": [
+     "HTTPS"
+    ]
+   },
+   {
+    "name": "Detalhe HTTPS",
+    "paras": [
+     "redireciona para https"
+    ]
+   },
+   {
+    "name": "Título Autenticação",
+    "paras": [
+     "Autenticação"
+    ]
+   },
+   {
+    "name": "Detalhe Autenticação",
+    "paras": [
+     "quem és?"
+    ]
+   },
+   {
+    "name": "Título Autorização",
+    "paras": [
+     "Autorização"
+    ]
+   },
+   {
+    "name": "Detalhe Autorização",
+    "paras": [
+     "podes fazer isto?"
+    ]
+   },
+   {
+    "name": "Título Controller",
+    "paras": [
+     "Controller"
+    ]
+   },
+   {
+    "name": "Detalhe Controller",
+    "paras": [
+     "executa a ação"
+    ]
+   },
+   {
+    "name": "Regras do pipeline",
+    "paras": [
+     "Cada middleware pode tratar o pedido, passá-lo ao seguinte ou terminá-lo.",
+     "A ordem do registo no Program.cs é a ordem de execução.",
+     "A resposta volta pelo mesmo caminho, em sentido contrário."
+    ]
+   }
+  ],
+  "notes": "Cada middleware pode tratar o pedido, passá-lo ao seguinte ou terminá-lo. A resposta volta pelo mesmo caminho, em sentido contrário."
+ },
+ {
+  "n": 15,
+  "layout": "25_Custom Layout",
+  "title": "Middleware próprio",
+  "sub": "ASP.NET Core e Web API",
+  "shapes": [
+   {
+    "name": "Código C#",
+    "paras": [
+     "app.Use(async (context, next) =>",
+     "{",
+     "    var sw = Stopwatch.StartNew();",
+     " ",
+     "    await next();",
+     " ",
+     "    var ms = sw.ElapsedMilliseconds;",
+     "    Console.WriteLine($\"{context.Request.Path}: {ms} ms\");",
+     "});"
+    ]
+   },
+   {
+    "name": "Pontos-chave",
+    "paras": [
+     "Use acrescenta um middleware ao pipeline.",
+     "O código antes de next() corre à ida.",
+     "O código depois corre à volta.",
+     "Serve para logging, medição de tempos e tratamento de erros."
+    ]
+   }
+  ],
+  "notes": "Chamar um endpoint e ver o tempo no terminal. Mostrar o que acontece se se remover a chamada a next(): o pedido fica sem resposta."
+ },
+ {
+  "n": 16,
+  "layout": "25_Custom Layout",
+  "title": "Configuração e ambientes",
+  "sub": "ASP.NET Core e Web API",
+  "shapes": [
+   {
+    "name": "Código C#",
+    "paras": [
+     "// appsettings.json",
+     "{",
+     "  \"ConnectionStrings\": {",
+     "    \"Insurance\": \"Server=...;Database=Insurance\"",
+     "  },",
+     "  \"Premiums\": { \"MaxDiscount\": 0.2 }",
+     "}",
+     " ",
+     "// in code",
+     "var cs = builder.Configuration",
+     "    .GetConnectionString(\"Insurance\");",
+     "var max = builder.Configuration",
+     "    .GetValue<decimal>(\"Premiums:MaxDiscount\");"
+    ]
+   },
+   {
+    "name": "Pontos-chave",
+    "paras": [
+     "appsettings.json guarda a configuração.",
+     "O ficheiro do ambiente sobrepõe-se ao base.",
+     "Variáveis de ambiente têm prioridade.",
+     "Segredos nunca vão para o repositório."
+    ]
+   }
+  ],
+  "notes": "ASPNETCORE_ENVIRONMENT define o ambiente (Development, Production). Para segredos locais usar user-secrets; em produção, variáveis de ambiente ou um cofre."
+ },
+ {
+  "n": 17,
+  "layout": "25_Custom Layout",
+  "title": "Controllers e rotas",
+  "sub": "ASP.NET Core e Web API",
+  "shapes": [
+   {
+    "name": "Código C#",
+    "paras": [
+     "[ApiController]",
+     "[Route(\"api/policies\")]",
+     "public class PoliciesController : ControllerBase",
+     "{",
+     "    [HttpGet]                     // GET api/policies",
+     "    public IActionResult List() { ... }",
+     " ",
+     "    [HttpGet(\"{number}\")]         // GET api/policies/AP-001",
+     "    public IActionResult Get(string number) { ... }",
+     " ",
+     "    [HttpPost]                    // POST api/policies",
+     "    public IActionResult Create(NewPolicy r) { ... }",
+     "}"
+    ]
+   },
+   {
+    "name": "Pontos-chave",
+    "paras": [
+     "[ApiController] liga o binding e a validação automática.",
+     "[Route] define o caminho base.",
+     "Um atributo por verbo: HttpGet, HttpPost...",
+     "{number} vem da rota; o corpo vem do JSON."
+    ]
+   }
+  ],
+  "notes": "Mostrar que a rota é a combinação do [Route] da classe com o atributo do método."
+ },
+ {
+  "n": 18,
+  "layout": "25_Custom Layout",
+  "title": "Códigos de estado HTTP",
+  "sub": "ASP.NET Core e Web API",
+  "shapes": [
+   {
+    "name": "Tabela",
+    "table": [
+     [
+      "Código",
+      "Significado",
+      "Quando"
+     ],
+     [
+      "200 OK",
+      "Pedido bem-sucedido, com corpo",
+      "GET que encontra o recurso"
+     ],
+     [
+      "201 Created",
+      "Recurso criado (cabeçalho Location)",
+      "POST que cria uma apólice"
+     ],
+     [
+      "204 No Content",
+      "Sucesso, sem corpo",
+      "DELETE ou PUT bem-sucedidos"
+     ],
+     [
+      "400 Bad Request",
+      "Pedido inválido",
+      "Falha na validação"
+     ],
+     [
+      "404 Not Found",
+      "O recurso não existe",
+      "GET de uma apólice inexistente"
+     ],
+     [
+      "409 Conflict",
+      "Conflito com o estado atual",
+      "Número de apólice repetido"
+     ],
+     [
+      "500 Internal Server Error",
+      "Erro no servidor",
+      "Exceção não tratada"
+     ]
+    ]
+   }
+  ],
+  "notes": "O código de estado é parte do contrato da API. Pedir ao formando que diga qual devolver em cada situação antes de mostrar a coluna «Quando»."
+ },
+ {
+  "n": 19,
+  "layout": "25_Custom Layout",
+  "title": "Devolver o resultado certo",
+  "sub": "ASP.NET Core e Web API",
+  "shapes": [
+   {
+    "name": "Código C#",
+    "paras": [
+     "[HttpGet(\"{number}\")]",
+     "public ActionResult<PolicyResponse> Get(string number)",
+     "{",
+     "    var policy = _service.Get(number);",
+     "    if (policy is null)",
+     "        return NotFound();",
+     " ",
+     "    return Ok(policy);",
+     "}",
+     " ",
+     "[HttpPost]",
+     "public ActionResult<PolicyResponse> Create(NewPolicy r)",
+     "{",
+     "    var created = _service.Create(r);",
+     "    return CreatedAtAction(nameof(Get),",
+     "        new { number = created.Number }, created);",
+     "}"
+    ]
+   },
+   {
+    "name": "Pontos-chave",
+    "paras": [
+     "Ok, NotFound, BadRequest...",
+     "CreatedAtAction devolve 201 e o endereço do novo recurso.",
+     "ActionResult<T> documenta o tipo devolvido."
+    ]
+   }
+  ],
+  "notes": "O _servico aparece sem explicação de onde vem: é injetado, o que se vê no próximo capítulo. Por agora basta dizer que é uma classe com a lista de apólices."
+ },
+ {
+  "n": 20,
+  "layout": "25_Custom Layout",
+  "title": "DTOs e validação",
+  "sub": "ASP.NET Core e Web API",
+  "shapes": [
+   {
+    "name": "Código C#",
+    "paras": [
+     "public record NewPolicy(",
+     "    [Required, StringLength(20)] string Number,",
+     "    [RegularExpression(@\"^\\d{9}$\")] string TaxId,",
+     "    [Range(0.01, 1000000)] decimal Premium);",
+     " ",
+     "public record PolicyResponse(",
+     "    string Number, string Customer, decimal Premium);"
+    ]
+   },
+   {
+    "name": "Pontos-chave",
+    "paras": [
+     "DTO é o formato do pedido ou da resposta, não da base de dados.",
+     "Entrada e saída ficam separadas.",
+     "Os atributos validam o pedido.",
+     "Com [ApiController], um pedido inválido devolve 400 sozinho."
+    ]
+   }
+  ],
+  "notes": "Mostrar o corpo do 400 com os erros de validação. Explicar porque não se expõe a entidade da base de dados diretamente: um campo novo na tabela não deve mudar o contrato da API."
+ },
+ {
+  "n": 21,
+  "layout": "25_Custom Layout",
+  "title": "REST e RPC",
+  "sub": "ASP.NET Core e Web API",
+  "shapes": [
+   {
+    "name": "Título REST",
+    "paras": [
+     "REST"
+    ]
+   },
+   {
+    "name": "Subtítulo REST",
+    "paras": [
+     "Recursos e verbos HTTP"
+    ]
+   },
+   {
+    "name": "Exemplos REST",
+    "paras": [
+     "GET    /api/policies/AP-001",
+     "POST   /api/policies",
+     "DELETE /api/policies/AP-001"
+    ]
+   },
+   {
+    "name": "Texto REST",
+    "paras": [
+     "O URL identifica o recurso; o verbo diz o que fazer."
+    ]
+   },
+   {
+    "name": "Título RPC",
+    "paras": [
+     "RPC"
+    ]
+   },
+   {
+    "name": "Subtítulo RPC",
+    "paras": [
+     "Operações com nome"
+    ]
+   },
+   {
+    "name": "Exemplos RPC",
+    "paras": [
+     "POST /api/calculatePremium",
+     "POST /api/cancelPolicy",
+     "POST /api/sendEmail"
+    ]
+   },
+   {
+    "name": "Texto RPC",
+    "paras": [
+     "O URL identifica a operação; quase tudo é POST."
+    ]
+   }
+  ],
+  "notes": "REST orienta-se a recursos (nomes) e RPC a operações (verbos). Muitas APIs reais misturam os dois: REST para o CRUD e uma operação específica para o que não é um recurso."
+ },
+ {
+  "n": 22,
+  "layout": "25_Custom Layout",
+  "title": "Documentar com OpenAPI e Swagger",
+  "sub": "ASP.NET Core e Web API",
+  "shapes": [
+   {
+    "name": "Código C#",
+    "paras": [
+     "builder.Services.AddOpenApi();",
+     " ",
+     "app.MapOpenApi();",
+     "// /openapi/v1.json",
+     " ",
+     "// interactive UI (Swashbuckle)",
+     "app.UseSwaggerUI(o =>",
+     "    o.SwaggerEndpoint(\"/openapi/v1.json\", \"v1\"));"
+    ]
+   },
+   {
+    "name": "Pontos-chave",
+    "paras": [
+     "OpenAPI é a especificação do contrato da API.",
+     "Swagger UI é a página para experimentar os endpoints.",
+     "O documento é gerado a partir do código.",
+     "Postman ou Bruno servem para coleções de pedidos."
+    ]
+   }
+  ],
+  "notes": "Abrir o Swagger UI e executar um POST com um corpo inválido para ver o 400. Mostrar o JSON gerado."
+ },
+ {
+  "n": 23,
+  "layout": "25_Custom Layout",
+  "title": "Exercício prático: API de apólices",
+  "sub": "ASP.NET Core e Web API",
+  "shapes": [
+   {
+    "name": "Título passos",
+    "paras": [
+     "O que fazer"
+    ]
+   },
+   {
+    "name": "Lista de passos",
+    "paras": [
+     "Controller. PoliciesController com uma lista de apólices em memória",
+     "Listar. GET /api/policies devolve todas as apólices",
+     "Obter. GET /api/policies/{number} devolve 404 se não existir",
+     "Criar. POST /api/policies valida o pedido (400) e rejeita números repetidos (409)",
+     "Experimentar. testar todos os casos no Swagger UI"
+    ]
+   },
+   {
+    "name": "Título extra",
+    "paras": [
+     "Extra"
+    ]
+   },
+   {
+    "name": "Texto extra",
+    "paras": [
+     "Acrescentar DELETE /api/policies/{number}, que devolve 204 ou 404."
+    ]
+   }
+  ],
+  "notes": "A lista em memória é suficiente: a base de dados só entra no capítulo 4. Aceitar controllers com a lógica dentro, que se refaz mais à frente."
+ },
+ {
+  "n": 24,
+  "layout": "25_Custom Layout",
+  "title": "Exercício prático: endpoints a implementar",
+  "sub": "ASP.NET Core e Web API",
+  "shapes": [
+   {
+    "name": "Tabela",
+    "table": [
+     [
+      "Pedido",
+      "Sucesso",
+      "Erros"
+     ],
+     [
+      "GET /api/policies",
+      "200 com a lista",
+      "—"
+     ],
+     [
+      "GET /api/policies/{number}",
+      "200 com a apólice",
+      "404 se não existir"
+     ],
+     [
+      "POST /api/policies",
+      "201 com Location",
+      "400 se inválido; 409 se repetida"
+     ]
+    ]
+   }
+  ],
+  "notes": "Usar esta tabela como critério de conclusão do exercício."
+ },
+ {
+  "n": 25,
+  "layout": "42_Custom Layout",
+  "title": "",
+  "sub": "",
+  "shapes": [
+   {
+    "name": "Google Shape;446;p73",
+    "paras": [
+     "Dependency Injection",
+     "Capítulo 3 de 6",
+     "Receber as dependências em vez de as criar."
+    ]
+   }
+  ],
+  "notes": "Apresentar o capítulo e os temas que vão ser abordados."
+ },
+ {
+  "n": 26,
+  "layout": "25_Custom Layout",
+  "title": "Porquê injetar dependências?",
+  "sub": "Dependency Injection",
+  "shapes": [
+   {
+    "name": "Título Sem injeção",
+    "paras": [
+     "Sem injeção"
+    ]
+   },
+   {
+    "name": "Código Sem injeção",
+    "paras": [
+     "public class PolicyService",
+     "{",
+     "    readonly BasicPremium _calc = new();",
+     " ",
+     "    public decimal Total(Policy a)",
+     "        => _calc.Calculate(a);",
+     "}"
+    ]
+   },
+   {
+    "name": "Texto Sem injeção",
+    "paras": [
+     "A classe escolhe e cria a sua dependência: fica presa a ela."
+    ]
+   },
+   {
+    "name": "Título Com injeção",
+    "paras": [
+     "Com injeção"
+    ]
+   },
+   {
+    "name": "Código Com injeção",
+    "paras": [
+     "public class PolicyService",
+     "{",
+     "    readonly IPremiumCalculator _calc;",
+     " ",
+     "    public PolicyService(",
+     "        IPremiumCalculator calc)",
+     "        => _calc = calc;",
+     "}"
+    ]
+   },
+   {
+    "name": "Texto Com injeção",
+    "paras": [
+     "A classe recebe-a pelo construtor: quem cria decide qual usar."
+    ]
+   }
+  ],
+  "notes": "Perguntar como se testaria a classe da esquerda sem usar o BasicPremium. Na da direita basta passar outra implementação."
+ },
+ {
+  "n": 27,
+  "layout": "25_Custom Layout",
+  "title": "O container de DI",
+  "sub": "Dependency Injection",
+  "shapes": [
+   {
+    "name": "Código C#",
+    "paras": [
+     "// Program.cs: register",
+     "builder.Services.AddScoped<IPremiumCalculator,",
+     "    DiscountedPremium>();",
+     "builder.Services.AddScoped<PolicyService>();",
+     " ",
+     "// the controller receives the service",
+     "public PoliciesController(PolicyService service)",
+     "{",
+     "    _service = service;",
+     "}"
+    ]
+   },
+   {
+    "name": "Pontos-chave",
+    "paras": [
+     "O container cria os objetos e entrega-os a quem os pede.",
+     "AddScoped<TInterface, TImpl> diz qual implementar.",
+     "O construtor declara o que a classe precisa.",
+     "Nunca se faz new de um serviço."
+    ]
+   }
+  ],
+  "notes": "Mostrar que o ASP.NET Core cria o controller por cada pedido e resolve o construtor automaticamente. Registar uma implementação diferente e ver o comportamento a mudar sem tocar no resto do código."
+ },
+ {
+  "n": 28,
+  "layout": "25_Custom Layout",
+  "title": "Tempos de vida",
+  "sub": "Dependency Injection",
+  "shapes": [
+   {
+    "name": "Tabela",
+    "table": [
+     [
+      "Tempo de vida",
+      "Instância",
+      "Exemplo típico"
+     ],
+     [
+      "Transient",
+      "Nova de cada vez que é pedida",
+      "Serviços leves e sem estado"
+     ],
+     [
+      "Scoped",
+      "Uma por pedido HTTP",
+      "DbContext e serviços de aplicação"
+     ],
+     [
+      "Singleton",
+      "Uma para toda a aplicação",
+      "Caches e clientes partilhados"
+     ]
+    ]
+   },
+   {
+    "name": "Aviso tempos de vida",
+    "paras": [
+     "Atenção: um Singleton não deve depender de um Scoped, porque viveria mais tempo do que a dependência e ficaria com um objeto já descartado."
+    ]
+   }
+  ],
+  "notes": "O erro mais comum: um Singleton que depende de um Scoped. Pedir ao formando que explique porquê não funciona."
+ },
+ {
+  "n": 29,
+  "layout": "25_Custom Layout",
+  "title": "Logging e opções também se injetam",
+  "sub": "Dependency Injection",
+  "shapes": [
+   {
+    "name": "Código C#",
+    "paras": [
+     "public class PolicyService",
+     "{",
+     "    private readonly ILogger<PolicyService> _log;",
+     "    private readonly PremiumsOptions _options;",
+     " ",
+     "    public PolicyService(",
+     "        ILogger<PolicyService> log,",
+     "        IOptions<PremiumsOptions> options)",
+     "    {",
+     "        _log = log;",
+     "        _options = options.Value;",
+     "    }",
+     "}"
+    ]
+   },
+   {
+    "name": "Pontos-chave",
+    "paras": [
+     "ILogger<T> regista mensagens com nível e categoria.",
+     "IOptions<T> dá acesso à configuração tipada.",
+     "Mensagens com marcadores, como {Number}, ficam pesquisáveis.",
+     "Os serviços do framework usam o mesmo mecanismo."
+    ]
+   }
+  ],
+  "notes": "Registo das opções: builder.Services.Configure<PremiumsOptions>(builder.Configuration.GetSection(\"Premiums\")). O formato com {Number} no log é de propósito: o valor fica como propriedade pesquisável, não como texto colado."
+ },
+ {
+  "n": 30,
+  "layout": "25_Custom Layout",
+  "title": "Boas práticas",
+  "sub": "Dependency Injection",
+  "shapes": [
+   {
+    "name": "Título Depender de interfaces",
+    "paras": [
+     "Depender de interfaces"
+    ]
+   },
+   {
+    "name": "Texto Depender de interfaces",
+    "paras": [
+     "Pedir IPremiumCalculator e não DiscountedPremium: trocar a implementação não obriga a alterar a classe."
+    ]
+   },
+   {
+    "name": "Título Poucas dependências",
+    "paras": [
+     "Poucas dependências"
+    ]
+   },
+   {
+    "name": "Texto Poucas dependências",
+    "paras": [
+     "Um construtor com sete parâmetros é sinal de que a classe faz demasiado."
+    ]
+   },
+   {
+    "name": "Título Sem new nos serviços",
+    "paras": [
+     "Sem new nos serviços"
+    ]
+   },
+   {
+    "name": "Texto Sem new nos serviços",
+    "paras": [
+     "Se uma classe cria o que usa, não se consegue substituir nem testar sozinha."
+    ]
+   },
+   {
+    "name": "Título Sem GetService",
+    "paras": [
+     "Sem GetService"
+    ]
+   },
+   {
+    "name": "Texto Sem GetService",
+    "paras": [
+     "Pedir ao container dentro do código esconde as dependências. Usar o construtor."
+    ]
+   }
+  ],
+  "notes": "Cada cartão é um sinal de alarme. Procurar exemplos reais no código que o formando já escreveu."
+ },
+ {
+  "n": 31,
+  "layout": "25_Custom Layout",
+  "title": "Exercício prático: prémio injetado",
+  "sub": "Dependency Injection",
+  "shapes": [
+   {
+    "name": "Título passos",
+    "paras": [
+     "O que fazer"
+    ]
+   },
+   {
+    "name": "Lista de passos",
+    "paras": [
+     "Contrato. IPremiumCalculator, com as implementações BasicPremium e DiscountedPremium",
+     "Registar. a implementação no Program.cs com AddScoped",
+     "Injetar. o calculador num PolicyService e usá-lo no POST para devolver o prémio final",
+     "Configurar. a percentagem de desconto em appsettings.json, lida com IOptions",
+     "Registar no log. o número da apólice e o prémio calculado com ILogger"
+    ]
+   },
+   {
+    "name": "Resultado esperado",
+    "paras": [
+     "POST /api/policies",
+     "{ \"premium\": 320.00 }",
+     " ",
+     "201 Created",
+     "{",
+     "  \"number\": \"AP-001\",",
+     "  \"finalPremium\": 288.00",
+     "}"
+    ]
+   },
+   {
+    "name": "Título extra",
+    "paras": [
+     "Extra"
+    ]
+   },
+   {
+    "name": "Texto extra",
+    "paras": [
+     "Escolher a implementação por configuração (Basic or Discounted) sem recompilar."
+    ]
+   }
+  ],
+  "notes": "O formando deve conseguir trocar a implementação só no Program.cs. Se tiver de mexer noutro ficheiro, a classe ainda está acoplada."
+ },
+ {
+  "n": 32,
+  "layout": "42_Custom Layout",
+  "title": "",
+  "sub": "",
+  "shapes": [
+   {
+    "name": "Google Shape;446;p73",
+    "paras": [
+     "Entity Framework Core",
+     "Capítulo 4 de 6",
+     "Criar o esquema a partir das classes e ler e gravar dados com objetos C#."
+    ]
+   }
+  ],
+  "notes": "Apresentar o capítulo e os temas que vão ser abordados."
+ },
+ {
+  "n": 33,
+  "layout": "25_Custom Layout",
+  "title": "O que é o Entity Framework Core",
+  "sub": "Entity Framework Core",
+  "shapes": [
+   {
+    "name": "Título Classes C#",
+    "paras": [
+     "Classes C#"
+    ]
+   },
+   {
+    "name": "Detalhe Classes C#",
+    "paras": [
+     "Policy, Customer"
+    ]
+   },
+   {
+    "name": "Título EF Core",
+    "paras": [
+     "EF Core"
+    ]
+   },
+   {
+    "name": "Detalhe EF Core",
+    "paras": [
+     "traduz e acompanha as alterações"
+    ]
+   },
+   {
+    "name": "Título Base de dados",
+    "paras": [
+     "Base de dados"
+    ]
+   },
+   {
+    "name": "Detalhe Base de dados",
+    "paras": [
+     "tabelas e linhas SQL"
+    ]
+   },
+   {
+    "name": "Conceitos do EF Core",
+    "paras": [
+     "DbContext: a sessão com a base de dados.",
+     "DbSet<T>: uma tabela, vista como coleção.",
+     "Provider: o pacote que fala com cada base de dados (por exemplo, SQL Server).",
+     "Migrations: o histórico versionado do esquema da base de dados."
+    ]
+   }
+  ],
+  "notes": "Explicar o ORM como um tradutor entre dois mundos. Mencionar que o provider decide a base de dados (SQL Server, PostgreSQL, SQLite...), mas o código C# mantém-se."
+ },
+ {
+  "n": 34,
+  "layout": "25_Custom Layout",
+  "title": "Code-first: o modelo manda",
+  "sub": "Entity Framework Core",
+  "shapes": [
+   {
+    "name": "Título Classes C#",
+    "paras": [
+     "Classes C#"
+    ]
+   },
+   {
+    "name": "Detalhe Classes C#",
+    "paras": [
+     "entidades e DbContext"
+    ]
+   },
+   {
+    "name": "Título EF Core",
+    "paras": [
+     "Migration"
+    ]
+   },
+   {
+    "name": "Detalhe EF Core",
+    "paras": [
+     "ficheiro C# gerado a partir do modelo"
+    ]
+   },
+   {
+    "name": "Título Base de dados",
+    "paras": [
+     "Base de dados"
+    ]
+   },
+   {
+    "name": "Detalhe Base de dados",
+    "paras": [
+     "esquema criado e atualizado"
+    ]
+   },
+   {
+    "name": "Conceitos do EF Core",
+    "paras": [
+     "Code-first: escreves as classes e o EF gera o esquema da base de dados.",
+     "Migrations: cada alteração ao modelo fica num ficheiro versionado com o código.",
+     "Database-first: parte de uma base existente e gera as classes (dotnet ef dbcontext scaffold).",
+     "Neste módulo: code-first. O código é a fonte de verdade do esquema."
+    ]
+   }
+  ],
+  "notes": "Contrastar os dois pontos de partida. No code-first, o modelo em C# é a fonte de verdade e a base de dados é consequência; as migrations tornam essa consequência repetível em qualquer ambiente. O database-first serve quando a base de dados já existe e é de outra equipa. Perguntar: o que acontece se alguém alterar uma tabela à mão num ambiente? (o esquema deixa de corresponder às migrations)."
+ },
+ {
+  "n": 35,
+  "layout": "25_Custom Layout",
+  "title": "Entidades",
+  "sub": "Entity Framework Core",
+  "shapes": [
+   {
+    "name": "Código C#",
+    "paras": [
+     "public class Customer",
+     "{",
+     "    public int Id { get; set; }",
+     "    public string Name { get; set; } = \"\";",
+     "    public List<Policy> Policies { get; } = new();",
+     "}",
+     " ",
+     "public class Policy",
+     "{",
+     "    public int Id { get; set; }",
+     "    public string Number { get; set; } = \"\";",
+     "    public decimal Premium { get; set; }",
+     "    public int CustomerId { get; set; }",
+     "    public Customer Customer { get; set; } = null!;",
+     "}"
+    ]
+   },
+   {
+    "name": "Pontos-chave",
+    "paras": [
+     "Cada classe é uma tabela; cada propriedade, uma coluna.",
+     "Id é a chave primária, por convenção.",
+     "CustomerId é a chave estrangeira.",
+     "Customer e Policies são propriedades de navegação."
+    ]
+   }
+  ],
+  "notes": "Desenhar as duas tabelas no quadro com a chave estrangeira. As propriedades de navegação permitem escrever a.Customer.Name sem escrever o JOIN."
+ },
+ {
+  "n": 36,
+  "layout": "25_Custom Layout",
+  "title": "Configurar o EF Core: pacotes e ligação",
+  "sub": "Entity Framework Core",
+  "shapes": [
+   {
+    "name": "Código C#",
+    "paras": [
+     "// packages (Api project)",
+     "dotnet add package Microsoft.EntityFrameworkCore.SqlServer",
+     "dotnet add package Microsoft.EntityFrameworkCore.Design",
+     " ",
+     "// CLI tool (once per machine)",
+     "dotnet tool install --global dotnet-ef",
+     " ",
+     "// appsettings.json",
+     "\"ConnectionStrings\": {",
+     "  \"Insurance\": \"Server=...;Database=Insurance\"",
+     "}"
+    ]
+   },
+   {
+    "name": "Pontos-chave",
+    "paras": [
+     "SqlServer é o provider: traduz o C# para SQL Server.",
+     "Design dá ao dotnet ef o que precisa para gerar migrations.",
+     "dotnet-ef é a ferramenta de linha de comandos.",
+     "A connection string vive na configuração, nunca no código."
+    ]
+   }
+  ],
+  "notes": "Cada base de dados tem o seu provider em NuGet; mudar de base de dados implica mudar o provider e rever o que for específico. O pacote Design só é preciso para as ferramentas, não para executar a aplicação. Mostrar que a chave \"Insurance\" do appsettings é a mesma que o GetConnectionString vai ler no slide seguinte."
+ },
+ {
+  "n": 37,
+  "layout": "25_Custom Layout",
+  "title": "DbContext e ligação",
+  "sub": "Entity Framework Core",
+  "shapes": [
+   {
+    "name": "Código C#",
+    "paras": [
+     "public class InsuranceContext : DbContext",
+     "{",
+     "    public InsuranceContext(",
+     "        DbContextOptions<InsuranceContext> options)",
+     "        : base(options) { }",
+     " ",
+     "    public DbSet<Customer> Customers => Set<Customer>();",
+     "    public DbSet<Policy> Policies => Set<Policy>();",
+     "}",
+     " ",
+     "// Program.cs",
+     "builder.Services.AddDbContext<InsuranceContext>(o =>",
+     "    o.UseSqlServer(cs));"
+    ]
+   },
+   {
+    "name": "Pontos-chave",
+    "paras": [
+     "O DbContext agrupa as tabelas disponíveis.",
+     "É registado no container, com tempo de vida Scoped.",
+     "UseSqlServer escolhe o provider.",
+     "A connection string vem da configuração."
+    ]
+   }
+  ],
+  "notes": "Ligar com o capítulo anterior: o DbContext é injetado como qualquer outro serviço."
+ },
+ {
+  "n": 38,
+  "layout": "25_Custom Layout",
+  "title": "Configurar o modelo",
+  "sub": "Entity Framework Core",
+  "shapes": [
+   {
+    "name": "Código C#",
+    "paras": [
+     "protected override void OnModelCreating(ModelBuilder mb)",
+     "{",
+     "    mb.Entity<Policy>(e =>",
+     "    {",
+     "        e.Property(a => a.Number).HasMaxLength(20);",
+     "        e.HasIndex(a => a.Number).IsUnique();",
+     "        e.Property(a => a.Premium).HasPrecision(18, 2);",
+     "        e.HasOne(a => a.Customer)",
+     "            .WithMany(c => c.Policies)",
+     "            .HasForeignKey(a => a.CustomerId);",
+     "    });",
+     "}"
+    ]
+   },
+   {
+    "name": "Pontos-chave",
+    "paras": [
+     "As convenções resolvem o simples; a Fluent API resolve o resto.",
+     "Tamanhos, índices e precisão decimal.",
+     "A relação entre entidades.",
+     "Fica no DbContext, fora das entidades."
+    ]
+   }
+  ],
+  "notes": "Mostrar o que acontece sem HasPrecision: o EF avisa que o decimal pode ser truncado. Dinheiro precisa de precisão explícita."
+ },
+ {
+  "n": 39,
+  "layout": "25_Custom Layout",
+  "title": "Migrations: criar a primeira",
+  "sub": "Entity Framework Core",
+  "shapes": [
+   {
+    "name": "Código C#",
+    "paras": [
+     "dotnet ef migrations add Initial",
+     " ",
+     "Migrations/",
+     "  20261022101500_Initial.cs",
+     "  InsuranceContextModelSnapshot.cs",
+     " ",
+     "// 20261022101500_Initial.cs (generated)",
+     "protected override void Up(MigrationBuilder mb)",
+     "{",
+     "    mb.CreateTable(",
+     "        name: \"Policies\",",
+     "        columns: table => new { ... });",
+     "}",
+     " ",
+     "protected override void Down(MigrationBuilder mb)",
+     "    => mb.DropTable(name: \"Policies\");"
+    ]
+   },
+   {
+    "name": "Pontos-chave",
+    "paras": [
+     "migrations add compara o modelo com o snapshot e gera o código.",
+     "Up aplica a alteração; Down desfaz.",
+     "O snapshot guarda o último estado do modelo.",
+     "Rever o ficheiro gerado antes de o aplicar."
+    ]
+   }
+  ],
+  "notes": "Correr o comando ao vivo e abrir os dois ficheiros gerados. Ler o Up em voz alta e relacionar cada coluna com uma propriedade da entidade. Ainda não há base de dados: a migration é só código. Sublinhar que o nome (Initial) descreve a alteração e que o ficheiro vai para o repositório."
+ },
+ {
+  "n": 40,
+  "layout": "25_Custom Layout",
+  "title": "Migrations: atualizar a base de dados",
+  "sub": "Entity Framework Core",
+  "shapes": [
+   {
+    "name": "Código C#",
+    "paras": [
+     "dotnet ef database update",
+     "// applies the pending migrations",
+     " ",
+     "// the model changes: Customer gets TaxId",
+     "dotnet ef migrations add AddTaxId",
+     "dotnet ef database update",
+     " ",
+     "// go back to a previous migration",
+     "dotnet ef database update Initial",
+     " ",
+     "// drop the last migration (not applied)",
+     "dotnet ef migrations remove",
+     " ",
+     "// SQL script for production",
+     "dotnet ef migrations script --idempotent"
+    ]
+   },
+   {
+    "name": "Pontos-chave",
+    "paras": [
+     "database update cria a base de dados, se faltar, e aplica o que está pendente.",
+     "A tabela __EFMigrationsHistory regista o que já foi aplicado.",
+     "Cada alteração ao modelo gera uma nova migration.",
+     "Em produção usa-se um script SQL revisto."
+    ]
+   }
+  ],
+  "notes": "Fazer o ciclo completo ao vivo: acrescentar TaxId ao Customer, migrations add, database update e abrir a tabela __EFMigrationsHistory. Mostrar o database update para uma migration anterior e o migrations remove (só para migrations ainda não aplicadas). Em produção, gerar o script idempotente e aplicá-lo com o processo de deploy, em vez de correr o dotnet ef na máquina de produção."
+ },
+ {
+  "n": 41,
+  "layout": "25_Custom Layout",
+  "title": "Consultar dados",
+  "sub": "Entity Framework Core",
+  "shapes": [
+   {
+    "name": "Código C#",
+    "paras": [
+     "var costly = await _ctx.Policies",
+     "    .Where(a => a.Premium > 300m)",
+     "    .OrderBy(a => a.Number)",
+     "    .ToListAsync();",
+     " ",
+     "var policy = await _ctx.Policies",
+     "    .Include(a => a.Customer)",
+     "    .FirstOrDefaultAsync(a => a.Number == number);",
+     " ",
+     "var total = await _ctx.Policies",
+     "    .Where(a => a.CustomerId == id)",
+     "    .SumAsync(a => a.Premium);"
+    ]
+   },
+   {
+    "name": "Pontos-chave",
+    "paras": [
+     "É o LINQ e o IQueryable que já conheces.",
+     "Include carrega a relação na mesma consulta.",
+     "Os métodos Async libertam a thread.",
+     "AsNoTracking acelera as consultas só de leitura."
+    ]
+   }
+  ],
+  "notes": "Ativar o log do SQL (LogTo ou o nível de logging) e mostrar o SQL gerado para cada consulta."
+ },
+ {
+  "n": 42,
+  "layout": "25_Custom Layout",
+  "title": "Gravar alterações",
+  "sub": "Entity Framework Core",
+  "shapes": [
+   {
+    "name": "Código C#",
+    "paras": [
+     "var c = new Customer { Name = \"Ana\" };",
+     "_ctx.Customers.Add(c);           // new",
+     "await _ctx.SaveChangesAsync();  // INSERT",
+     " ",
+     "c.Name = \"Ana Pereira\";         // changed",
+     "await _ctx.SaveChangesAsync();  // UPDATE",
+     " ",
+     "_ctx.Customers.Remove(c);        // removed",
+     "await _ctx.SaveChangesAsync();  // DELETE"
+    ]
+   },
+   {
+    "name": "Pontos-chave",
+    "paras": [
+     "O EF acompanha as entidades que carrega.",
+     "Nada vai para a base de dados até SaveChangesAsync.",
+     "Todas as alterações de um SaveChanges correm numa transação.",
+     "Alterar a propriedade basta: não há «update» explícito."
+    ]
+   }
+  ],
+  "notes": "Mostrar o estado de uma entidade com _ctx.Entry(c).State antes e depois do SaveChanges."
+ },
+ {
+  "n": 43,
+  "layout": "25_Custom Layout",
+  "title": "Armadilhas comuns",
+  "sub": "Entity Framework Core",
+  "shapes": [
+   {
+    "name": "Título Consulta em ciclo (N+1)",
+    "paras": [
+     "Consulta em ciclo (N+1)"
+    ]
+   },
+   {
+    "name": "Texto Consulta em ciclo (N+1)",
+    "paras": [
+     "Carregar a relação dentro de um ciclo faz uma consulta por linha. Usar Include."
+    ]
+   },
+   {
+    "name": "Título ToList cedo demais",
+    "paras": [
+     "ToList cedo demais"
+    ]
+   },
+   {
+    "name": "Texto ToList cedo demais",
+    "paras": [
+     "Chamar ToList antes do Where traz a tabela toda para memória."
+    ]
+   },
+   {
+    "name": "Título Esquecer o SaveChanges",
+    "paras": [
+     "Esquecer o SaveChanges"
+    ]
+   },
+   {
+    "name": "Texto Esquecer o SaveChanges",
+    "paras": [
+     "Sem SaveChangesAsync, nada é gravado e nenhum erro aparece."
+    ]
+   },
+   {
+    "name": "Título DbContext e threads",
+    "paras": [
+     "DbContext e threads"
+    ]
+   },
+   {
+    "name": "Texto DbContext e threads",
+    "paras": [
+     "O DbContext não é seguro entre threads: não o partilhar em tarefas paralelas."
+    ]
+   }
+  ],
+  "notes": "Cada cartão corresponde a um erro que os formandos costumam cometer. Pedir exemplos de como cada um se manifesta."
+ },
+ {
+  "n": 44,
+  "layout": "25_Custom Layout",
+  "title": "Exercício prático: persistir as apólices",
+  "sub": "Entity Framework Core",
+  "shapes": [
+   {
+    "name": "Título passos",
+    "paras": [
+     "O que fazer"
+    ]
+   },
+   {
+    "name": "Lista de passos",
+    "paras": [
+     "Modelo. entidades Customer e Policy e o InsuranceContext",
+     "Configurar. índice único em Number e precisão do Premium",
+     "Migration. criar a migration Initial e aplicá-la à base de dados",
+     "Substituir. a lista em memória pelo DbContext nos três endpoints",
+     "Devolver. o nome do cliente na resposta, com Include"
+    ]
+   },
+   {
+    "name": "Resultado esperado",
+    "paras": [
+     "Policies",
+     "Id Number  Premium CustomerId",
+     " 1 AP-001  320.00 1",
+     " 2 AP-002  150.00 1",
+     " ",
+     "Customers",
+     "Id Name",
+     " 1 Ana Pereira"
+    ]
+   },
+   {
+    "name": "Título extra",
+    "paras": [
+     "Extra"
+    ]
+   },
+   {
+    "name": "Texto extra",
+    "paras": [
+     "Criar uma consulta que devolve o total de prémios por cliente, calculado na base de dados."
+    ]
+   }
+  ],
+  "notes": "Aceitar SQL Server em LocalDB, em container ou na instância indicada pelo formador. O objetivo é a API a funcionar sem lista em memória."
+ },
+ {
+  "n": 45,
+  "layout": "42_Custom Layout",
+  "title": "",
+  "sub": "",
+  "shapes": [
+   {
+    "name": "Google Shape;446;p73",
+    "paras": [
+     "Testes unitários",
+     "Capítulo 5 de 6",
+     "Garantir que cada peça faz o que deve."
+    ]
+   }
+  ],
+  "notes": "Apresentar o capítulo e os temas que vão ser abordados."
+ },
+ {
+  "n": 46,
+  "layout": "36_Custom Layout",
+  "title": "A pirâmide de testes",
+  "sub": "Testes unitários",
+  "shapes": [
+   {
+    "name": "TextBox 3",
+    "paras": [
+     "Unitário: uma classe ou método isolado, sem base de dados nem rede.",
+     "Integração: várias peças reais juntas, como a API e a base de dados.",
+     "Ponta a ponta: o sistema completo, como um utilizador o usa."
+    ]
+   },
+   {
+    "name": "Rounded Rectangle 4",
+    "paras": [
+     "Ponta a ponta",
+     "poucos, lentos"
+    ]
+   },
+   {
+    "name": "Rounded Rectangle 5",
+    "paras": [
+     "Integração",
+     "alguns"
+    ]
+   },
+   {
+    "name": "Rounded Rectangle 6",
+    "paras": [
+     "Unitários",
+     "muitos, rápidos"
+    ]
+   }
+  ],
+  "notes": "Os testes unitários são a base: muitos, rápidos e baratos. Quanto mais acima, menos testes e mais caros. A maior parte do esforço de testes de uma equipa deve estar em baixo."
+ },
+ {
+  "n": 47,
+  "layout": "25_Custom Layout",
+  "title": "O primeiro teste com xUnit",
+  "sub": "Testes unitários",
+  "shapes": [
+   {
+    "name": "Código C#",
+    "paras": [
+     "public class DiscountedPremiumTests",
+     "{",
+     "    [Fact]",
+     "    public void Calculate_Discount10_Returns90Percent()",
+     "    {",
+     "        // Arrange",
+     "        var calc = new DiscountedPremium(0.10m);",
+     "        var ap = new Policy(\"AP-001\", ana, 200m);",
+     " ",
+     "        // Act",
+     "        var result = calc.Calculate(ap);",
+     " ",
+     "        // Assert",
+     "        Assert.Equal(180m, result);",
+     "    }",
+     "}"
+    ]
+   },
+   {
+    "name": "Pontos-chave",
+    "paras": [
+     "[Fact] marca um teste.",
+     "Arrange: preparar os objetos.",
+     "Act: executar o que se testa.",
+     "Assert: verificar o resultado."
+    ]
+   }
+  ],
+  "notes": "Executar com dotnet test. Alterar o 180m para ver o teste falhar e ler a mensagem de erro. O nome segue Method_Scenario_Result."
+ },
+ {
+  "n": 48,
+  "layout": "25_Custom Layout",
+  "title": "Vários casos: Theory",
+  "sub": "Testes unitários",
+  "shapes": [
+   {
+    "name": "Código C#",
+    "paras": [
+     "[Theory]",
+     "[InlineData(0, 200, 200)]",
+     "[InlineData(10, 200, 180)]",
+     "[InlineData(50, 200, 100)]",
+     "public void Calculate_AppliesDiscount(",
+     "    int percentage, int premium, int expected)",
+     "{",
+     "    var calc = new DiscountedPremium(percentage / 100m);",
+     "    var ap = new Policy(\"AP-001\", ana, premium);",
+     " ",
+     "    Assert.Equal(expected, calc.Calculate(ap));",
+     "}"
+    ]
+   },
+   {
+    "name": "Pontos-chave",
+    "paras": [
+     "[Theory] corre o mesmo teste com vários dados.",
+     "[InlineData] fornece cada caso.",
+     "Cada caso aparece como um teste separado.",
+     "Bom para limites e valores especiais."
+    ]
+   }
+  ],
+  "notes": "O decimal não pode ser usado em atributos; por isso os dados são inteiros e o parâmetro percentage é convertido dentro do teste."
+ },
+ {
+  "n": 49,
+  "layout": "25_Custom Layout",
+  "title": "Verificações úteis",
+  "sub": "Testes unitários",
+  "shapes": [
+   {
+    "name": "Código C#",
+    "paras": [
+     "Assert.Equal(180m, result);",
+     "Assert.True(policy.IsActive);",
+     "Assert.False(list.Any());",
+     "Assert.Null(result);",
+     "Assert.Contains(\"AP-001\", numbers);",
+     "Assert.Empty(list);",
+     " ",
+     "// exceptions",
+     "var ex = Assert.Throws<InvalidPolicyException>(",
+     "    () => new Policy(\"AP-001\", ana, -5m));",
+     "Assert.Equal(\"AP-001\", ex.Number);"
+    ]
+   },
+   {
+    "name": "Pontos-chave",
+    "paras": [
+     "Cada Assert verifica uma coisa.",
+     "Throws confirma que a exceção certa é lançada.",
+     "O teste falha à primeira verificação que falhar.",
+     "Para exceções assíncronas, usar ThrowsAsync."
+    ]
+   }
+  ],
+  "notes": "Ligar com as exceções personalizadas do módulo de C#: as regras de negócio lançam, os testes verificam."
+ },
+ {
+  "n": 50,
+  "layout": "25_Custom Layout",
+  "title": "Isolar dependências com mocks",
+  "sub": "Testes unitários",
+  "shapes": [
+   {
+    "name": "Código C#",
+    "paras": [
+     "var repo = Substitute.For<IPolicyRepository>();",
+     "repo.GetAsync(\"AP-001\")",
+     "    .Returns(new Policy(\"AP-001\", ana, 200m));",
+     " ",
+     "var service = new PolicyService(",
+     "    repo, new DiscountedPremium(0.10m));",
+     " ",
+     "var total = await service.CalculateAsync(\"AP-001\");",
+     " ",
+     "Assert.Equal(180m, total);",
+     "await repo.Received(1).GetAsync(\"AP-001\");"
+    ]
+   },
+   {
+    "name": "Pontos-chave",
+    "paras": [
+     "Um mock é um objeto falso que substitui uma dependência.",
+     "Define o que devolve e verifica como foi chamado.",
+     "O serviço é testado sem base de dados.",
+     "Só funciona porque a dependência é uma interface."
+    ]
+   }
+  ],
+  "notes": "Mostrar a ligação à Dependency Injection: é ela que permite trocar o repositório real pelo falso. Biblioteca usada: NSubstitute; Moq faz o mesmo, mas convém confirmar a licença e a política da empresa."
+ },
+ {
+  "n": 51,
+  "layout": "25_Custom Layout",
+  "title": "Boas práticas",
+  "sub": "Testes unitários",
+  "shapes": [
+   {
+    "name": "Título Nomes que explicam",
+    "paras": [
+     "Nomes que explicam"
+    ]
+   },
+   {
+    "name": "Texto Nomes que explicam",
+    "paras": [
+     "Method_Scenario_Result: ao ver o nome de um teste que falha, percebe-se o problema."
+    ]
+   },
+   {
+    "name": "Título Um comportamento por teste",
+    "paras": [
+     "Um comportamento por teste"
+    ]
+   },
+   {
+    "name": "Texto Um comportamento por teste",
+    "paras": [
+     "Se um teste falha, deve ser óbvio o que partiu. Evitar testes longos."
+    ]
+   },
+   {
+    "name": "Título Independentes e rápidos",
+    "paras": [
+     "Independentes e rápidos"
+    ]
+   },
+   {
+    "name": "Texto Independentes e rápidos",
+    "paras": [
+     "Sem ordem entre testes, sem base de dados e sem rede. Devem correr em segundos."
+    ]
+   },
+   {
+    "name": "Título Testar o teu código",
+    "paras": [
+     "Testar o teu código"
+    ]
+   },
+   {
+    "name": "Texto Testar o teu código",
+    "paras": [
+     "Não testar o framework: confiar que o EF e o ASP.NET Core fazem o que prometem."
+    ]
+   }
+  ],
+  "notes": "Procurar exemplos nos testes que o formando escreveu: nome pouco claro, vários asserts sem relação, dependência de ordem."
+ },
+ {
+  "n": 52,
+  "layout": "25_Custom Layout",
+  "title": "Exercício prático: testar o prémio",
+  "sub": "Testes unitários",
+  "shapes": [
+   {
+    "name": "Título passos",
+    "paras": [
+     "O que fazer"
+    ]
+   },
+   {
+    "name": "Lista de passos",
+    "paras": [
+     "Projeto. xUnit referenciando o Domain e a Api",
+     "Três testes. [Fact] para DiscountedPremium: sem desconto, 10% e 50%",
+     "Um Theory. com [InlineData] para os mesmos cálculos",
+     "Uma exceção. InvalidPolicyException para um prémio negativo",
+     "Um mock. do repositório para testar o PolicyService"
+    ]
+   },
+   {
+    "name": "Resultado esperado",
+    "paras": [
+     "dotnet test",
+     " ",
+     "Passed!  - Failed:     0,",
+     "           Passed:     8,",
+     "           Skipped:    0,",
+     "           Total:      8"
+    ]
+   },
+   {
+    "name": "Título extra",
+    "paras": [
+     "Extra"
+    ]
+   },
+   {
+    "name": "Texto extra",
+    "paras": [
+     "Gerar o relatório de cobertura de testes e identificar uma classe sem testes.  Dica: nuget dotnet-reportgenerator"
+    ]
+   }
+  ],
+  "notes": "Começar por ver os testes a falhar (alterar um valor esperado) antes de os pôr a passar. Mostra ao formando que o teste está mesmo a verificar algo."
+ },
+ {
+  "n": 53,
+  "layout": "42_Custom Layout",
+  "title": "",
+  "sub": "",
+  "shapes": [
+   {
+    "name": "Google Shape;446;p73",
+    "paras": [
+     "Organização do código",
+     "Capítulo 6 de 6",
+     "Separar responsabilidades para o código crescer com ordem."
+    ]
+   }
+  ],
+  "notes": "Apresentar o capítulo e os temas que vão ser abordados."
+ },
+ {
+  "n": 54,
+  "layout": "25_Custom Layout",
+  "title": "Porque organizar em camadas",
+  "sub": "Organização do código",
+  "shapes": [
+   {
+    "name": "Título O problema",
+    "paras": [
+     "O problema"
+    ]
+   },
+   {
+    "name": "Texto O problema",
+    "paras": [
+     "Controllers que validam, calculam e falam com a base de dados são difíceis de testar e de alterar."
+    ]
+   },
+   {
+    "name": "Título A ideia",
+    "paras": [
+     "A ideia"
+    ]
+   },
+   {
+    "name": "Texto A ideia",
+    "paras": [
+     "Cada parte tem uma responsabilidade: receber pedidos, aplicar regras, guardar dados."
+    ]
+   },
+   {
+    "name": "Título O ganho",
+    "paras": [
+     "O ganho"
+    ]
+   },
+   {
+    "name": "Texto O ganho",
+    "paras": [
+     "Mudar a base de dados ou a API não obriga a reescrever as regras de negócio."
+    ]
+   },
+   {
+    "name": "Nota do capítulo",
+    "paras": [
+     "Neste capítulo, a API dos exercícios anteriores é reorganizada em camadas."
+    ]
+   }
+  ],
+  "notes": "Mostrar o controller do exercício anterior: valida, aplica regras, fala com o DbContext e devolve JSON. Perguntar o que mudaria se a base de dados mudasse."
+ },
+ {
+  "n": 55,
+  "layout": "36_Custom Layout",
+  "title": "Clean Architecture",
+  "sub": "Organização do código",
+  "shapes": [
+   {
+    "name": "TextBox 3",
+    "paras": [
+     "As dependências apontam para dentro.",
+     "O Domínio não conhece o EF Core nem o ASP.NET Core.",
+     "As interfaces ficam dentro; as implementações, fora."
+    ]
+   },
+   {
+    "name": "TextBox 5",
+    "paras": [
+     "Infraestrutura e API"
+    ]
+   },
+   {
+    "name": "TextBox 7",
+    "paras": [
+     "Aplicação"
+    ]
+   },
+   {
+    "name": "Rounded Rectangle 8",
+    "paras": [
+     "Domínio",
+     "entidades e regras"
+    ]
+   }
+  ],
+  "notes": "As dependências apontam sempre para dentro. O Domínio não conhece o EF Core nem o ASP.NET Core. As interfaces ficam dentro; as implementações, fora."
+ },
+ {
+  "n": 56,
+  "layout": "25_Custom Layout",
+  "title": "Estrutura da solução",
+  "sub": "Organização do código",
+  "shapes": [
+   {
+    "name": "Código C#",
+    "paras": [
+     "Insurance.sln",
+     "├─ Insurance.Domain          entities and rules",
+     "├─ Insurance.Application     use cases",
+     "├─ Insurance.Infrastructure  EF Core",
+     "├─ Insurance.Api             controllers",
+     "└─ Insurance.Tests           tests",
+     " ",
+     "Api            -> Application, Infrastructure",
+     "Infrastructure -> Application",
+     "Application    -> Domain",
+     "Domain         -> (nothing)"
+    ]
+   },
+   {
+    "name": "Pontos-chave",
+    "paras": [
+     "Um projeto por camada.",
+     "As referências impõem a regra das dependências.",
+     "O Domínio não referencia nada.",
+     "Só a Api conhece a Infrastructure, para a registar."
+    ]
+   }
+  ],
+  "notes": "Mostrar que o compilador impede violações: se o Domain tentar usar o EF Core, não compila por falta de referência."
+ },
+ {
+  "n": 57,
+  "layout": "25_Custom Layout",
+  "title": "O repositório",
+  "sub": "Organização do código",
+  "shapes": [
+   {
+    "name": "Código C#",
+    "paras": [
+     "// Application: the contract",
+     "public interface IPolicyRepository",
+     "{",
+     "    Task<Policy?> GetAsync(string number);",
+     "    Task AddAsync(Policy policy);",
+     "}",
+     " ",
+     "// Infrastructure: the implementation",
+     "public class PolicyRepository : IPolicyRepository",
+     "{",
+     "    private readonly InsuranceContext _ctx;",
+     "    public PolicyRepository(InsuranceContext c)",
+     "        => _ctx = c;",
+     " ",
+     "    public Task<Policy?> GetAsync(string number)",
+     "        => _ctx.Policies.FirstOrDefaultAsync(",
+     "            a => a.Number == number);",
+     "}"
+    ]
+   },
+   {
+    "name": "Pontos-chave",
+    "paras": [
+     "O contrato fica na Aplicação.",
+     "A implementação com EF Core fica na Infrastructure.",
+     "O resto do código só conhece a interface.",
+     "Trocar a base de dados é trocar a implementação."
+    ]
+   }
+  ],
+  "notes": "É a regra da inversão de dependências: o detalhe (EF Core) depende da abstração, e não o contrário. Ligar ao capítulo de testes: a interface é o que permite o mock."
+ },
+ {
+  "n": 58,
+  "layout": "25_Custom Layout",
+  "title": "CQRS: comandos e consultas",
+  "sub": "Organização do código",
+  "shapes": [
+   {
+    "name": "Título Comando",
+    "paras": [
+     "Comando"
+    ]
+   },
+   {
+    "name": "Texto Comando",
+    "paras": [
+     "Pede uma alteração de estado e não devolve dados de negócio. Exemplo: CreatePolicy, CancelPolicy."
+    ]
+   },
+   {
+    "name": "Título Consulta",
+    "paras": [
+     "Consulta"
+    ]
+   },
+   {
+    "name": "Texto Consulta",
+    "paras": [
+     "Lê dados e nunca altera o estado. Exemplo: GetPolicy, ListCustomerPolicies."
+    ]
+   },
+   {
+    "name": "Título Handler",
+    "paras": [
+     "Handler"
+    ]
+   },
+   {
+    "name": "Texto Handler",
+    "paras": [
+     "Uma classe por comando ou consulta, com um só método. Recebe o pedido e devolve o resultado."
+    ]
+   },
+   {
+    "name": "Regra CQRS",
+    "paras": [
+     "Regra simples: se altera o estado, é um comando; se só lê, é uma consulta."
+    ]
+   }
+  ],
+  "notes": "CQRS separa o que altera estado do que apenas lê. Nesta fase implementa-se com classes simples (handlers); bibliotecas de mediação são opcionais e a licença da MediatR deve ser confirmada antes de a adotar."
+ },
+ {
+  "n": 59,
+  "layout": "25_Custom Layout",
+  "title": "Handlers",
+  "sub": "Organização do código",
+  "shapes": [
+   {
+    "name": "Código C#",
+    "paras": [
+     "public record CreatePolicyCommand(",
+     "    string Number, int CustomerId, decimal Premium);",
+     " ",
+     "public class CreatePolicyHandler",
+     "{",
+     "    private readonly IPolicyRepository _repo;",
+     "    public CreatePolicyHandler(IPolicyRepository repo)",
+     "        => _repo = repo;",
+     " ",
+     "    public async Task<string> Handle(CreatePolicyCommand c)",
+     "    {",
+     "        var ap = new Policy(",
+     "            c.Number, c.CustomerId, c.Premium);",
+     "        await _repo.AddAsync(ap);",
+     "        return ap.Number;",
+     "    }",
+     "}"
+    ]
+   },
+   {
+    "name": "Pontos-chave",
+    "paras": [
+     "O comando é um objeto só com dados.",
+     "O handler contém a lógica do caso de uso.",
+     "O controller só chama o handler.",
+     "Cada handler é testável sozinho."
+    ]
+   }
+  ],
+  "notes": "O handler é registado no container como qualquer serviço. Mostrar o controller reduzido a duas linhas: receber o DTO, chamar o handler."
+ },
+ {
+  "n": 60,
+  "layout": "25_Custom Layout",
+  "title": "O percurso de um pedido",
+  "sub": "Organização do código",
+  "shapes": [
+   {
+    "name": "Título Pedido",
+    "paras": [
+     "Pedido"
+    ]
+   },
+   {
+    "name": "Detalhe Pedido",
+    "paras": [
+     "POST /api/policies"
+    ]
+   },
+   {
+    "name": "Título Controller",
+    "paras": [
+     "Controller"
+    ]
+   },
+   {
+    "name": "Detalhe Controller",
+    "paras": [
+     "valida o DTO"
+    ]
+   },
+   {
+    "name": "Título Handler",
+    "paras": [
+     "Handler"
+    ]
+   },
+   {
+    "name": "Detalhe Handler",
+    "paras": [
+     "aplica as regras"
+    ]
+   },
+   {
+    "name": "Título Repositório",
+    "paras": [
+     "Repositório"
+    ]
+   },
+   {
+    "name": "Detalhe Repositório",
+    "paras": [
+     "fala com o EF Core"
+    ]
+   },
+   {
+    "name": "Título Base de dados",
+    "paras": [
+     "Base de dados"
+    ]
+   },
+   {
+    "name": "Detalhe Base de dados",
+    "paras": [
+     "INSERT"
+    ]
+   },
+   {
+    "name": "Resumo do percurso",
+    "paras": [
+     "O controller converte HTTP em comandos e consultas.",
+     "O handler decide; o repositório guarda.",
+     "A resposta faz o caminho inverso, com o código HTTP certo."
+    ]
+   }
+  ],
+  "notes": "Seguir um POST do início ao fim. Cada caixa é uma camada e cada uma só conhece a seguinte."
+ },
+ {
+  "n": 61,
+  "layout": "25_Custom Layout",
+  "title": "Exercício prático: a API em camadas",
+  "sub": "Organização do código",
+  "shapes": [
+   {
+    "name": "Título passos",
+    "paras": [
+     "O que fazer"
+    ]
+   },
+   {
+    "name": "Lista de passos",
+    "paras": [
+     "Projetos. criar Domain, Application e Infrastructure e referenciá-los pela ordem certa",
+     "Mover. as entidades para o Domain e o DbContext para a Infrastructure",
+     "Repositório. IPolicyRepository na Application, implementado na Infrastructure",
+     "Handlers. CreatePolicy e GetPolicy, injetados no controller",
+     "Verificar. que os testes continuam a passar e que o Domain não referencia o EF Core"
+    ]
+   },
+   {
+    "name": "Resultado esperado",
+    "paras": [
+     "Api            -> Application",
+     "               Infrastructure",
+     "Infrastructure -> Application",
+     "Application    -> Domain",
+     "Domain         -> (nothing)"
+    ]
+   },
+   {
+    "name": "Título extra",
+    "paras": [
+     "Extra"
+    ]
+   },
+   {
+    "name": "Texto extra",
+    "paras": [
+     "Acrescentar a consulta ListCustomerPolicies com o seu handler."
+    ]
+   }
+  ],
+  "notes": "Fazer em pequenos passos, compilando a cada um. No fim, os testes do capítulo anterior devem continuar a passar com poucas alterações."
+ },
+ {
+  "n": 62,
+  "layout": "25_Custom Layout",
+  "title": "Para continuar a aprender",
+  "sub": "Introdução ao .NET",
+  "shapes": [
+   {
+    "name": "Título Já sabes",
+    "paras": [
+     "Já sabes"
+    ]
+   },
+   {
+    "name": "Lista Já sabes",
+    "paras": [
+     "Explicar como o .NET compila e executa o código",
+     "Construir uma API com ASP.NET Core",
+     "Usar Dependency Injection",
+     "Aceder à base de dados com o EF Core",
+     "Escrever testes unitários e organizar em camadas"
+    ]
+   },
+   {
+    "name": "Título Documentação",
+    "paras": [
+     "Documentação"
+    ]
+   },
+   {
+    "name": "Lista Documentação",
+    "paras": [
+     "Documentação do .NET",
+     "ASP.NET Core",
+     "Entity Framework Core",
+     "xUnit"
+    ]
+   },
+   {
+    "name": "Título Para praticar",
+    "paras": [
+     "Para praticar"
+    ]
+   },
+   {
+    "name": "Lista Para praticar",
+    "paras": [
+     "Acrescentar um endpoint novo à API",
+     "Criar uma migration para um campo novo",
+     "Escrever testes para um handler",
+     "Trocar uma implementação só no Program.cs"
+    ]
+   }
+  ],
+  "notes": "Fechar o módulo: recapitular o que o formando já sabe fazer e indicar onde pode ler mais e como pode praticar."
+ },
+ {
+  "n": 63,
+  "layout": "42_Custom Layout",
+  "title": "",
+  "sub": "",
+  "shapes": [],
+  "notes": ""
+ }
+]
