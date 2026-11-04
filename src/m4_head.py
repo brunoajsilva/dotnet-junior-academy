@@ -35,7 +35,7 @@ public sealed class Empty
 
 F["cust_command"] = r'''using BankingApp.Application.Common;
 
-namespace BankingApp.Application.Customers;
+namespace BankingApp.Application.Handlers.CommandHandlers.CreateCustomer;
 
 // command: only data
 public class CreateCustomerCommand : Request
@@ -46,7 +46,7 @@ public class CreateCustomerCommand : Request
 
 F["cust_result"] = r'''using BankingApp.Domain.Customers;
 
-namespace BankingApp.Application.Customers;
+namespace BankingApp.Application.Handlers.CommandHandlers.CreateCustomer;
 
 public class CustomerResult
 {
@@ -64,13 +64,14 @@ public class CustomerResult
 
 F["list_query"] = r'''using BankingApp.Application.Common;
 
-namespace BankingApp.Application.Customers;
+namespace BankingApp.Application.Handlers.QueryHandlers.ListCustomers;
 
 public class ListCustomersQuery : Request
 {
 }'''
 
-F["contracts1b"] = r'''using BankingApp.Application.Customers;
+F["contracts1b"] = r'''using BankingApp.Application.Handlers.CommandHandlers.CreateCustomer;
+
 
 namespace BankingApp.Api.Contracts.Customers;
 
@@ -123,7 +124,7 @@ public interface ITokenService
 
 F["reg_command"] = r'''using BankingApp.Application.Common;
 
-namespace BankingApp.Application.Auth;
+namespace BankingApp.Application.Handlers.CommandHandlers.Register;
 
 public class RegisterCommand : Request
 {
@@ -133,7 +134,8 @@ public class RegisterCommand : Request
     public string Password { get; init; } = "";
 }'''
 
-F["reg_result"] = r'''namespace BankingApp.Application.Auth;
+F["reg_result"] = r'''
+namespace BankingApp.Application.Handlers.CommandHandlers.Register;
 
 public class RegisterResult
 {
@@ -143,7 +145,7 @@ public class RegisterResult
 
 F["login_command"] = r'''using BankingApp.Application.Common;
 
-namespace BankingApp.Application.Auth;
+namespace BankingApp.Application.Handlers.CommandHandlers.Login;
 
 public class LoginCommand : Request
 {
@@ -151,7 +153,8 @@ public class LoginCommand : Request
     public string Password { get; init; } = "";
 }'''
 
-F["login_result"] = r'''namespace BankingApp.Application.Auth;
+F["login_result"] = r'''
+namespace BankingApp.Application.Handlers.CommandHandlers.Login;
 
 public class LoginResult
 {
@@ -161,14 +164,15 @@ public class LoginResult
 
 F["dash_query"] = r'''using BankingApp.Application.Common;
 
-namespace BankingApp.Application.Dashboard;
+namespace BankingApp.Application.Handlers.QueryHandlers.RetrieveDashboard;
 
 public class RetrieveDashboardQuery : Request
 {
     public int CustomerId { get; init; }
 }'''
 
-F["dash_account"] = r'''namespace BankingApp.Application.Dashboard;
+F["dash_account"] = r'''
+namespace BankingApp.Application.Handlers.QueryHandlers.RetrieveDashboard;
 
 public class DashboardAccount
 {
@@ -178,7 +182,8 @@ public class DashboardAccount
     public DateOnly Opened { get; init; }
 }'''
 
-F["dash_result"] = r'''namespace BankingApp.Application.Dashboard;
+F["dash_result"] = r'''
+namespace BankingApp.Application.Handlers.QueryHandlers.RetrieveDashboard;
 
 public class DashboardResult
 {
@@ -188,7 +193,8 @@ public class DashboardResult
     public IReadOnlyList<DashboardAccount> Accounts { get; init; } = [];
 }'''
 
-F["reg_resp"] = r'''using BankingApp.Application.Auth;
+F["reg_resp"] = r'''using BankingApp.Application.Handlers.CommandHandlers.Register;
+
 
 namespace BankingApp.Api.Contracts.Auth;
 
@@ -217,7 +223,8 @@ public class LoginRequest
     public string Password { get; set; } = "";
 }'''
 
-F["login_resp"] = r'''using BankingApp.Application.Auth;
+F["login_resp"] = r'''using BankingApp.Application.Handlers.CommandHandlers.Login;
+
 
 namespace BankingApp.Api.Contracts.Auth;
 
@@ -233,7 +240,8 @@ public class LoginResponse
     };
 }'''
 
-F["dash_acc_resp"] = r'''using BankingApp.Application.Dashboard;
+F["dash_acc_resp"] = r'''using BankingApp.Application.Handlers.QueryHandlers.RetrieveDashboard;
+
 
 namespace BankingApp.Api.Contracts.Dashboard;
 
@@ -253,7 +261,8 @@ public class DashboardAccountResponse
     };
 }'''
 
-F["dash_resp"] = r'''using BankingApp.Application.Dashboard;
+F["dash_resp"] = r'''using BankingApp.Application.Handlers.QueryHandlers.RetrieveDashboard;
+
 
 namespace BankingApp.Api.Contracts.Dashboard;
 
@@ -371,7 +380,7 @@ F["create_customer"] = r'''using BankingApp.Application.Abstractions;
 using BankingApp.Application.Common;
 using BankingApp.Domain.Customers;
 
-namespace BankingApp.Application.Customers;
+namespace BankingApp.Application.Handlers.CommandHandlers.CreateCustomer;
 
 // handler: the use case. Business errors come back in the Response, they are not thrown
 public class CreateCustomerHandler : IHandler<CreateCustomerCommand, CustomerResult>
@@ -397,8 +406,9 @@ public class CreateCustomerHandler : IHandler<CreateCustomerCommand, CustomerRes
 
 F["list_customers"] = r'''using BankingApp.Application.Abstractions;
 using BankingApp.Application.Common;
+using BankingApp.Application.Handlers.CommandHandlers.CreateCustomer;
 
-namespace BankingApp.Application.Customers;
+namespace BankingApp.Application.Handlers.QueryHandlers.ListCustomers;
 
 public class ListCustomersHandler : IHandler<ListCustomersQuery, IReadOnlyList<CustomerResult>>
 {
@@ -414,7 +424,8 @@ public class ListCustomersHandler : IHandler<ListCustomersQuery, IReadOnlyList<C
 }'''
 
 F["app_di1"] = r'''using BankingApp.Application.Abstractions;
-using BankingApp.Application.Customers;
+using BankingApp.Application.Handlers.CommandHandlers.CreateCustomer;
+using BankingApp.Application.Handlers.QueryHandlers.ListCustomers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BankingApp.Application;
@@ -527,7 +538,8 @@ public class NewCustomer
 F["ctrl_customers"] = r'''using BankingApp.Api.Contracts.Customers;
 using BankingApp.Application.Abstractions;
 using BankingApp.Application.Common;
-using BankingApp.Application.Customers;
+using BankingApp.Application.Handlers.CommandHandlers.CreateCustomer;
+using BankingApp.Application.Handlers.QueryHandlers.ListCustomers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankingApp.Api.Controllers;
@@ -859,7 +871,7 @@ using BankingApp.Application.Common;
 using BankingApp.Domain.Accounts;
 using BankingApp.Domain.Customers;
 
-namespace BankingApp.Application.Auth;
+namespace BankingApp.Application.Handlers.CommandHandlers.Register;
 
 public class RegisterHandler : IHandler<RegisterCommand, RegisterResult>
 {
@@ -903,7 +915,7 @@ public class RegisterHandler : IHandler<RegisterCommand, RegisterResult>
 F["login"] = r'''using BankingApp.Application.Abstractions;
 using BankingApp.Application.Common;
 
-namespace BankingApp.Application.Auth;
+namespace BankingApp.Application.Handlers.CommandHandlers.Login;
 
 public class LoginHandler : IHandler<LoginCommand, LoginResult>
 {
@@ -935,7 +947,7 @@ F["dashboard"] = r'''using BankingApp.Application.Abstractions;
 using BankingApp.Application.Common;
 using BankingApp.Domain.Accounts;
 
-namespace BankingApp.Application.Dashboard;
+namespace BankingApp.Application.Handlers.QueryHandlers.RetrieveDashboard;
 
 public class RetrieveDashboardHandler : IHandler<RetrieveDashboardQuery, DashboardResult>
 {
@@ -972,8 +984,9 @@ public class RetrieveDashboardHandler : IHandler<RetrieveDashboardQuery, Dashboa
 }'''
 
 F["app_di2"] = r'''using BankingApp.Application.Abstractions;
-using BankingApp.Application.Auth;
-using BankingApp.Application.Dashboard;
+using BankingApp.Application.Handlers.CommandHandlers.Login;
+using BankingApp.Application.Handlers.CommandHandlers.Register;
+using BankingApp.Application.Handlers.QueryHandlers.RetrieveDashboard;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BankingApp.Application;
@@ -1204,8 +1217,9 @@ public class RegisterRequest
 
 F["ctrl_auth"] = r'''using BankingApp.Api.Contracts.Auth;
 using BankingApp.Application.Abstractions;
-using BankingApp.Application.Auth;
 using BankingApp.Application.Common;
+using BankingApp.Application.Handlers.CommandHandlers.Login;
+using BankingApp.Application.Handlers.CommandHandlers.Register;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -1250,7 +1264,7 @@ using System.Security.Claims;
 using BankingApp.Api.Contracts.Dashboard;
 using BankingApp.Application.Abstractions;
 using BankingApp.Application.Common;
-using BankingApp.Application.Dashboard;
+using BankingApp.Application.Handlers.QueryHandlers.RetrieveDashboard;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -1450,7 +1464,7 @@ auth:bearer {
   token: {{token}}
 }'''
 F["tests2"] = r'''using BankingApp.Application.Abstractions;
-using BankingApp.Application.Auth;
+using BankingApp.Application.Handlers.CommandHandlers.Login;
 using BankingApp.Domain.Customers;
 using NSubstitute;
 
@@ -1514,12 +1528,16 @@ TREE1 = d('BankingApp/', 'Pasta raiz do repositório. Tem a solução e duas pas
         f('Response.cs', 'Response<T>: success, errors e data.', 'BankingApp.Application/Common/Response.cs'),
         f('Empty.cs', 'Os dados de um caso de uso que não devolve nada.', 'BankingApp.Application/Common/Empty.cs'),
         f('Error.cs', 'Um erro: código e mensagem, com uma fábrica por tipo.', 'BankingApp.Application/Common/Error.cs')),
-      d('Customers/', 'Uma classe por ficheiro: o comando ou consulta, o resultado e o handler de cada caso de uso.',
-        f('CreateCustomerCommand.cs', 'Os dados de entrada de CreateCustomer.', 'BankingApp.Application/Customers/CreateCustomerCommand.cs'),
-        f('CustomerResult.cs', 'O resultado: um cliente.', 'BankingApp.Application/Customers/CustomerResult.cs'),
-        f('CreateCustomerHandler.cs', 'O caso de uso CreateCustomer.', 'BankingApp.Application/Customers/CreateCustomerHandler.cs'),
-        f('ListCustomersQuery.cs', 'A consulta ListCustomers.', 'BankingApp.Application/Customers/ListCustomersQuery.cs'),
-        f('ListCustomersHandler.cs', 'O caso de uso ListCustomers.', 'BankingApp.Application/Customers/ListCustomersHandler.cs')),
+      d('Handlers/', 'Os casos de uso, separados em comandos (alteram dados) e consultas (só leem).',
+      d('CommandHandlers/', 'Um caso de uso por pasta, com tudo o que lhe diz respeito: comando, resultado e handler.',
+        d('CreateCustomer/', 'O caso de uso CreateCustomer.',
+          f('CreateCustomerCommand.cs', 'Os dados de entrada de CreateCustomer.', 'BankingApp.Application/Handlers/CommandHandlers/CreateCustomer/CreateCustomerCommand.cs'),
+          f('CustomerResult.cs', 'O resultado: um cliente.', 'BankingApp.Application/Handlers/CommandHandlers/CreateCustomer/CustomerResult.cs'),
+          f('CreateCustomerHandler.cs', 'O caso de uso CreateCustomer.', 'BankingApp.Application/Handlers/CommandHandlers/CreateCustomer/CreateCustomerHandler.cs'))),
+      d('QueryHandlers/', 'O mesmo para as consultas, que só leem dados.',
+        d('ListCustomers/', 'O caso de uso ListCustomers.',
+          f('ListCustomersQuery.cs', 'A consulta ListCustomers.', 'BankingApp.Application/Handlers/QueryHandlers/ListCustomers/ListCustomersQuery.cs'),
+          f('ListCustomersHandler.cs', 'O caso de uso ListCustomers.', 'BankingApp.Application/Handlers/QueryHandlers/ListCustomers/ListCustomersHandler.cs')))),
       f('DependencyInjection.cs', 'AddApplication(): regista os handlers no container.', 'BankingApp.Application/DependencyInjection.cs')),
     d('BankingApp.Infrastructure/', 'Camada 3. Detalhes técnicos: EF Core e base de dados. Referencia a Application.',
       d('Persistence/', 'Tudo o que é EF Core.',
@@ -1547,9 +1565,14 @@ TREE2 = d('BankingApp/', 'Só aparecem as pastas e ficheiros que mudam neste pas
       d('Customers/', 'Clientes.', f('Customer.cs', 'Passa a ter Email, PasswordHash e a lista de contas.', 'BankingApp.Domain/Customers/Customer.cs', 'alterado'))),
     d('BankingApp.Application/', 'Casos de uso de autenticação e dashboard.',
       d('Abstractions/', 'Contratos.', f('ICustomerRepository.cs', 'Ganha os métodos de email e de leitura com contas.', 'BankingApp.Application/Abstractions/ICustomerRepository.cs', 'alterado'), f('IPasswordHasher.cs', 'Contrato do hash das passwords.', 'BankingApp.Application/Abstractions/IPasswordHasher.cs', 'novo'), f('ITokenService.cs', 'Contrato que cria o token.', 'BankingApp.Application/Abstractions/ITokenService.cs', 'novo'), f('TokenResult.cs', 'O token e a data de expiração.', 'BankingApp.Application/Abstractions/TokenResult.cs', 'novo')),
-      d('Auth/', 'Casos de uso anónimos.', f('RegisterCommand.cs', 'Os dados de entrada do Register.', 'BankingApp.Application/Auth/RegisterCommand.cs', 'novo'), f('RegisterResult.cs', 'O resultado: id do cliente e número da conta.', 'BankingApp.Application/Auth/RegisterResult.cs', 'novo'), f('RegisterHandler.cs', 'Cria o cliente e a primeira conta.', 'BankingApp.Application/Auth/RegisterHandler.cs', 'novo'), f('LoginCommand.cs', 'Os dados de entrada do Login.', 'BankingApp.Application/Auth/LoginCommand.cs', 'novo'), f('LoginResult.cs', 'O resultado: o token.', 'BankingApp.Application/Auth/LoginResult.cs', 'novo'), f('LoginHandler.cs', 'Valida as credenciais e devolve o token.', 'BankingApp.Application/Auth/LoginHandler.cs', 'novo')),
-      d('Dashboard/', 'Caso de uso autenticado.', f('RetrieveDashboardQuery.cs', 'A consulta: o id do cliente.', 'BankingApp.Application/Dashboard/RetrieveDashboardQuery.cs', 'novo'), f('DashboardAccount.cs', 'Uma conta no resumo.', 'BankingApp.Application/Dashboard/DashboardAccount.cs', 'novo'), f('DashboardResult.cs', 'O resumo: cliente, saldo total e contas.', 'BankingApp.Application/Dashboard/DashboardResult.cs', 'novo'), f('RetrieveDashboardHandler.cs', 'Calcula o resumo das contas ativas.', 'BankingApp.Application/Dashboard/RetrieveDashboardHandler.cs', 'novo')),
-      d('Customers/', 'Apaga esta pasta: serviu só para validar o Passo 1.', f('(apagar)', 'CreateCustomer e ListCustomers.', None, 'apagar'))),
+      d('Handlers/', 'Os casos de uso, separados em comandos e consultas.',
+      d('CommandHandlers/', 'Um caso de uso por pasta. Entram o Register e o Login; sai o CreateCustomer.',
+        d('Register/', 'Caso de uso anónimo.', f('RegisterCommand.cs', 'Os dados de entrada do Register.', 'BankingApp.Application/Handlers/CommandHandlers/Register/RegisterCommand.cs', 'novo'), f('RegisterResult.cs', 'O resultado: id do cliente e número da conta.', 'BankingApp.Application/Handlers/CommandHandlers/Register/RegisterResult.cs', 'novo'), f('RegisterHandler.cs', 'Cria o cliente e a primeira conta.', 'BankingApp.Application/Handlers/CommandHandlers/Register/RegisterHandler.cs', 'novo')),
+        d('Login/', 'Caso de uso anónimo.', f('LoginCommand.cs', 'Os dados de entrada do Login.', 'BankingApp.Application/Handlers/CommandHandlers/Login/LoginCommand.cs', 'novo'), f('LoginResult.cs', 'O resultado: o token.', 'BankingApp.Application/Handlers/CommandHandlers/Login/LoginResult.cs', 'novo'), f('LoginHandler.cs', 'Valida as credenciais e devolve o token.', 'BankingApp.Application/Handlers/CommandHandlers/Login/LoginHandler.cs', 'novo')),
+        d('CreateCustomer/', 'Apaga esta pasta: serviu só para validar o Passo 1.', f('(apagar)', 'CreateCustomerCommand, CustomerResult e CreateCustomerHandler.', None, 'apagar'))),
+      d('QueryHandlers/', 'Entra o RetrieveDashboard; sai o ListCustomers.',
+        d('RetrieveDashboard/', 'Caso de uso autenticado.', f('RetrieveDashboardQuery.cs', 'A consulta: o id do cliente.', 'BankingApp.Application/Handlers/QueryHandlers/RetrieveDashboard/RetrieveDashboardQuery.cs', 'novo'), f('DashboardAccount.cs', 'Uma conta no resumo.', 'BankingApp.Application/Handlers/QueryHandlers/RetrieveDashboard/DashboardAccount.cs', 'novo'), f('DashboardResult.cs', 'O resumo: cliente, saldo total e contas.', 'BankingApp.Application/Handlers/QueryHandlers/RetrieveDashboard/DashboardResult.cs', 'novo'), f('RetrieveDashboardHandler.cs', 'Calcula o resumo das contas ativas.', 'BankingApp.Application/Handlers/QueryHandlers/RetrieveDashboard/RetrieveDashboardHandler.cs', 'novo')),
+        d('ListCustomers/', 'Apaga esta pasta: serviu só para validar o Passo 1.', f('(apagar)', 'ListCustomersQuery e ListCustomersHandler.', None, 'apagar'))))),
     d('BankingApp.Infrastructure/', 'Implementa o token, o hash e as novas tabelas.',
       d('Authentication/', 'Tudo o que é segurança.', f('JwtOptions.cs', 'As opções lidas da secção "Jwt".', 'BankingApp.Infrastructure/Authentication/JwtOptions.cs', 'novo'), f('JwtTokenService.cs', 'Cria e assina o token.', 'BankingApp.Infrastructure/Authentication/JwtTokenService.cs', 'novo'), f('PasswordHasherService.cs', 'Faz o hash e a verificação das passwords.', 'BankingApp.Infrastructure/Authentication/PasswordHasherService.cs', 'novo')),
       d('Persistence/', 'EF Core.', f('BankingAppContext.cs', 'Ganha DbSet<Account>.', 'BankingApp.Infrastructure/Persistence/BankingAppContext.cs', 'alterado'), d('Configurations/', 'Fluent API.', f('CustomerConfiguration.cs', 'Email e PasswordHash.', 'BankingApp.Infrastructure/Persistence/Configurations/CustomerConfiguration.cs', 'alterado'), f('AccountConfiguration.cs', 'Número único, precisão e relação.', 'BankingApp.Infrastructure/Persistence/Configurations/AccountConfiguration.cs', 'novo'))),
@@ -1575,8 +1598,8 @@ SEC1 = [
  dict(t="Application: a abstração de entrada e de saída (API RPC)", intro="Esta API é RPC: o HTTP é só o transporte. Todos os pedidos são POST, para /api/<área>/<ação> (por exemplo, /api/accounts/deposit), e os parâmetros vão sempre no corpo JSON, nunca na rota nem na query string. Se o pedido chegou ao servidor e foi processado, a resposta é sempre 200 OK, e o resultado vem no corpo. Para isso, todos os casos de uso recebem um Request e devolvem um Response, que tem uma lista de erros. Quem chama lê success e errors em vez do código HTTP. Criamos já estas peças, porque tudo o que vem a seguir as usa.",
       steps=["Criar o Error, com uma fábrica por tipo (validation, not_found, conflict, unauthorized, forbidden)", "Criar a classe base Request, de onde herdam todos os comandos e consultas", "Criar o Response<T>: success é «não há erros»; Data guarda o resultado; Empty é para os casos de uso sem dados", "Criar o IHandler<TRequest, TData>, o contrato de qualquer caso de uso"],
       files=[dict(name="BankingApp.Application/Common/Error.cs", lang="cs", code=F["app_exc"]), dict(name="BankingApp.Application/Common/Request.cs", lang="cs", code=F["resp_request"]), dict(name="BankingApp.Application/Common/Response.cs", lang="cs", code=F["resp_response"]), dict(name="BankingApp.Application/Common/Empty.cs", lang="cs", code=F["resp_empty"]), dict(name="BankingApp.Application/Abstractions/IHandler.cs", lang="cs", code=F["resp_handler"])]),
- dict(t="Application: contratos e o primeiro caso de uso", intro="A Application define o que precisa (ICustomerRepository) e escreve cada caso de uso em três classes pequenas: o comando (ou consulta), o resultado e o handler, cada uma no seu ficheiro. Um handler recebe um Request e devolve um Response: os erros de negócio devolvem-se, não se lançam. Não sabe nada de EF Core nem de HTTP.",
-      files=[dict(name="BankingApp.Application/Abstractions/ICustomerRepository.cs", lang="cs", code=F["repo_if1"]), dict(name="BankingApp.Application/Customers/CreateCustomerCommand.cs", lang="cs", code=F["cust_command"]), dict(name="BankingApp.Application/Customers/CustomerResult.cs", lang="cs", code=F["cust_result"]), dict(name="BankingApp.Application/Customers/CreateCustomerHandler.cs", lang="cs", code=F["create_customer"]), dict(name="BankingApp.Application/Customers/ListCustomersQuery.cs", lang="cs", code=F["list_query"]), dict(name="BankingApp.Application/Customers/ListCustomersHandler.cs", lang="cs", code=F["list_customers"]), dict(name="BankingApp.Application/DependencyInjection.cs", lang="cs", code=F["app_di1"])]),
+ dict(t="Application: contratos e o primeiro caso de uso", intro="A Application define o que precisa (ICustomerRepository) e escreve cada caso de uso em três classes pequenas, cada uma no seu ficheiro: ficam todas juntas na pasta do caso de uso, dentro de Handlers/CommandHandlers (comandos) ou de Handlers/QueryHandlers (consultas), por exemplo Handlers/CommandHandlers/CreateCustomer. A pasta Handlers agrupa os dois. Um handler recebe um Request e devolve um Response: os erros de negócio devolvem-se, não se lançam. Não sabe nada de EF Core nem de HTTP.",
+      files=[dict(name="BankingApp.Application/Abstractions/ICustomerRepository.cs", lang="cs", code=F["repo_if1"]), dict(name="BankingApp.Application/Handlers/CommandHandlers/CreateCustomer/CreateCustomerCommand.cs", lang="cs", code=F["cust_command"]), dict(name="BankingApp.Application/Handlers/CommandHandlers/CreateCustomer/CustomerResult.cs", lang="cs", code=F["cust_result"]), dict(name="BankingApp.Application/Handlers/CommandHandlers/CreateCustomer/CreateCustomerHandler.cs", lang="cs", code=F["create_customer"]), dict(name="BankingApp.Application/Handlers/QueryHandlers/ListCustomers/ListCustomersQuery.cs", lang="cs", code=F["list_query"]), dict(name="BankingApp.Application/Handlers/QueryHandlers/ListCustomers/ListCustomersHandler.cs", lang="cs", code=F["list_customers"]), dict(name="BankingApp.Application/DependencyInjection.cs", lang="cs", code=F["app_di1"])]),
  dict(t="Infrastructure: Entity Framework Core, repositório e ligação à base de dados", intro="O DbContext, a configuração da entidade com a Fluent API, o repositório que implementa o contrato da Application e a connection string. No fim, a primeira migration cria a base de dados.",
       steps=["Criar o BankingAppContext e a CustomerConfiguration", "Implementar o CustomerRepository", "Criar AddInfrastructure() com o DbContext e o repositório", "Pôr a connection string no appsettings.json da Api", "Criar a migration InitialCreate e aplicá-la"],
       files=[dict(name="BankingApp.Infrastructure/Persistence/BankingAppContext.cs", lang="cs", code=F["ctx1"]), dict(name="BankingApp.Infrastructure/Persistence/Configurations/CustomerConfiguration.cs", lang="cs", code=F["cfg_customer1"]), dict(name="BankingApp.Infrastructure/Repositories/CustomerRepository.cs", lang="cs", code=F["repo1"]), dict(name="BankingApp.Infrastructure/DependencyInjection.cs", lang="cs", code=F["infra_di1"]), dict(name="BankingApp.Api/appsettings.json", lang="json", code=F["settings1"]), dict(name="Terminal (migrations)", lang="sh", code=F["mig1"])],
@@ -1602,8 +1625,8 @@ SEC2 = [
  dict(t="Domain: credenciais no cliente e a entidade Account", intro="O Customer passa a ter email e hash da password (nunca a password). Cada cliente começa com uma conta, por isso nasce a entidade Account.",
       files=[dict(name="BankingApp.Domain/Customers/Customer.cs", lang="cs", code=F["customer2"]), dict(name="BankingApp.Domain/Accounts/Account.cs", lang="cs", code=F["account"]), dict(name="BankingApp.Domain/Accounts/AccountStatus.cs", lang="cs", code=F["account_status"])]),
  dict(t="Application: Register, Login e RetrieveDashboard", intro="Dois casos de uso anónimos e um autenticado, todos com Request e Response. O Login devolve sempre o mesmo erro (unauthorized) para email desconhecido e password errada, para não revelar que emails existem. O Register junta todos os problemas numa lista de erros.",
-      steps=["Acrescentar ao Abstractions o IPasswordHasher, o ITokenService e o TokenResult (um ficheiro cada)", "Escrever RegisterHandler, LoginHandler e RetrieveDashboardHandler", "Registar os handlers e apagar a pasta Customers (já não é precisa)"],
-      files=[dict(name="BankingApp.Application/Abstractions/ICustomerRepository.cs", lang="cs", code=F["abstr2"]), dict(name="BankingApp.Application/Abstractions/IPasswordHasher.cs", lang="cs", code=F["hasher_if"]), dict(name="BankingApp.Application/Abstractions/TokenResult.cs", lang="cs", code=F["token_result"]), dict(name="BankingApp.Application/Abstractions/ITokenService.cs", lang="cs", code=F["token_if"]), dict(name="BankingApp.Application/Auth/RegisterCommand.cs", lang="cs", code=F["reg_command"]), dict(name="BankingApp.Application/Auth/RegisterResult.cs", lang="cs", code=F["reg_result"]), dict(name="BankingApp.Application/Auth/RegisterHandler.cs", lang="cs", code=F["register"]), dict(name="BankingApp.Application/Auth/LoginCommand.cs", lang="cs", code=F["login_command"]), dict(name="BankingApp.Application/Auth/LoginResult.cs", lang="cs", code=F["login_result"]), dict(name="BankingApp.Application/Auth/LoginHandler.cs", lang="cs", code=F["login"]), dict(name="BankingApp.Application/Dashboard/RetrieveDashboardQuery.cs", lang="cs", code=F["dash_query"]), dict(name="BankingApp.Application/Dashboard/DashboardAccount.cs", lang="cs", code=F["dash_account"]), dict(name="BankingApp.Application/Dashboard/DashboardResult.cs", lang="cs", code=F["dash_result"]), dict(name="BankingApp.Application/Dashboard/RetrieveDashboardHandler.cs", lang="cs", code=F["dashboard"]), dict(name="BankingApp.Application/DependencyInjection.cs", lang="cs", code=F["app_di2"])]),
+      steps=["Acrescentar ao Abstractions o IPasswordHasher, o ITokenService e o TokenResult (um ficheiro cada)", "Criar uma pasta por caso de uso: Handlers/CommandHandlers/Register, Handlers/CommandHandlers/Login e Handlers/QueryHandlers/RetrieveDashboard, com o comando (ou consulta), o resultado e o handler lado a lado", "Registar os handlers no AddApplication()", "Apagar as pastas Handlers/CommandHandlers/CreateCustomer e Handlers/QueryHandlers/ListCustomers, que já não são precisas"],
+      files=[dict(name="BankingApp.Application/Abstractions/ICustomerRepository.cs", lang="cs", code=F["abstr2"]), dict(name="BankingApp.Application/Abstractions/IPasswordHasher.cs", lang="cs", code=F["hasher_if"]), dict(name="BankingApp.Application/Abstractions/TokenResult.cs", lang="cs", code=F["token_result"]), dict(name="BankingApp.Application/Abstractions/ITokenService.cs", lang="cs", code=F["token_if"]), dict(name="BankingApp.Application/Handlers/CommandHandlers/Register/RegisterCommand.cs", lang="cs", code=F["reg_command"]), dict(name="BankingApp.Application/Handlers/CommandHandlers/Register/RegisterResult.cs", lang="cs", code=F["reg_result"]), dict(name="BankingApp.Application/Handlers/CommandHandlers/Register/RegisterHandler.cs", lang="cs", code=F["register"]), dict(name="BankingApp.Application/Handlers/CommandHandlers/Login/LoginCommand.cs", lang="cs", code=F["login_command"]), dict(name="BankingApp.Application/Handlers/CommandHandlers/Login/LoginResult.cs", lang="cs", code=F["login_result"]), dict(name="BankingApp.Application/Handlers/CommandHandlers/Login/LoginHandler.cs", lang="cs", code=F["login"]), dict(name="BankingApp.Application/Handlers/QueryHandlers/RetrieveDashboard/RetrieveDashboardQuery.cs", lang="cs", code=F["dash_query"]), dict(name="BankingApp.Application/Handlers/QueryHandlers/RetrieveDashboard/DashboardAccount.cs", lang="cs", code=F["dash_account"]), dict(name="BankingApp.Application/Handlers/QueryHandlers/RetrieveDashboard/DashboardResult.cs", lang="cs", code=F["dash_result"]), dict(name="BankingApp.Application/Handlers/QueryHandlers/RetrieveDashboard/RetrieveDashboardHandler.cs", lang="cs", code=F["dashboard"]), dict(name="BankingApp.Application/DependencyInjection.cs", lang="cs", code=F["app_di2"])]),
  dict(t="Infrastructure: token, hash, tabelas e migration", intro="As implementações dos contratos novos, a configuração da tabela Accounts e a migration que acrescenta as colunas e a tabela.",
       files=[dict(name="BankingApp.Infrastructure/Authentication/JwtOptions.cs", lang="cs", code=F["jwtopts"]), dict(name="BankingApp.Infrastructure/Authentication/JwtTokenService.cs", lang="cs", code=F["jwtsvc"]), dict(name="BankingApp.Infrastructure/Authentication/PasswordHasherService.cs", lang="cs", code=F["hasher"]), dict(name="BankingApp.Infrastructure/Persistence/Configurations/CustomerConfiguration.cs", lang="cs", code=F["cfg_customer2"]), dict(name="BankingApp.Infrastructure/Persistence/Configurations/AccountConfiguration.cs", lang="cs", code=F["cfg_account"]), dict(name="BankingApp.Infrastructure/Persistence/BankingAppContext.cs", lang="cs", code=F["ctx2"]), dict(name="BankingApp.Infrastructure/Repositories/CustomerRepository.cs", lang="cs", code=F["repo2"]), dict(name="BankingApp.Infrastructure/DependencyInjection.cs", lang="cs", code=F["infra_di2"]), dict(name="Terminal (migrations)", lang="sh", code=F["mig2"])],
       check="Applying migration '20261104100000_AddCredentialsAndAccounts'.\nDone."),
