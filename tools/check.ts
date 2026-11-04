@@ -11,6 +11,7 @@
  * The exit code is 1 when something is wrong.
  */
 import { readdir, readFile, writeFile } from "node:fs/promises";
+import { dirname, basename } from "node:path";
 import { join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { moduleSchema, type AcademyModule, type CourseModule } from "../src/content/schema";
@@ -157,6 +158,29 @@ async function listFilesRecursively(directory: string): Promise<string[]> {
   return files;
 }
 
+/**
+ * A reference such as "code/bankingapp/x.cs" opens a file named "BankingApp/x.cs" on macOS and Windows
+ * (case-insensitive) but not on the Linux machine that publishes the site. Every file the content
+ * refers to must be written with exactly the case it has on disk.
+ */
+async function findWrongCaseReferences(files: string[]): Promise<string[]> {
+  const problems: string[] = [];
+  const listings = new Map<string, string[]>();
+  for (const file of files) {
+    let current = file;
+    while (current.startsWith(CONTENT_DIRECTORY) && current !== CONTENT_DIRECTORY) {
+      const parent = dirname(current);
+      if (!listings.has(parent)) listings.set(parent, await readdir(parent));
+      if (!listings.get(parent)!.includes(basename(current))) {
+        problems.push(`${relative(CONTENT_DIRECTORY, file)}: the name does not match the case of the file on disk (Linux would not find it)`);
+        break;
+      }
+      current = parent;
+    }
+  }
+  return problems;
+}
+
 async function findOrphanFiles(referencedFiles: string[]): Promise<string[]> {
   const referenced = new Set(referencedFiles);
   const orphans: string[] = [];
@@ -219,6 +243,7 @@ async function main(): Promise<void> {
       return parsed.success ? [parsed.data] : [];
     });
     checkUniqueIds(parsedModules, (message) => problems.push(message));
+    problems.push(...(await findWrongCaseReferences(content.files)));
     problems.push(...(await findOrphanFiles(content.files)));
     problems.push(...(await checkLockedIds(parsedModules, updateLockFile)));
   }

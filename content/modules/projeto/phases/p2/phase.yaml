@@ -437,7 +437,7 @@ sections:
     files:
       - name: docs/bruno/BankingApp/bruno.json
         language: bru
-        codeFile: code/docs/bruno/bankingapp/bruno.json.bru
+        codeFile: code/docs/bruno/BankingApp/bruno.json.bru
       - name: docs/bruno/BankingApp/environments/Local.bru
         language: bru
         codeFile: code/docs/bruno/BankingApp/environments/Local.bru
