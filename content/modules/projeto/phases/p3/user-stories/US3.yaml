@@ -1,0 +1,73 @@
+id: US3
+title: Fechar conta
+story: Como cliente, quero fechar uma conta que já não uso.
+feature: F1
+endpoint: POST /api/accounts/close
+body: '{ "number": "AC-123456" }'
+rules:
+  - Só se o saldo for zero
+  - Uma conta já fechada não pode voltar a ser fechada
+  - "Fechar não apaga: o estado passa a Closed"
+  - Não pode fechar a última conta ativa
+responses:
+  - result: success
+    when: Conta fechada
+  - result: unauthorized
+    when: Sem token válido
+  - result: not_found
+    when: A conta não existe ou não é do cliente
+  - result: conflict
+    when: Saldo diferente de zero, já fechada ou última conta ativa
+criteria:
+  - A mudança de estado é um método da entidade Account
+  - Cada uma das três regras tem um teste
+  - O dashboard deixa de mostrar a conta fechada
+  - O pedido está na coleção do Bruno
+uses:
+  - csharp-2
+  - dotnet-6
+hint:
+  explanation: O estado só deve mudar por um método da própria Account (por exemplo, Close), que valida as regras. Assim, nenhum handler consegue fechar uma conta com saldo.
+businessValue: Médio
+dependsOn: US1
+details:
+  persona: cliente autenticado
+  want: fechar uma conta que já não uso
+  purpose: manter apenas as contas de que preciso
+  description: "Fechar não apaga a conta: o estado passa a Closed e o histórico mantém-se. Só é possível com saldo zero e nunca deixa o cliente sem contas ativas."
+  scenarios:
+    - title: Fechar conta sem saldo
+      given:
+        - tenho 2 contas ativas e a conta A tem saldo 0
+      when:
+        - fecho a conta A
+      then:
+        - recebo success
+        - a conta A fica Closed
+        - o dashboard deixa de a mostrar
+    - title: Conta com saldo
+      given:
+        - a conta A tem saldo 10,00
+      when:
+        - fecho a conta A
+      then:
+        - recebo conflict
+        - a conta continua Active
+    - title: Última conta ativa
+      given:
+        - tenho apenas uma conta ativa
+      when:
+        - fecho essa conta
+      then:
+        - recebo conflict
+    - title: Conta já fechada
+      given:
+        - a conta A já está Closed
+      when:
+        - volto a fechar a conta A
+      then:
+        - recebo conflict
+  outOfScope:
+    - Reabrir contas fechadas
+    - Transferir o saldo automaticamente antes de fechar
+  storyPoints: 3

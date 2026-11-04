@@ -1,0 +1,17 @@
+id: m1-29
+title: "LINQ: consultar dados"
+type: code
+language: cs
+codeFile: code/m1-29.cs
+keyPoints:
+  - LINQ serve para iterar/consultar qualquer coleção, sem ciclos manuais.
+  - Where filtra e Select transforma.
+  - GroupBy agrupa e Sum soma.
+  - "Execução diferida: corre quando se enumera."
+learnMore:
+  explanation: |-
+    LINQ consulta qualquer coleção com a mesma linguagem: Where filtra, Select transforma, OrderBy ordena, GroupBy agrupa, Sum/Count/Average agregam.
+
+    A execução é diferida: a consulta só corre quando a enumeras (foreach, ToList, Count...). Se a coleção mudar entre a definição e a enumeração, o resultado reflete a mudança.
+  pitfall: Enumerar a mesma consulta várias vezes. Cada enumeração repete o trabalho; guarda o resultado com ToList quando precisares.
+  tryIt: Com uma lista de contas, calcula o total de saldos por cliente com GroupBy e Sum.

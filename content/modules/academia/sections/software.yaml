@@ -1,0 +1,74 @@
+id: software
+title: Software necessário
+blocks:
+  - type: paragraph
+    text: Instala e verifica estes componentes no primeiro dia, antes de começares o módulo de C#. Marca cada um quando o comando de verificação der o resultado esperado.
+  - type: software
+    tools:
+      - id: sdk
+        name: .NET SDK 10
+        requirement: required
+        reason: Compilador, comando dotnet e templates de projeto.
+        checkCommand: dotnet --version
+        expectedResult: 10.0.x
+        installation: Instalador do SDK em dotnet.microsoft.com/download (escolhe o .NET 10, versão LTS).
+        learnMore:
+          explanation: O SDK inclui o runtime, por isso não precisas de instalar mais nada para executar as aplicações. Se tiveres várias versões, dotnet --list-sdks mostra todas.
+      - id: ide
+        name: "IDE: Visual Studio ou VS Code"
+        requirement: required
+        reason: Editor com depuração, IntelliSense e gestão de pacotes.
+        checkCommand: ""
+        expectedResult: Abre uma consola .NET e corre-a com F5.
+        installation: Visual Studio 2026 com a carga de trabalho «ASP.NET and web development», ou VS Code com a extensão C# Dev Kit.
+        learnMore:
+          explanation: Escolhe um dos dois. Os exercícios são feitos com a linha de comandos (dotnet new, dotnet build, dotnet run), por isso funcionam com qualquer um. O Visual Studio é o mais completo no Windows; o VS Code funciona em qualquer sistema.
+      - id: git
+        name: Git
+        requirement: required
+        reason: Controlo de versões. Todo o código do curso vive num repositório.
+        checkCommand: git --version
+        expectedResult: git version 2.x
+        installation: git-scm.com/downloads.
+        learnMore:
+          explanation: |-
+            Depois de instalar, configura o teu nome e e-mail:
+
+            git config --global user.name "O Teu Nome"
+            git config --global user.email "nome@empresa.pt"
+      - id: sql
+        name: SQL Server
+        requirement: required
+        reason: Base de dados dos módulos de Entity Framework Core e do projeto final.
+        checkCommand: sqlcmd -S localhost -Q "SELECT @@VERSION"
+        expectedResult: Microsoft SQL Server 20xx ...
+        installation: SQL Server Developer ou LocalDB (instalado com o Visual Studio).
+        learnMore:
+          explanation: Para os exercícios, o LocalDB chega e não precisa de configuração. A connection string típica é Server=(localdb)\MSSQLLocalDB;Database=BankingApp;Trusted_Connection=True;TrustServerCertificate=True.
+      - id: sqlclient
+        name: Cliente SQL
+        requirement: required
+        reason: Ver as tabelas e os dados que o EF Core cria.
+        checkCommand: ""
+        expectedResult: Consegues ligar-te ao servidor e listar as bases de dados.
+        installation: SQL Server Management Studio, Azure Data Studio ou a extensão SQL do VS Code.
+        learnMore:
+          explanation: Vais usá-lo para confirmar que a migration criou as tabelas e que o POST gravou uma linha.
+      - id: ef
+        name: Ferramenta dotnet-ef
+        requirement: required
+        reason: Comandos para criar e aplicar migrations.
+        checkCommand: dotnet ef --version
+        expectedResult: Entity Framework Core .NET Command-line Tools 10.x
+        installation: dotnet tool install --global dotnet-ef
+        learnMore:
+          explanation: "É uma ferramenta global do .NET, instalada uma única vez por computador. Para atualizar: dotnet tool update --global dotnet-ef."
+      - id: api
+        name: Bruno
+        requirement: required
+        reason: Enviar pedidos HTTP à tua API e guardá-los numa coleção, em ficheiros de texto que podes pôr no repositório.
+        checkCommand: ""
+        expectedResult: Consegues enviar um GET a qualquer URL público.
+        installation: "usebruno.com. Não instales o Postman: usamos só o Bruno."
+        learnMore:
+          explanation: O Bruno guarda as coleções em ficheiros de texto (.bru), que revês em Pull Requests como qualquer código. Importa o documento OpenAPI da tua API para criares a coleção. Usa-se no módulo de Autenticação e no projeto final.

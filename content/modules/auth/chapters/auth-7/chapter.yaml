@@ -1,0 +1,41 @@
+id: auth-7
+title: Segurança na prática
+intro: "O que separa um exemplo que funciona de uma API que se pode pôr em produção: passwords, segredos, HTTPS e os erros comuns."
+lessons:
+  - $ref: au-7-1.yaml
+  - $ref: au-7-2.yaml
+  - $ref: au-7-3.yaml
+  - $ref: au-7-4.yaml
+quiz:
+  - question: O que se guarda na base de dados em vez da password?
+    options:
+      - A password encriptada
+      - O hash com sal
+      - A password em base64
+      - Nada
+    correctIndex: 1
+    explanation: O hash é irreversível e o sal evita hashes iguais para passwords iguais.
+  - question: Onde NÃO deve ir o token de acesso num pedido?
+    options:
+      - No cabeçalho Authorization
+      - No URL
+      - Num cookie HttpOnly
+      - Na memória do cliente
+    correctIndex: 1
+    explanation: URLs ficam em logs, histórico e referers.
+  - question: O que faz uma FallbackPolicy que exige autenticação?
+    options:
+      - Abre todos os endpoints
+      - Protege por omissão os endpoints sem atributo
+      - Gera tokens
+      - Desliga o HTTPS
+    correctIndex: 1
+    explanation: Um endpoint novo esquecido fica protegido, e não aberto.
+  - question: Porque se limitam as tentativas de login?
+    options:
+      - Para poupar CPU
+      - Para travar ataques de adivinhação de passwords
+      - Porque o JWT o exige
+      - Para expirar o token
+    correctIndex: 1
+    explanation: Sem limite, um atacante testa passwords à vontade.

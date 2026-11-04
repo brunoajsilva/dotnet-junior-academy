@@ -1,0 +1,7 @@
+| ID  | User story        | Valor | Estimativa (h) | Depende de | Risco | Decisão |
+|-----|-----------------------|-------|----------------|------------|-------|---------|
+| US1  | Abrir conta adicional | Alto  | 2              | -          | Baixo | Must    |
+| US7  | Transferência         | Alto  | 4              | US4, US5     | Alto  | Should  |
+| US16 | Pedido de empréstimo  | Médio | 6              | US4, US15    | Alto  | Won't   |
+
+# exemplo ilustrativo: os números e as decisões são teus

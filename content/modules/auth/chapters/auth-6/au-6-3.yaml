@@ -1,0 +1,13 @@
+id: au-6-3
+title: O recurso é teu?
+type: code
+language: cs
+codeFile: code/au-6-3.cs
+keyPoints:
+  - O id vem do token, nunca do pedido.
+  - Verifica que o recurso pertence ao utilizador.
+  - "Se não pertence: 404, como se não existisse."
+  - Papéis e policies não chegam para isto.
+learnMore:
+  explanation: "Papéis dizem «os clientes podem consultar contas». Não dizem «esta conta é tua». A verificação de propriedade faz-se no código, depois de carregar o recurso. É a falha de segurança mais frequente em APIs (a OWASP chama-lhe Broken Object Level Authorization): trocar o número na URL e ver a conta de outra pessoa."
+  pitfall: Receber o customerId no corpo ou na URL. Quem faz o pedido pode pôr lá qualquer valor.

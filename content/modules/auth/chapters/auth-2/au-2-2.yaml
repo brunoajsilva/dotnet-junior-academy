@@ -1,0 +1,13 @@
+id: au-2-2
+title: O cabeçalho por dentro
+type: code
+language: sh
+codeFile: code/au-2-2.sh
+keyPoints:
+  - O valor é «user:password» em base64.
+  - Base64 é uma codificação, não encriptação.
+  - Qualquer pessoa que veja o pedido recupera a password.
+  - O cabeçalho vai em todos os pedidos.
+learnMore:
+  explanation: Por isso o Basic só é aceitável sobre HTTPS. Mesmo assim, a password sai do cliente em cada pedido e passa por proxies, logs e ferramentas de depuração que registam cabeçalhos.
+  tryIt: Corre o primeiro comando com uma password tua e depois o segundo comando para a recuperar. Dá para sentir o problema.

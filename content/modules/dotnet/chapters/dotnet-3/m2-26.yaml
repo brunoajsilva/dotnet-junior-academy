@@ -1,0 +1,15 @@
+id: m2-26
+title: Porquê injetar dependências?
+type: cards
+cards:
+  - title: Sem injeção
+    lines:
+      - "A classe escolhe e cria a sua dependência: fica presa a ela."
+    codeFile: code/m2-26.cs
+  - title: Com injeção
+    lines:
+      - "A classe recebe-a pelo construtor: quem cria decide qual usar."
+    codeFile: code/m2-26-2.cs
+learnMore:
+  explanation: "À esquerda, AccountService cria StandardInterest com new: está presa a essa classe e não podes testá-la com outra. À direita recebe IInterestCalculator pelo construtor: quem cria o AccountService decide qual usar. É a mesma ideia da composição que viste em C#."
+  tryIt: Cria um FakeInterest que devolve sempre 1 e passa-o ao AccountService num teste.

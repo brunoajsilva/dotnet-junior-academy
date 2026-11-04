@@ -1,0 +1,15 @@
+id: m2-13
+title: "Program.cs: arrancar a aplicação"
+type: code
+language: cs
+codeFile: code/m2-13.cs
+keyPoints:
+  - builder regista serviços.
+  - app define como os pedidos são tratados.
+  - Run arranca o servidor Kestrel.
+  - Tudo num só ficheiro, de cima para baixo.
+learnMore:
+  explanation: |-
+    O Program.cs tem duas fases. Primeiro o builder regista os serviços de que a aplicação precisa (controllers, OpenAPI, base de dados). Depois, com app = builder.Build(), configuras o pipeline: o que acontece a cada pedido, pela ordem em que escreves.
+
+    O servidor web por baixo chama-se Kestrel e arranca com app.Run().

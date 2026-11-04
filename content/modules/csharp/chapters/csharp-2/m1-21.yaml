@@ -1,0 +1,15 @@
+id: m1-21
+title: Classes e records
+type: code
+language: cs
+codeFile: code/m1-21.cs
+keyPoints:
+  - "class: identidade e comportamento."
+  - "record: dados imutáveis, igualdade por valor."
+  - Propriedades { get; } em vez de campos ou métodos públicos;
+learnMore:
+  explanation: |-
+    Uma class representa algo com identidade: duas contas com os mesmos dados continuam a ser dois objetos. Um record representa dados: dois records com os mesmos valores são iguais, e o ToString já mostra as propriedades.
+
+    Usa record para valores e DTOs; usa class para entidades com comportamento e estado que muda.
+  tryIt: Cria o mesmo tipo como class e como record, instancia dois objetos iguais e compara-os com ==.

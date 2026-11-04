@@ -1,0 +1,19 @@
+id: au-2-4
+title: Descodificar um cabeçalho Basic
+type: exercise
+steps:
+  - keyword: Codificar
+    text: gerar o base64 de «rui@example.com:Passw0rd!» com o comando echo -n ... | base64
+  - keyword: Descodificar
+    text: recuperar o texto original com base64 -d
+  - keyword: Pedido
+    text: com curl -u, chamar https://httpbin.org/basic-auth/rui/pass e ver a resposta 401 ou 200
+  - keyword: Concluir
+    text: escrever numa frase porque é que o Basic Auth não serve para uma aplicação móvel de um banco
+expectedOutput: |-
+  rui@example.com:Passw0rd!
+
+  (a descodificação devolve exatamente o texto original)
+hint: 'Se estiveres no Windows, usa o Git Bash ou o PowerShell: [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes("rui@example.com:Passw0rd!")).'
+learnMore:
+  explanation: O objetivo é sentires que o base64 não protege nada. Se conseguires descodificar em dois segundos, qualquer pessoa também consegue.

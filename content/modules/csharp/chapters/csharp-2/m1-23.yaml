@@ -1,0 +1,16 @@
+id: m1-23
+title: "Classes: Interfaces"
+type: code
+language: cs
+codeFile: code/m1-23.cs
+keyPoints:
+  - "Interface: diz o quê (os métodos), não como."
+  - Cada classe que a implementa cumpre o contrato à sua maneira.
+  - Quem usa a interface não sabe, nem precisa de saber, qual a classe concreta.
+  - Nome começa por I.
+learnMore:
+  explanation: |-
+    Uma interface é um contrato. IInterestCalculator diz que existe um método Calculate, mas não como. StandardInterest e PromoInterest cumprem o contrato de formas diferentes, e quem usa a interface não precisa de saber qual recebeu.
+
+    É esta ideia que mais à frente permite a Dependency Injection e os mocks nos testes.
+  tryIt: Implementa duas classes de IInterestCalculator e escolhe uma por argumento da linha de comandos.

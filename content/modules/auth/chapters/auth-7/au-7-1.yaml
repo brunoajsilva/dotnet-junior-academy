@@ -1,0 +1,16 @@
+id: au-7-1
+title: "Passwords: hash, nunca encriptação"
+type: code
+language: cs
+codeFile: code/au-7-1.cs
+keyPoints:
+  - Guarda-se o hash, nunca a password.
+  - "O hash tem sal aleatório: o mesmo texto dá hashes diferentes."
+  - Verifica-se com VerifyHashedPassword.
+  - O hash é lento de propósito.
+learnMore:
+  explanation: |-
+    Encriptar é reversível: quem tiver a chave recupera a password. O hash não tem volta; o login compara o hash da password escrita com o hash guardado. O sal evita que duas pessoas com a mesma password tenham o mesmo hash e inutiliza as tabelas de hashes pré-calculados.
+
+    O PasswordHasher de ASP.NET Core Identity já faz isto bem (PBKDF2 com sal e muitas iterações). Não inventes o teu algoritmo.
+  pitfall: Guardar um hash simples (SHA256 ou MD5) de uma password. São rápidos, e um atacante testa milhares de milhões de palpites por segundo.

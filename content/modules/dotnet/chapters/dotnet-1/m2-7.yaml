@@ -1,0 +1,34 @@
+id: m2-7
+title: Como é que o .NET executa o teu código
+type: cards
+flowSteps: 5
+cards:
+  - title: Código C#
+    lines:
+      - ficheiros .cs
+  - title: Compilador
+    lines:
+      - Roslyn
+  - title: Intermediate Language
+    lines:
+      - ficheiro .dll
+  - title: Runtime
+    lines:
+      - CLR e compilador JIT
+  - title: Código máquina
+    lines:
+      - o processador executa
+  - title: Multiplataforma
+    lines:
+      - Windows, Linux e macOS, incluindo containers.
+  - title: Biblioteca de classes
+    lines:
+      - Coleções, ficheiros, rede, JSON e muito mais, já incluídos.
+  - title: Memória gerida
+    lines:
+      - O garbage collector liberta a memória que já não é usada.
+learnMore:
+  explanation: |-
+    O compilador Roslyn transforma o teu C# em IL (Intermediate Language), guardado num ficheiro .dll. O IL não é código máquina e, por isso, é igual em Windows, Linux e macOS. Quando a aplicação arranca, o runtime (CLR) usa o compilador JIT para converter o IL em código máquina do processador onde está a correr.
+
+    É isto que permite compilar uma vez e executar em vários sistemas, incluindo containers Linux.

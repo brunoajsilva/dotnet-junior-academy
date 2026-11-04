@@ -1,0 +1,49 @@
+id: csharp-3
+title: LINQ, exceções e async/await
+intro: Consultar coleções com LINQ, tratar erros e esperar por operações lentas sem bloquear.
+lessons:
+  - $ref: m1-29.yaml
+  - $ref: m1-30.yaml
+  - $ref: m1-31.yaml
+  - $ref: m1-32.yaml
+  - $ref: m1-33.yaml
+  - $ref: m1-34.yaml
+  - $ref: m1-35.yaml
+  - $ref: m1-36.yaml
+  - $ref: m1-37.yaml
+  - $ref: m1-38.yaml
+  - $ref: m1-39.yaml
+  - $ref: m1-40.yaml
+quiz:
+  - question: Quando é que uma consulta LINQ é efetivamente executada?
+    options:
+      - Quando é definida
+      - Quando é enumerada (ToList, foreach, Count...)
+      - Quando o programa arranca
+      - Nunca, é só uma descrição
+    correctIndex: 1
+    explanation: "Execução diferida: a consulta corre quando enumeras."
+  - question: Qual a diferença entre throw; e throw ex; dentro de um catch?
+    options:
+      - Nenhuma
+      - throw; preserva a stack trace original
+      - throw ex; é mais rápido
+      - throw; só funciona em async
+    correctIndex: 1
+    explanation: throw ex; reescreve a stack trace e perdes o ponto onde o erro nasceu.
+  - question: Como corres três chamadas async independentes ao mesmo tempo?
+    options:
+      - await em cada uma, uma a seguir à outra
+      - Arrancar as Tasks e fazer await Task.WhenAll
+      - Usar async void
+      - Usar um ciclo for
+    correctIndex: 1
+    explanation: Primeiro arrancas as tarefas, depois esperas por todas.
+  - question: O que faz o CancellationToken?
+    options:
+      - Cancela sozinho qualquer operação
+      - Avisa quem executa; é este que tem de o verificar
+      - Apaga a Task
+      - Torna o método síncrono
+    correctIndex: 1
+    explanation: O cancelamento é cooperativo.

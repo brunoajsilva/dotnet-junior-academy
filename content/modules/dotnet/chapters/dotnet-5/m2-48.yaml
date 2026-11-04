@@ -1,0 +1,12 @@
+id: m2-48
+title: "Vários casos: Theory"
+type: code
+language: cs
+codeFile: code/m2-48.cs
+keyPoints:
+  - "[Theory] corre o mesmo teste com vários dados."
+  - "[InlineData] fornece cada caso."
+  - Cada caso aparece como um teste separado.
+  - Bom para limites e valores especiais.
+learnMore:
+  explanation: "[Theory] corre o mesmo teste com vários dados fornecidos por [InlineData]. Cada caso aparece como teste separado no relatório. É a ferramenta certa para valores-limite: 0, 1, o máximo, o valor negativo."

@@ -1,0 +1,42 @@
+id: auth-4
+title: JWT por dentro
+intro: "O formato do token que a BankingApp emite: três partes, claims e uma assinatura."
+lessons:
+  - $ref: au-4-1.yaml
+  - $ref: au-4-2.yaml
+  - $ref: au-4-3.yaml
+  - $ref: au-4-4.yaml
+  - $ref: au-4-5.yaml
+quiz:
+  - question: O que garante a assinatura de um JWT?
+    options:
+      - Que o conteúdo está encriptado
+      - Que o conteúdo não foi alterado
+      - Que o utilizador é maior de idade
+      - Que o token nunca expira
+    correctIndex: 1
+    explanation: A assinatura prova a integridade e a origem. Não esconde o conteúdo.
+  - question: Qual destas informações NÃO deve estar no payload?
+    options:
+      - O id do cliente
+      - O papel
+      - A password
+      - A hora de expiração
+    correctIndex: 2
+    explanation: O payload é legível por qualquer pessoa. Segredos nunca entram.
+  - question: Para que serve a claim aud?
+    options:
+      - Dizer para que API é o token
+      - Guardar a data de nascimento
+      - Identificar o utilizador
+      - Assinar o token
+    correctIndex: 0
+    explanation: A audiência impede que um token de uma API seja aceite por outra.
+  - question: Porque se usam access tokens de curta duração?
+    options:
+      - Para poupar memória
+      - Porque um token roubado deixa de servir quando expira
+      - Porque o JWT não aceita mais
+      - Para não precisar de HTTPS
+    correctIndex: 1
+    explanation: A API não consegue revogar o token, por isso a expiração curta limita o estrago.

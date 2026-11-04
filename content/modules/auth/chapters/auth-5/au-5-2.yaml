@@ -1,0 +1,10 @@
+id: au-5-2
+title: Configuração
+type: code
+language: json
+codeFile: code/au-5-2.json
+keyPoints:
+  - Issuer e Audience identificam quem emite e quem recebe o token.
+  - A chave (Jwt:Key) assina o token e tem pelo menos 32 caracteres.
+  - ExpiresMinutes controla a validade do token.
+  - Tudo fica na secção Jwt, lida pelo builder.Configuration.

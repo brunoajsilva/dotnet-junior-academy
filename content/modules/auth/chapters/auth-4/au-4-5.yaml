@@ -1,0 +1,18 @@
+id: au-4-5
+title: O token não se revoga
+type: cards
+cards:
+  - title: O problema
+    lines:
+      - A API valida o token sozinha, sem perguntar a ninguém.
+      - Um token roubado funciona até expirar.
+  - title: A resposta
+    lines:
+      - Access tokens curtos (minutos).
+      - Um refresh token para renovar, guardado no servidor e revogável.
+  - title: ""
+    lines:
+      - Expiração curta e refresh token são as duas metades da mesma solução.
+    isNote: true
+learnMore:
+  explanation: A vantagem do JWT (a API não precisa de ir à base de dados) é também a sua limitação (a API não sabe se o token foi revogado). Quando é mesmo preciso revogar já, mantém-se uma lista de tokens revogados e verifica-se em cada pedido, o que reintroduz a consulta que o JWT queria evitar.

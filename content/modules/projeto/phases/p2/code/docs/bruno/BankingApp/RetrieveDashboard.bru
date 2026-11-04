@@ -1,0 +1,19 @@
+meta {
+  name: RetrieveDashboard
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/dashboard/retrieve
+  body: json
+  auth: bearer
+}
+
+body:json {
+  {}
+}
+
+auth:bearer {
+  token: {{token}}
+}

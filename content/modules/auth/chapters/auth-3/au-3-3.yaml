@@ -1,0 +1,33 @@
+id: au-3-3
+title: Authorization Code com PKCE
+type: cards
+flowSteps: 6
+cards:
+  - title: 1. Pedido
+    lines:
+      - O cliente redireciona o utilizador para o Authorization Server.
+  - title: 2. Login
+    lines:
+      - O utilizador autentica-se lá e dá consentimento.
+  - title: 3. Código
+    lines:
+      - O servidor devolve um código de curta duração ao cliente.
+  - title: 4. Troca
+    lines:
+      - O cliente troca o código por tokens, provando que foi ele que começou (PKCE).
+  - title: 5. Chamada
+    lines:
+      - O cliente chama a API com o access token no cabeçalho Authorization.
+  - title: 6. Validação
+    lines:
+      - A API valida o token e responde.
+  - title: ""
+    lines:
+      - "É o fluxo para aplicações com um utilizador: web, móvel e SPA."
+      - O PKCE protege o código de ser roubado e usado por outra aplicação.
+    isNote: true
+learnMore:
+  explanation: |-
+    O código passa pelo browser, onde pode ser intercetado. Por isso o cliente cria um segredo aleatório (code verifier), envia o seu hash no passo 1 (code challenge) e o segredo original no passo 4. Quem roubar o código não tem o segredo e não consegue trocá-lo por tokens.
+
+    O PKCE é hoje recomendado para todos os clientes, e não só para as apps móveis.

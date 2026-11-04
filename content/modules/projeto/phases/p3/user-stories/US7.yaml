@@ -1,0 +1,78 @@
+id: US7
+title: Transferência entre contas
+story: Como cliente, quero transferir dinheiro de uma das minhas contas para outra conta do banco.
+feature: F2
+endpoint: POST /api/transfers/create
+body: '{ "fromAccount": "AC-123456", "toAccount": "AC-654321", "amount": 50.00, "description": "Rent" }'
+rules:
+  - A origem tem de ser do cliente autenticado; o destino pode ser de qualquer cliente
+  - Origem e destino têm de ser diferentes e ambos ativos
+  - As regras de saldo e de limite diário da origem aplicam-se
+  - Cria duas Transaction (saída e entrada) e grava tudo numa só chamada a SaveChanges
+  - Se algo falhar, nada é gravado
+responses:
+  - result: success
+    when: Transferência feita, com o novo saldo da origem
+  - result: validation
+    when: Valor inválido ou contas iguais
+  - result: unauthorized
+    when: Sem token válido
+  - result: not_found
+    when: Origem não é do cliente ou destino não existe
+  - result: conflict
+    when: Saldo insuficiente, limite diário ou conta fechada
+criteria:
+  - Os dois movimentos e os dois saldos mudam na mesma gravação
+  - Há um teste que prova que, se a regra falha, nenhum saldo muda
+  - O destino inexistente devolve o erro not_found
+  - O pedido está na coleção do Bruno
+uses:
+  - dotnet-4
+  - dotnet-6
+hint:
+  explanation: O SaveChangesAsync grava tudo o que o DbContext está a acompanhar numa única transação. Se carregares as duas contas e alterares os dois saldos antes de gravar, ou grava tudo ou não grava nada. Reutiliza os métodos de depósito e levantamento das entidades.
+  pitfall: Gravar a origem e depois o destino em chamadas separadas. Se a segunda falhar, o dinheiro desaparece.
+businessValue: Alto
+dependsOn: US5
+details:
+  persona: cliente autenticado
+  want: transferir dinheiro de uma das minhas contas para outra conta do banco
+  purpose: pagar a outras pessoas e mover dinheiro entre as minhas contas
+  description: "Uma transferência é uma operação atómica: debita a origem, credita o destino e cria duas Transaction. Se qualquer regra falhar, nenhum saldo muda."
+  scenarios:
+    - title: Transferência válida
+      given:
+        - a conta A tem 200,00 e a conta B tem 0
+      when:
+        - transfiro 50,00 da A para a B
+      then:
+        - recebo success
+        - A fica com 150,00 e B com 50,00
+        - ficam duas Transaction (saída e entrada)
+    - title: Origem igual ao destino
+      given:
+        - tenho sessão iniciada
+      when:
+        - transfiro da conta A para a conta A
+      then:
+        - recebo validation
+    - title: Destino inexistente
+      given:
+        - o número de destino não existe
+      when:
+        - peço a transferência
+      then:
+        - recebo not_found
+        - nenhum saldo muda
+    - title: Falha a meio
+      given:
+        - a origem não tem saldo suficiente
+      when:
+        - peço a transferência
+      then:
+        - recebo conflict
+        - nenhum saldo nem Transaction foram gravados
+  outOfScope:
+    - Transferências para outros bancos
+    - Transferências agendadas
+  storyPoints: 5

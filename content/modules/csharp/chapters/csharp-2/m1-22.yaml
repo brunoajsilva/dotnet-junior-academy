@@ -1,0 +1,16 @@
+id: m1-22
+title: "Classes: get, set, init e private set"
+type: code
+language: cs
+codeFile: code/m1-22.cs
+keyPoints:
+  - get lê; set escreve.
+  - init só permite escrever ao criar o objeto.
+  - "private set protege o estado: só a classe o altera."
+  - O set pode validar ou normalizar o valor.
+learnMore:
+  explanation: |-
+    Propriedades são a forma de expor estado. get lê, set escreve, init só deixa escrever na criação do objeto. private set é a escolha para estado que só a própria classe pode alterar, com validação.
+
+    Assim, o objeto garante que nunca fica num estado inválido: quem o usa não consegue pôr um saldo negativo.
+  pitfall: Propriedades públicas com set para tudo. A classe perde o controlo sobre as suas próprias regras.

@@ -1,0 +1,16 @@
+id: m1-19
+title: "Cinco exercícios: tipos e fluxo"
+type: exercise
+steps:
+  - keyword: FizzBuzz
+    text: Escreve os números de 1 a 15, trocando-os por «Fizz» se forem múltiplos de 3, por «Buzz» se forem de 5 e por «FizzBuzz» se forem de ambos.
+  - keyword: Palíndromo
+    text: Diz se uma palavra se lê da mesma forma de trás para a frente («arara» é palíndromo, «casa» não).
+  - keyword: Contar palavras
+    text: Conta quantas palavras tem uma frase escrita pelo utilizador.
+  - keyword: Juros com bónus
+    text: Calcula os juros anuais de uma conta, aplicando um bónus à taxa que depende dos anos de cliente.
+  - keyword: Validar NIF
+    text: Verifica se um texto é um NIF válido, ou seja, se tem exatamente 9 dígitos numéricos.
+expectedOutput: null
+hint: Resolve o FizzBuzz primeiro. Os outros quatro podes fazê-los pela ordem que quiseres.

@@ -1,0 +1,27 @@
+id: m2-11
+title: A solução do banco
+type: exercise
+steps:
+  - keyword: Criar a solução
+    text: BankingApp, com o projeto Api (webapi)
+  - keyword: Adicionar à solução
+    text: Domain (classlib) e Tests (xunit)
+  - keyword: Referenciar
+    text: o Domain na Api e a Api nos Tests
+  - keyword: ""
+    text: "Instalar um pacote na Api via NuGet: Newtonsoft.Json"
+  - keyword: Compilar e correr
+    text: a Api e abrir o endereço indicado no terminal
+expectedOutput: |-
+  dotnet build
+  Build succeeded.
+      0 Warning(s)
+      0 Error(s)
+
+  dotnet run
+  Now listening on:
+  http://localhost:5xxx
+challenge: Mostrar a estrutura de pastas com o comando tree e explicar o que cada projeto vai ter.
+learnMore:
+  explanation: "Faz tudo na linha de comandos, sem o assistente do IDE: assim ficas a saber exatamente o que cada comando cria. Tabela de equivalências com o Visual Studio está no tema «Soluções e Projetos»."
+  tryIt: Corre tree (ou tree /f) para ver a estrutura de pastas e explica o que cada projeto vai ter.

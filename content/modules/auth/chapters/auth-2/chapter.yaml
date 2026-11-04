@@ -1,0 +1,33 @@
+id: auth-2
+title: Basic Authentication
+intro: "O mecanismo mais simples: enviar o utilizador e a password em cada pedido. Percebe porque deixou de ser suficiente."
+lessons:
+  - $ref: au-2-1.yaml
+  - $ref: au-2-2.yaml
+  - $ref: au-2-3.yaml
+  - $ref: au-2-4.yaml
+quiz:
+  - question: O que protege o base64 do cabeçalho Basic?
+    options:
+      - A password, porque é cifrada
+      - "Nada: é só uma codificação reversível"
+      - O utilizador, porque é anónimo
+      - O servidor, porque valida o tamanho
+    correctIndex: 1
+    explanation: Base64 não é segurança. Qualquer pessoa o descodifica.
+  - question: Com que frequência são enviadas as credenciais no Basic Auth?
+    options:
+      - Só no primeiro pedido
+      - Em todos os pedidos
+      - Uma vez por hora
+      - Nunca
+    correctIndex: 1
+    explanation: "Não há sessão nem token: o cabeçalho vai em todos os pedidos."
+  - question: Qual destes é um limite do Basic Auth?
+    options:
+      - Não funciona em HTTPS
+      - A aplicação cliente tem de conhecer a password
+      - É demasiado lento
+      - Só funciona com .NET
+    correctIndex: 1
+    explanation: A aplicação cliente guarda e envia a password do utilizador, e não há acesso limitado nem revogável.

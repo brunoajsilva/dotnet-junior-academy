@@ -1,0 +1,33 @@
+id: dotnet
+kind: course
+title: Introdução ao .NET
+shortTitle: Introdução ao .NET
+tagline: A plataforma, a Web API, Dependency Injection, base de dados, testes e organização em camadas.
+chapters:
+  - $ref: chapters/dotnet-1/chapter.yaml
+  - $ref: chapters/dotnet-2/chapter.yaml
+  - $ref: chapters/dotnet-3/chapter.yaml
+  - $ref: chapters/dotnet-4/chapter.yaml
+  - $ref: chapters/dotnet-5/chapter.yaml
+  - $ref: chapters/dotnet-6/chapter.yaml
+wrapUp:
+  learned:
+    - Explicar como o .NET compila e executa o código
+    - Construir uma API com ASP.NET Core
+    - Usar Dependency Injection
+    - Aceder à base de dados com o EF Core
+    - Escrever testes unitários e organizar em camadas
+  practiceIdeas:
+    - Acrescentar um endpoint novo à API
+    - Criar uma migration para um campo novo
+    - Escrever testes para um handler
+    - Trocar uma implementação só no Program.cs
+  docs:
+    - title: Documentação do .NET
+      url: https://learn.microsoft.com/dotnet/
+    - title: ASP.NET Core
+      url: https://learn.microsoft.com/aspnet/core/
+    - title: Entity Framework Core
+      url: https://learn.microsoft.com/ef/core/
+    - title: xUnit
+      url: https://xunit.net/

@@ -1,0 +1,395 @@
+id: p1
+day: Dia 1
+kind: build
+title: Montar a solução
+goal: "Deixar a aplicação funcional: estrutura de pastas, Entity Framework, ligação à base de dados, a primeira entidade, o repositório, o Swagger e o primeiro teste."
+uses:
+  - dotnet-1
+  - dotnet-2
+  - dotnet-4
+  - dotnet-6
+trees:
+  - title: Estrutura de pastas e ficheiros
+    note: Escolhe um ficheiro para ver o que faz e o código que lhe corresponde.
+    root:
+      name: BankingApp/
+      description: "Pasta raiz do repositório. Tem a solução e duas pastas: src (código) e tests (testes)."
+      children:
+        - name: BankingApp.sln
+          description: A solução. Só lista os cinco projetos, para o IDE os abrir em conjunto.
+          file: null
+          tag: null
+        - name: src/
+          description: Todo o código que vai para produção.
+          children:
+            - name: BankingApp.Domain/
+              description: Camada 1, o centro. Regras do negócio. Não referencia nada.
+              children:
+                - name: Common/
+                  description: Tipos partilhados por todo o Domain.
+                  children:
+                    - name: DomainException.cs
+                      description: Exceção base das regras do negócio. O ExceptionMiddleware converte-a num erro validation.
+                      file: BankingApp.Domain/Common/DomainException.cs
+                      tag: null
+                - name: Customers/
+                  description: Tudo o que diz respeito a clientes.
+                  children:
+                    - name: Customer.cs
+                      description: A primeira entidade. Valida nome e NIF na criação; setters privados.
+                      file: BankingApp.Domain/Customers/Customer.cs
+                      tag: null
+            - name: BankingApp.Application/
+              description: Camada 2. Casos de uso e contratos. Só referencia o Domain.
+              children:
+                - name: Abstractions/
+                  description: Interfaces que a Application precisa mas não implementa.
+                  children:
+                    - name: IHandler.cs
+                      description: "O contrato de todos os casos de uso: Request entra, Response sai."
+                      file: BankingApp.Application/Abstractions/IHandler.cs
+                      tag: null
+                    - name: ICustomerRepository.cs
+                      description: O contrato do repositório. A implementação vive na Infrastructure.
+                      file: BankingApp.Application/Abstractions/ICustomerRepository.cs
+                      tag: null
+                - name: Common/
+                  description: A abstração de entrada e de saída (a base da API RPC).
+                  children:
+                    - name: Request.cs
+                      description: Classe base de todos os comandos e consultas.
+                      file: BankingApp.Application/Common/Request.cs
+                      tag: null
+                    - name: Response.cs
+                      description: "Response<T>: success, errors e data."
+                      file: BankingApp.Application/Common/Response.cs
+                      tag: null
+                    - name: Empty.cs
+                      description: Os dados de um caso de uso que não devolve nada.
+                      file: BankingApp.Application/Common/Empty.cs
+                      tag: null
+                    - name: Error.cs
+                      description: "Um erro: código e mensagem, com uma fábrica por tipo."
+                      file: BankingApp.Application/Common/Error.cs
+                      tag: null
+                - name: Handlers/
+                  description: Os casos de uso, separados em comandos (alteram dados) e consultas (só leem).
+                  children:
+                    - name: CommandHandlers/
+                      description: "Um caso de uso por pasta, com tudo o que lhe diz respeito: comando, resultado e handler."
+                      children:
+                        - name: CreateCustomer/
+                          description: O caso de uso CreateCustomer.
+                          children:
+                            - name: CreateCustomerCommand.cs
+                              description: Os dados de entrada de CreateCustomer.
+                              file: BankingApp.Application/Handlers/CommandHandlers/CreateCustomer/CreateCustomerCommand.cs
+                              tag: null
+                            - name: CustomerResult.cs
+                              description: "O resultado: um cliente."
+                              file: BankingApp.Application/Handlers/CommandHandlers/CreateCustomer/CustomerResult.cs
+                              tag: null
+                            - name: CreateCustomerHandler.cs
+                              description: O caso de uso CreateCustomer.
+                              file: BankingApp.Application/Handlers/CommandHandlers/CreateCustomer/CreateCustomerHandler.cs
+                              tag: null
+                    - name: QueryHandlers/
+                      description: O mesmo para as consultas, que só leem dados.
+                      children:
+                        - name: ListCustomers/
+                          description: O caso de uso ListCustomers.
+                          children:
+                            - name: ListCustomersQuery.cs
+                              description: A consulta ListCustomers.
+                              file: BankingApp.Application/Handlers/QueryHandlers/ListCustomers/ListCustomersQuery.cs
+                              tag: null
+                            - name: ListCustomersHandler.cs
+                              description: O caso de uso ListCustomers.
+                              file: BankingApp.Application/Handlers/QueryHandlers/ListCustomers/ListCustomersHandler.cs
+                              tag: null
+                - name: DependencyInjection.cs
+                  description: "AddApplication(): regista os handlers no container."
+                  file: BankingApp.Application/DependencyInjection.cs
+                  tag: null
+            - name: BankingApp.Infrastructure/
+              description: "Camada 3. Detalhes técnicos: EF Core e base de dados. Referencia a Application."
+              children:
+                - name: Persistence/
+                  description: Tudo o que é EF Core.
+                  children:
+                    - name: BankingAppContext.cs
+                      description: O DbContext. Um DbSet por tabela.
+                      file: BankingApp.Infrastructure/Persistence/BankingAppContext.cs
+                      tag: null
+                    - name: Configurations/
+                      description: Uma classe IEntityTypeConfiguration por entidade (Fluent API).
+                      children:
+                        - name: CustomerConfiguration.cs
+                          description: Tamanhos, obrigatoriedade e índice único do NIF.
+                          file: BankingApp.Infrastructure/Persistence/Configurations/CustomerConfiguration.cs
+                          tag: null
+                    - name: Migrations/
+                      description: "Gerada pelo comando dotnet ef. Não se escreve à mão: revê-se."
+                      children:
+                        - name: (ficheiros gerados)
+                          description: InitialCreate, o snapshot do modelo e o Designer.
+                          file: null
+                          tag: null
+                - name: Repositories/
+                  description: Implementações dos contratos da Application.
+                  children:
+                    - name: CustomerRepository.cs
+                      description: Implementa ICustomerRepository com o EF Core.
+                      file: BankingApp.Infrastructure/Repositories/CustomerRepository.cs
+                      tag: null
+                - name: DependencyInjection.cs
+                  description: "AddInfrastructure(): DbContext, connection string e repositórios."
+                  file: BankingApp.Infrastructure/DependencyInjection.cs
+                  tag: null
+            - name: BankingApp.Api/
+              description: Camada 4. HTTP. Referencia a Application e a Infrastructure (só para a registar).
+              children:
+                - name: Contracts/
+                  description: "DTOs: o formato dos pedidos e das respostas."
+                  children:
+                    - name: Customers/
+                      description: Contratos dos endpoints de clientes.
+                      children:
+                        - name: NewCustomer.cs
+                          description: O pedido, com validação.
+                          file: BankingApp.Api/Contracts/Customers/NewCustomer.cs
+                          tag: null
+                        - name: CustomerResponse.cs
+                          description: A resposta.
+                          file: BankingApp.Api/Contracts/Customers/CustomerResponse.cs
+                          tag: null
+                - name: Controllers/
+                  description: Um controller por recurso.
+                  children:
+                    - name: CustomersController.cs
+                      description: Operações de clientes (create e list), todas POST. Converte o pedido num comando e devolve um Response.
+                      file: BankingApp.Api/Controllers/CustomersController.cs
+                      tag: null
+                - name: Responses/
+                  description: Respostas fora do controller.
+                  children:
+                    - name: ValidationResponse.cs
+                      description: "DTO inválido: responde 200 com a lista de erros."
+                      file: BankingApp.Api/Responses/ValidationResponse.cs
+                      tag: null
+                - name: Middleware/
+                  description: Componentes do pipeline.
+                  children:
+                    - name: ExceptionMiddleware.cs
+                      description: Converte exceções em Response com erro, sempre com HTTP 200.
+                      file: BankingApp.Api/Middleware/ExceptionMiddleware.cs
+                      tag: null
+                - name: Properties/
+                  description: Gerada pelo template.
+                  children:
+                    - name: launchSettings.json
+                      description: 'Portas e URL de arranque. Põe "launchUrl": "swagger".'
+                      file: BankingApp.Api/Properties/launchSettings.json
+                      tag: null
+                - name: appsettings.json
+                  description: "Configuração: connection string e logging."
+                  file: BankingApp.Api/appsettings.json
+                  tag: null
+                - name: Program.cs
+                  description: "Ponto de entrada: serviços, pipeline e Swagger UI."
+                  file: BankingApp.Api/Program.cs
+                  tag: null
+        - name: tests/
+          description: Projetos de teste.
+          children:
+            - name: BankingApp.Tests/
+              description: xUnit. Referencia o Domain e a Application.
+              children:
+                - name: Domain/
+                  description: Testes às regras do Domain.
+                  children:
+                    - name: CustomerTests.cs
+                      description: "O primeiro teste: valida o NIF e o nome."
+                      file: BankingApp.Tests/Domain/CustomerTests.cs
+                      tag: null
+                - name: Application/
+                  description: Testes à Application.
+                  children:
+                    - name: ResponseTests.cs
+                      description: "Testa o Response: Ok, Fail e Map."
+                      file: BankingApp.Tests/Application/ResponseTests.cs
+                      tag: null
+sections:
+  - title: Criar a solução, os projetos e as referências
+    intro: "Convenção do projeto inteiro: tudo são classes (sem records), uma classe por ficheiro, e cada classe com uma única responsabilidade. A solução e os projetos criam-se no IDE (Visual Studio ou VS Code), sem linha de comandos. As referências entre projetos são a arquitetura: se o Domain não referencia nada, ninguém o consegue contaminar com EF Core. Os únicos comandos deste passo instalam dependências."
+    steps:
+      - Criar a solução BankingApp, com as pastas src e tests
+      - "Criar os cinco projetos: Domain, Application e Infrastructure (Class Library), Api (ASP.NET Core Web API com controllers, .NET 10) e Tests (xUnit)"
+      - Configurar as Project References segundo a regra das dependências
+      - Apagar os ficheiros de exemplo dos templates (Class1, WeatherForecast e UnitTest1)
+      - Instalar os pacotes NuGet, a UI do Swagger e a ferramenta dotnet-ef
+      - Compilar a solução (Build Solution)
+    files:
+      - name: Project References
+        language: txt
+        codeFile: code/project-references.txt
+      - name: Instalar dependências
+        language: sh
+        codeFile: code/instalar-dependencias.sh
+    expectedOutcome: |-
+      Build succeeded.
+          0 Warning(s)
+          0 Error(s)
+  - title: "Domain: a primeira entidade"
+    intro: Customer é a primeira entidade. A validação vive dentro da própria classe, e os setters são privados para o estado só mudar por métodos da classe.
+    files:
+      - name: BankingApp.Domain/Common/DomainException.cs
+        language: cs
+        codeFile: code/BankingApp.Domain/Common/DomainException.cs
+      - name: BankingApp.Domain/Customers/Customer.cs
+        language: cs
+        codeFile: code/BankingApp.Domain/Customers/Customer.cs
+  - title: "Application: a abstração de entrada e de saída (API RPC)"
+    intro: "Esta API é RPC: o HTTP é só o transporte. Todos os pedidos são POST, para /api/<área>/<ação> (por exemplo, /api/accounts/deposit), e os parâmetros vão sempre no corpo JSON, nunca na rota nem na query string. Se o pedido chegou ao servidor e foi processado, a resposta é sempre 200 OK, e o resultado vem no corpo. Para isso, todos os casos de uso recebem um Request e devolvem um Response, que tem uma lista de erros. Quem chama lê success e errors em vez do código HTTP. Criamos já estas peças, porque tudo o que vem a seguir as usa."
+    steps:
+      - Criar o Error, com uma fábrica por tipo (validation, not_found, conflict, unauthorized, forbidden)
+      - Criar a classe base Request, de onde herdam todos os comandos e consultas
+      - "Criar o Response<T>: success é «não há erros»; Data guarda o resultado; Empty é para os casos de uso sem dados"
+      - Criar o IHandler<TRequest, TData>, o contrato de qualquer caso de uso
+    files:
+      - name: BankingApp.Application/Common/Error.cs
+        language: cs
+        codeFile: code/BankingApp.Application/Common/Error.cs
+      - name: BankingApp.Application/Common/Request.cs
+        language: cs
+        codeFile: code/BankingApp.Application/Common/Request.cs
+      - name: BankingApp.Application/Common/Response.cs
+        language: cs
+        codeFile: code/BankingApp.Application/Common/Response.cs
+      - name: BankingApp.Application/Common/Empty.cs
+        language: cs
+        codeFile: code/BankingApp.Application/Common/Empty.cs
+      - name: BankingApp.Application/Abstractions/IHandler.cs
+        language: cs
+        codeFile: code/BankingApp.Application/Abstractions/IHandler.cs
+  - title: "Application: contratos e o primeiro caso de uso"
+    intro: "A Application define o que precisa (ICustomerRepository) e escreve cada caso de uso em três classes pequenas, cada uma no seu ficheiro: ficam todas juntas na pasta do caso de uso, dentro de Handlers/CommandHandlers (comandos) ou de Handlers/QueryHandlers (consultas), por exemplo Handlers/CommandHandlers/CreateCustomer. A pasta Handlers agrupa os dois. Um handler recebe um Request e devolve um Response: os erros de negócio devolvem-se, não se lançam. Não sabe nada de EF Core nem de HTTP."
+    files:
+      - name: BankingApp.Application/Abstractions/ICustomerRepository.cs
+        language: cs
+        codeFile: code/BankingApp.Application/Abstractions/ICustomerRepository.cs
+      - name: BankingApp.Application/Handlers/CommandHandlers/CreateCustomer/CreateCustomerCommand.cs
+        language: cs
+        codeFile: code/BankingApp.Application/Handlers/CommandHandlers/CreateCustomer/CreateCustomerCommand.cs
+      - name: BankingApp.Application/Handlers/CommandHandlers/CreateCustomer/CustomerResult.cs
+        language: cs
+        codeFile: code/BankingApp.Application/Handlers/CommandHandlers/CreateCustomer/CustomerResult.cs
+      - name: BankingApp.Application/Handlers/CommandHandlers/CreateCustomer/CreateCustomerHandler.cs
+        language: cs
+        codeFile: code/BankingApp.Application/Handlers/CommandHandlers/CreateCustomer/CreateCustomerHandler.cs
+      - name: BankingApp.Application/Handlers/QueryHandlers/ListCustomers/ListCustomersQuery.cs
+        language: cs
+        codeFile: code/BankingApp.Application/Handlers/QueryHandlers/ListCustomers/ListCustomersQuery.cs
+      - name: BankingApp.Application/Handlers/QueryHandlers/ListCustomers/ListCustomersHandler.cs
+        language: cs
+        codeFile: code/BankingApp.Application/Handlers/QueryHandlers/ListCustomers/ListCustomersHandler.cs
+      - name: BankingApp.Application/DependencyInjection.cs
+        language: cs
+        codeFile: code/BankingApp.Application/DependencyInjection.cs
+  - title: "Infrastructure: Entity Framework Core, repositório e ligação à base de dados"
+    intro: O DbContext, a configuração da entidade com a Fluent API, o repositório que implementa o contrato da Application e a connection string. No fim, a primeira migration cria a base de dados.
+    steps:
+      - Criar o BankingAppContext e a CustomerConfiguration
+      - Implementar o CustomerRepository
+      - Criar AddInfrastructure() com o DbContext e o repositório
+      - Pôr a connection string no appsettings.json da Api
+      - Criar a migration InitialCreate e aplicá-la
+    files:
+      - name: BankingApp.Infrastructure/Persistence/BankingAppContext.cs
+        language: cs
+        codeFile: code/BankingApp.Infrastructure/Persistence/BankingAppContext.cs
+      - name: BankingApp.Infrastructure/Persistence/Configurations/CustomerConfiguration.cs
+        language: cs
+        codeFile: code/BankingApp.Infrastructure/Persistence/Configurations/CustomerConfiguration.cs
+      - name: BankingApp.Infrastructure/Repositories/CustomerRepository.cs
+        language: cs
+        codeFile: code/BankingApp.Infrastructure/Repositories/CustomerRepository.cs
+      - name: BankingApp.Infrastructure/DependencyInjection.cs
+        language: cs
+        codeFile: code/BankingApp.Infrastructure/DependencyInjection.cs
+      - name: BankingApp.Api/appsettings.json
+        language: json
+        codeFile: code/BankingApp.Api/appsettings.json
+      - name: Terminal (migrations)
+        language: sh
+        codeFile: code/terminal-migrations.sh
+    expectedOutcome: |-
+      Applying migration '20261103100000_InitialCreate'.
+      Done.
+  - title: "Api: controller, DTOs, tratamento de erros e Swagger"
+    intro: "O controller só converte o pedido num comando e devolve o Response do handler. Há três caminhos para um erro, e os três acabam em 200 com a lista de errors: o handler devolve-o, o ValidationResponse apanha os DTOs inválidos, e o ExceptionMiddleware apanha as exceções. O Swagger UI fica disponível em /swagger, em desenvolvimento."
+    steps:
+      - Criar os DTOs com validação
+      - Criar o CustomersController
+      - Criar o ValidationResponse
+      - Criar o ExceptionMiddleware
+      - Montar o Program.cs com o OpenAPI e o Swagger UI
+      - Em Properties/launchSettings.json, pôr o launchUrl a swagger
+    files:
+      - name: BankingApp.Api/Contracts/Customers/NewCustomer.cs
+        language: cs
+        codeFile: code/BankingApp.Api/Contracts/Customers/NewCustomer.cs
+      - name: BankingApp.Api/Contracts/Customers/CustomerResponse.cs
+        language: cs
+        codeFile: code/BankingApp.Api/Contracts/Customers/CustomerResponse.cs
+      - name: BankingApp.Api/Controllers/CustomersController.cs
+        language: cs
+        codeFile: code/BankingApp.Api/Controllers/CustomersController.cs
+      - name: BankingApp.Api/Responses/ValidationResponse.cs
+        language: cs
+        codeFile: code/BankingApp.Api/Responses/ValidationResponse.cs
+      - name: BankingApp.Api/Middleware/ExceptionMiddleware.cs
+        language: cs
+        codeFile: code/BankingApp.Api/Middleware/ExceptionMiddleware.cs
+      - name: BankingApp.Api/Program.cs
+        language: cs
+        codeFile: code/BankingApp.Api/Program.cs
+      - name: BankingApp.Api/Properties/launchSettings.json
+        language: json
+        codeFile: code/BankingApp.Api/Properties/launchSettings.json
+  - title: "Testes: os primeiros testes"
+    intro: O projeto de testes já existe. Escreve-se o primeiro teste ao Domain para ficar o padrão (Theory para os casos inválidos, Fact para o caso feliz) e os testes ao Response, que é a peça de que tudo depende.
+    files:
+      - name: BankingApp.Tests/Domain/CustomerTests.cs
+        language: cs
+        codeFile: code/BankingApp.Tests/Domain/CustomerTests.cs
+      - name: BankingApp.Tests/Application/ResponseTests.cs
+        language: cs
+        codeFile: code/BankingApp.Tests/Application/ResponseTests.cs
+    expectedOutcome: |-
+      Test Explorer
+      7 passed, 0 failed, 0 skipped
+  - title: Correr e verificar
+    intro: "A aplicação está funcional quando consegues criar e listar clientes pelo Swagger UI e ver a linha na base de dados. Repara que todas as respostas são 200: o que muda é o corpo."
+    steps:
+      - Correr a BankingApp.Api no IDE (F5) e abrir /swagger
+      - "POST /api/customers/create com um cliente válido: 200 com success true"
+      - "Repetir o POST: 200 com success false e o erro conflict"
+      - 'POST com NIF "123": 200 com success false e o erro validation'
+      - POST /api/customers/list e confirmar a linha na tabela Customers (cliente SQL)
+    files:
+      - name: Pedido de exemplo
+        language: http
+        codeFile: code/pedido-de-exemplo.http
+    expectedOutcome: |-
+      HTTP 200  success: true   (cliente criado)
+      HTTP 200  success: false  errors: conflict    (NIF repetido)
+      HTTP 200  success: false  errors: validation  (NIF inválido)
+      HTTP 200  success: true   (lista com 1 cliente)
+learnMore:
+  explanation: |-
+    Ao fim do dia 1 tens uma aplicação pequena mas completa, de ponta a ponta: pedido HTTP, caso de uso, regra no Domain, gravação na base de dados e resposta. Tudo o que vem a seguir é repetir esta receita.
+
+    Os três ficheiros mais importantes para perceber são o Program.cs (liga tudo), a DependencyInjection de cada camada (cada camada regista o que é seu) e o ExceptionMiddleware (traduz as exceções inesperadas em Response com erro).
+  pitfall: Esquecer de registar um handler ou um repositório. O erro só aparece no primeiro pedido, quando o container não consegue criar o controller.
+  tryIt: Apaga a linha do AddScoped do CreateCustomerHandler, corre o POST e lê a mensagem de erro. Depois volta a pô-la.

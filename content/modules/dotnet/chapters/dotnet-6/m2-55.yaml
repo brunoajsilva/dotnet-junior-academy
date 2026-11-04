@@ -1,0 +1,20 @@
+id: m2-55
+title: Clean Architecture
+type: layers
+levels:
+  - name: Infraestrutura e API
+    description: EF Core, HTTP
+  - name: Aplicação
+    description: casos de uso
+  - name: Domínio
+    description: entidades e regras
+rules:
+  - As dependências apontam para dentro.
+  - O Domínio não conhece o EF Core nem o ASP.NET Core.
+  - As interfaces ficam dentro; as implementações, fora.
+learnMore:
+  explanation: |-
+    Imagina círculos concêntricos. No centro estão as regras do negócio, que mudam pouco. Nas camadas de fora estão os detalhes técnicos (base de dados, HTTP), que mudam mais. Uma camada só pode conhecer as que estão mais para dentro.
+
+    O truque que torna isto possível é a inversão de dependência: a Application declara a interface IAccountRepository e a Infrastructure implementa-a. No Módulo 5 constróis exatamente isto.
+  tryIt: "Pergunta a ti próprio, para cada classe que escreves: em que círculo vive? E o que é que ela precisa de conhecer?"

@@ -1,0 +1,70 @@
+id: US20
+title: Limitar tentativas de login
+story: Como banco, quero travar quem tenta adivinhar passwords.
+feature: F5
+endpoint: POST /api/auth/login (alteração)
+body: null
+rules:
+  - Após 5 falhas em 15 minutos, o email fica bloqueado durante 15 minutos
+  - Devolve o erro rate_limited com o tempo de espera na mensagem
+  - Um login certo repõe o contador
+  - As falhas gravam-se por email, também para emails que não existem
+  - A resposta continua igual para email desconhecido e password errada
+responses:
+  - result: success
+    when: Login certo
+  - result: unauthorized
+    when: Credenciais inválidas
+  - result: rate_limited
+    when: Demasiadas tentativas
+criteria:
+  - O bloqueio funciona também para emails inexistentes
+  - A janela e o limite vêm de configuração
+  - Testes às fronteiras (4.ª, 5.ª e 6.ª tentativas)
+uses:
+  - auth-7
+  - dotnet-2
+hint:
+  explanation: Se só contares falhas de emails que existem, um atacante descobre que emails estão registados pela diferença de comportamento. Conta todas as falhas.
+businessValue: Médio
+dependsOn: ""
+details:
+  persona: responsável de segurança do banco
+  want: travar quem tenta adivinhar passwords
+  purpose: reduzir o risco de acesso indevido às contas dos clientes
+  description: Após 5 falhas em 15 minutos, o email fica bloqueado durante 15 minutos. As falhas são contadas por email, mesmo que não exista, e a resposta não revela se o email é conhecido.
+  scenarios:
+    - title: Bloqueio à 5.ª falha
+      given:
+        - falhei o login 4 vezes em 15 minutos
+      when:
+        - falho a 5.ª vez
+      then:
+        - recebo unauthorized
+        - o email fica bloqueado
+    - title: Tentativa durante o bloqueio
+      given:
+        - o email está bloqueado
+      when:
+        - tento fazer login
+      then:
+        - recebo rate_limited com o tempo de espera na mensagem
+    - title: Login certo repõe o contador
+      given:
+        - falhei 3 vezes
+      when:
+        - faço login com a password certa
+      then:
+        - recebo success
+        - o contador volta a zero
+    - title: Email inexistente
+      given:
+        - o email não existe
+      when:
+        - falho 5 vezes
+      then:
+        - fica bloqueado e a resposta é igual à de uma password errada
+  outOfScope:
+    - Captcha
+    - Bloqueio por endereço IP
+  storyPoints: 5

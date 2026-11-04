@@ -1,0 +1,162 @@
+/* Lessons: numbered sections separated by hairlines. */
+
+.lessons {
+  display: grid;
+  margin-top: 44px;
+  border-top: 1px solid var(--line);
+}
+
+.lesson {
+  padding: 40px 0 44px;
+  border-bottom: 1px solid var(--line);
+  min-width: 0;
+  scroll-margin-top: calc(var(--tb) + 16px);
+}
+
+.lh {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.lh .ix {
+  flex: none;
+  font-family: var(--f-mono);
+  font-size: 0.8rem;
+  color: var(--faint);
+  width: 1.8rem;
+}
+
+.lh h3 {
+  flex: 1;
+  min-width: 0;
+  font-size: 1.5rem;
+  letter-spacing: -0.022em;
+}
+
+.seenbtn {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  background: transparent;
+  color: var(--faint);
+  font-size: 0.78rem;
+  font-weight: 550;
+}
+
+.seenbtn:hover {
+  border-color: var(--ok);
+  color: var(--ok);
+}
+
+.seenbtn[aria-pressed="true"] {
+  background: var(--ok-soft);
+  border-color: transparent;
+  color: var(--ok);
+}
+
+.lbody {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 22px;
+  align-items: start;
+}
+
+.pts {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.pts li {
+  position: relative;
+  padding-left: 22px;
+  font-size: 1rem;
+  color: var(--fg);
+}
+
+.pts li::before {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 0.78em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--mc, var(--accent));
+}
+
+.lfoot {
+  margin-top: 24px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.more {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 0 16px;
+  border-radius: 99px;
+  border: 1px solid var(--line2);
+  background: var(--md-secondary-container);
+  color: var(--md-on-secondary-container);
+  font-weight: 550;
+  font-size: 0.88rem;
+  border-color: transparent;
+}
+
+.more:hover {
+  border-color: transparent;
+  color: var(--md-on-secondary-container);
+  background: color-mix(
+    in srgb,
+    var(--md-secondary-container) 88%,
+    var(--md-on-secondary-container)
+  );
+  box-shadow: var(--shadow-1);
+}
+
+.more svg {
+  transition: transform 0.2s;
+}
+
+.more:hover svg {
+  transform: translateX(3px);
+}
+
+.lesson.exercise {
+  margin: 0 -24px;
+  padding-left: 24px;
+  padding-right: 24px;
+  background: linear-gradient(var(--surface), var(--surface));
+  border-left: 3px solid var(--warn);
+  border-radius: 0 12px 12px 0;
+}
+
+.ex-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 650;
+  color: var(--warn);
+  margin-bottom: 10px;
+}
+
+@media (min-width: 921px) {
+  .lesson {
+    scroll-margin-top: 24px;
+  }
+}

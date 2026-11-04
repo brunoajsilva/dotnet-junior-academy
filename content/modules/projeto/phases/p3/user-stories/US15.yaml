@@ -1,0 +1,69 @@
+id: US15
+title: Simulador de empréstimo
+story: Como cliente, quero saber quanto pagaria por um empréstimo antes de o pedir.
+feature: F4
+endpoint: POST /api/loans/simulate
+body: '{ "amount": 10000.00, "months": 24 }'
+rules:
+  - Valor entre 500 € e 50 000 €, prazo entre 6 e 84 meses
+  - A taxa anual depende do prazo, lida da configuração
+  - Calcula prestação mensal, total de juros e total a pagar
+  - Usa uma interface ILoanCalculator
+  - Não grava nada
+responses:
+  - result: success
+    when: Simulação
+  - result: validation
+    when: Valores fora dos limites
+  - result: unauthorized
+    when: Sem token válido
+criteria:
+  - A fórmula da prestação tem testes com valores conhecidos
+  - A taxa não está no código
+  - Todos os valores arredondados a 2 casas
+  - Pedido na coleção do Bruno
+uses:
+  - dotnet-3
+  - csharp-2
+hint:
+  explanation: A prestação constante usa a fórmula P = V × i ÷ (1 − (1 + i)^−n), com i a taxa mensal. Confirma com um exemplo que consigas calcular à mão antes de escreveres o teste.
+businessValue: Baixo
+dependsOn: ""
+details:
+  persona: cliente autenticado
+  want: saber quanto pagaria por um empréstimo antes de o pedir
+  purpose: decidir com informação
+  description: "Simulação sem efeitos: calcula prestação mensal, total de juros e total a pagar. A taxa anual depende do prazo e vem da configuração."
+  scenarios:
+    - title: Simulação válida
+      given:
+        - tenho sessão iniciada
+      when:
+        - simulo 10 000,00 a 36 meses
+      then:
+        - recebo a prestação, o total de juros e o total a pagar, com 2 casas decimais
+    - title: Valor fora do intervalo
+      given:
+        - tenho sessão iniciada
+      when:
+        - simulo 100,00 ou 60 000,00
+      then:
+        - recebo validation
+    - title: Prazo fora do intervalo
+      given:
+        - tenho sessão iniciada
+      when:
+        - simulo 5 ou 90 meses
+      then:
+        - recebo validation
+    - title: Sem efeitos
+      given:
+        - fiz uma simulação
+      when:
+        - consulto a base de dados
+      then:
+        - não foi gravado nada
+  outOfScope:
+    - Simulação com taxa promocional
+    - Guardar simulações
+  storyPoints: 3

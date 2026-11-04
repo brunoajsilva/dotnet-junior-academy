@@ -1,0 +1,12 @@
+id: m2-49
+title: Verificações úteis
+type: code
+language: cs
+codeFile: code/m2-49.cs
+keyPoints:
+  - Cada Assert verifica uma coisa.
+  - Throws confirma que a exceção certa é lançada.
+  - O teste falha à primeira verificação que falhar.
+  - Para exceções assíncronas, usar ThrowsAsync.
+learnMore:
+  explanation: Assert.Equal, True, False, Null, Contains, Single... cada um verifica uma coisa. Assert.Throws<T> confirma que um código lança a exceção certa; para métodos async usa Assert.ThrowsAsync<T> com await.

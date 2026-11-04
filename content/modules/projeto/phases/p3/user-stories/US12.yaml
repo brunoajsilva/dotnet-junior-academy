@@ -1,0 +1,78 @@
+id: US12
+title: Beneficiários
+story: Como cliente, quero guardar os dados de quem pago com frequência.
+feature: F3
+endpoint: POST /api/beneficiaries/add  ·  POST /api/beneficiaries/list  ·  POST /api/beneficiaries/remove
+body: '{ "name": "Landlord", "accountNumber": "AC-654321" }'
+rules:
+  - A conta de destino tem de existir e estar ativa
+  - Cada cliente só vê e apaga os seus beneficiários
+  - Não pode repetir o mesmo número de conta no mesmo cliente
+  - Uma conta própria não pode ser beneficiária
+responses:
+  - result: success
+    when: Beneficiário criado
+  - result: success
+    when: Lista dos meus beneficiários
+  - result: success
+    when: Beneficiário apagado
+  - result: validation
+    when: Conta própria
+  - result: unauthorized
+    when: Sem token válido
+  - result: not_found
+    when: Conta inexistente ou beneficiário de outro cliente
+  - result: conflict
+    when: Já existe
+criteria:
+  - Há índice único (cliente, conta) na base de dados
+  - O not_found não revela beneficiários de outros
+  - Testes às quatro regras
+  - Pedidos na coleção do Bruno
+uses:
+  - dotnet-4
+  - csharp-2
+hint:
+  explanation: "Duas pessoas podem ter o mesmo beneficiário, por isso a unicidade é por cliente. Pensa se a verificação é só no handler ou também no índice da base de dados: se duas chamadas chegarem ao mesmo tempo, quem protege?"
+businessValue: Médio
+dependsOn: US1
+details:
+  persona: cliente autenticado
+  want: guardar os dados de quem pago com frequência
+  purpose: pagar mais depressa e sem repetir números de conta
+  description: Um beneficiário é uma conta de destino guardada com um nome. Cada cliente só vê e gere os seus beneficiários.
+  scenarios:
+    - title: Adicionar beneficiário
+      given:
+        - a conta de destino existe e está Active
+      when:
+        - adiciono o beneficiário «Senhorio»
+      then:
+        - recebo success
+        - o beneficiário aparece na minha lista
+    - title: Beneficiário repetido
+      given:
+        - já tenho a conta X como beneficiária
+      when:
+        - adiciono outra vez a conta X
+      then:
+        - recebo conflict
+    - title: Conta própria
+      given:
+        - a conta A é minha
+      when:
+        - adiciono a conta A como beneficiária
+      then:
+        - recebo validation
+    - title: Apagar beneficiário de outro cliente
+      given:
+        - o beneficiário 9 é de outro cliente
+      when:
+        - peço para o apagar
+      then:
+        - recebo not_found
+        - o beneficiário continua a existir
+  outOfScope:
+    - Transferir diretamente a partir do beneficiário
+    - Editar o nome do beneficiário
+  storyPoints: 3

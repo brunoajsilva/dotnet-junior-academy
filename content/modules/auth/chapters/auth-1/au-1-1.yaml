@@ -1,0 +1,25 @@
+id: au-1-1
+title: Duas perguntas diferentes
+type: cards
+cards:
+  - title: Autenticação
+    lines:
+      - Quem és?
+      - Verificar a identidade com uma password, um token ou um certificado.
+      - "Se falha: 401 Unauthorized."
+  - title: Autorização
+    lines:
+      - O que podes fazer?
+      - Decidir o que uma identidade já conhecida pode fazer.
+      - "Se falha: 403 Forbidden."
+  - title: ""
+    lines:
+      - "A autenticação vem sempre primeiro: só se decide o que alguém pode fazer depois de saber quem é."
+      - "Num banco: o login autentica a Ana. Ver a conta da Ana é uma decisão de autorização."
+    isNote: true
+learnMore:
+  explanation: |-
+    Uma imagem útil: o seguro de um hotel. Na receção mostras o cartão de cidadão e recebes um cartão de quarto (autenticação). O cartão só abre a tua porta, e não a dos outros quartos nem a do cofre (autorização).
+
+    Em inglês aparecem as abreviaturas AuthN (authentication) e AuthZ (authorization). Quando alguém diz «auth» sem mais, pergunta qual das duas.
+  pitfall: Chamar «não autorizado» ao 401. O nome do código HTTP é Unauthorized, mas significa «não autenticado». O 403 é que significa «sei quem és e não podes».

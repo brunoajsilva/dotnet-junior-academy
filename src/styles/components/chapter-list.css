@@ -1,0 +1,69 @@
+/* Chapter list on a module overview page. */
+
+.chlist {
+  display: grid;
+  margin-top: 40px;
+  border-top: 1px solid var(--line);
+}
+
+.chcard {
+  display: grid;
+  grid-template-columns: 2.6rem minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: baseline;
+  padding: 22px 4px;
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+  color: var(--fg);
+}
+
+.chcard:hover h3 {
+  color: var(--accent);
+}
+
+.chcard .num {
+  font-family: var(--f-mono);
+  font-size: 0.9rem;
+  color: var(--mc);
+  font-weight: 600;
+}
+
+.chcard h3 {
+  font-size: 1.2rem;
+}
+
+.chcard p {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-top: 4px;
+  line-height: 1.55;
+}
+
+.chcard .st {
+  font-size: 0.78rem;
+  color: var(--faint);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 1px 8px;
+  border-radius: 99px;
+  border: 1px solid var(--line2);
+  color: var(--muted);
+  margin-right: 6px;
+  letter-spacing: 0.01em;
+}
+
+.tag.ex {
+  border-color: var(--warn);
+  color: var(--warn);
+}
+
+.tag.qz {
+  border-color: var(--accent);
+  color: var(--accent);
+}

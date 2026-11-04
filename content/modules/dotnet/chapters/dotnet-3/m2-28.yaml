@@ -1,0 +1,23 @@
+id: m2-28
+title: Tempos de vida
+type: table
+rows:
+  - - Tempo de vida
+    - Instância
+    - Exemplo típico
+  - - Transient
+    - Nova de cada vez que é pedida
+    - Serviços leves e sem estado
+  - - Scoped
+    - Uma por pedido HTTP
+    - DbContext e serviços de aplicação
+  - - Singleton
+    - Uma para toda a aplicação
+    - Caches e clientes partilhados
+note: "Atenção: um Singleton não deve depender de um Scoped, porque viveria mais tempo do que a dependência e ficaria com um objeto já descartado."
+learnMore:
+  explanation: |-
+    Transient cria uma instância nova de cada vez. Scoped cria uma por pedido HTTP, e é o tempo de vida do DbContext. Singleton cria uma para toda a aplicação.
+
+    Um Singleton nunca deve receber um Scoped no construtor: viveria mais do que a sua dependência, que já teria sido descartada.
+  pitfall: Singleton que depende do DbContext. Dá erro de validação do container, ou pior, partilha um DbContext entre pedidos.

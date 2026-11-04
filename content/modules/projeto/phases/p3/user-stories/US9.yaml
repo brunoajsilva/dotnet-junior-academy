@@ -1,0 +1,73 @@
+id: US9
+title: Extrato com filtros e paginação
+story: Como cliente, quero consultar os movimentos de uma conta, filtrando por tipo e datas.
+feature: F2
+endpoint: POST /api/accounts/list-transactions
+body: '{ "number": "AC-123456", "type": "Deposit", "from": "2026-01-01", "to": "2026-01-31", "page": 1, "pageSize": 20 }'
+rules:
+  - Ordenado do mais recente para o mais antigo
+  - "Filtros opcionais: tipo, data inicial e data final"
+  - "Paginação: página 1 por omissão, 20 por página por omissão, máximo 100"
+  - A resposta inclui os itens, o total, a página e o tamanho da página
+  - Consulta só de leitura, com o filtro e a paginação feitos na base de dados
+responses:
+  - result: success
+    when: Página de movimentos
+  - result: validation
+    when: pageSize acima de 100 ou datas trocadas
+  - result: unauthorized
+    when: Sem token válido
+  - result: not_found
+    when: A conta não existe ou não é do cliente
+criteria:
+  - "Usa IQueryable: Where condicional, OrderByDescending, Skip e Take"
+  - O total vem de uma consulta Count, não de carregar tudo
+  - Usa AsNoTracking
+  - O pedido está na coleção do Bruno
+uses:
+  - csharp-3
+  - dotnet-4
+hint:
+  explanation: "Constrói a consulta por partes: começa com os movimentos da conta, acrescenta cada Where só se o filtro vier preenchido, faz o Count, e só no fim aplica o Skip e o Take. Nada corre na base de dados até ao ToListAsync e ao CountAsync."
+  pitfall: Aplicar a paginação em memória, depois de ToList.
+businessValue: Alto
+dependsOn: US4
+details:
+  persona: cliente autenticado
+  want: consultar os movimentos de uma conta, filtrando por tipo e datas
+  purpose: perceber para onde foi o meu dinheiro
+  description: Consulta só de leitura, ordenada do mais recente para o mais antigo, com filtros opcionais e paginação. O filtro e a paginação são feitos na base de dados.
+  scenarios:
+    - title: Primeira página por omissão
+      given:
+        - a conta A tem 45 movimentos
+      when:
+        - peço o extrato sem parâmetros
+      then:
+        - recebo os 20 movimentos mais recentes
+        - total 45, página 1, tamanho 20
+    - title: Filtrar por tipo e datas
+      given:
+        - a conta A tem depósitos e levantamentos
+      when:
+        - filtro por type Deposit, com from e to
+      then:
+        - recebo apenas depósitos dentro do intervalo
+    - title: Tamanho de página acima do máximo
+      given:
+        - tenho sessão iniciada
+      when:
+        - envio pageSize 500
+      then:
+        - recebo validation
+    - title: Conta de outro cliente
+      given:
+        - a conta B não é minha
+      when:
+        - peço o extrato da conta B
+      then:
+        - recebo not_found
+  outOfScope:
+    - Pesquisa por descrição
+    - Exportação (ver US11)
+  storyPoints: 5

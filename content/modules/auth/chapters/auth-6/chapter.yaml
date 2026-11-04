@@ -1,0 +1,42 @@
+id: auth-6
+title: "Hands-on II: autorização"
+intro: "Com o token a funcionar, decide-se o que cada utilizador pode fazer: papéis, políticas e dados que só pertencem ao dono. Continuas no AuthLab."
+lessons:
+  - $ref: au-6-1.yaml
+  - $ref: au-6-2.yaml
+  - $ref: au-6-3.yaml
+  - $ref: au-6-4.yaml
+  - $ref: au-6-5.yaml
+quiz:
+  - question: Um Customer chama um método só para Manager. Que código recebe?
+    options:
+      - "401"
+      - "403"
+      - "404"
+      - "200"
+    correctIndex: 1
+    explanation: "Está autenticado, mas o papel não chega: 403."
+  - question: De onde deve vir o id do cliente numa consulta às suas contas?
+    options:
+      - Do corpo do pedido
+      - Da URL
+      - Do token
+      - De um cabeçalho personalizado
+    correctIndex: 2
+    explanation: Do token assinado. Tudo o que vem no pedido pode ser forjado.
+  - question: Para que serve uma policy?
+    options:
+      - Guardar a password
+      - Agrupar regras de autorização com um nome reutilizável
+      - Emitir tokens
+      - Encriptar a ligação
+    correctIndex: 1
+    explanation: Combina papéis e claims numa regra com nome, usada em vários métodos.
+  - question: Porque se guarda o refresh token no servidor?
+    options:
+      - Para o poder revogar
+      - Para o tornar mais curto
+      - Porque o JWT o exige
+      - Para poupar espaço
+    correctIndex: 0
+    explanation: Apagar o refresh token termina a sessão. Um access token não se consegue revogar.

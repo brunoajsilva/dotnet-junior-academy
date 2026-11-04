@@ -1,0 +1,10 @@
+{
+  "Jwt": {
+    "Issuer": "AuthLab",
+    "Audience": "AuthLab.Clients",
+    "Key": "a-random-text-with-at-least-32-characters-here",
+    "ExpiresMinutes": 15
+  },
+  "Logging": { "LogLevel": { "Default": "Information", "Microsoft.AspNetCore": "Warning" } },
+  "AllowedHosts": "*"
+}

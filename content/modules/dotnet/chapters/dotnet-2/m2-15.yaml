@@ -1,0 +1,16 @@
+id: m2-15
+title: Middleware próprio
+type: code
+language: cs
+codeFile: code/m2-15.cs
+keyPoints:
+  - Use acrescenta um middleware ao pipeline.
+  - O código antes de next() corre à ida.
+  - O código depois corre à volta.
+  - Serve para logging, medição de tempos e tratamento de erros.
+learnMore:
+  explanation: |-
+    Um middleware é um passo do pipeline. Recebe o contexto do pedido e uma função next. O código antes de await next() corre à ida; o código depois corre à volta, já com a resposta construída.
+
+    É o sítio certo para preocupações transversais: medir tempos, registar pedidos, converter exceções em respostas HTTP.
+  pitfall: Registar o middleware de erros depois dos controllers. A ordem do registo é a ordem de execução.

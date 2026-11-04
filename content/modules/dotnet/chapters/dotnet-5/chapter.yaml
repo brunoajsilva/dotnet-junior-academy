@@ -1,0 +1,36 @@
+id: dotnet-5
+title: Testes unitários
+intro: Provar que o código funciona com testes rápidos e isolados.
+lessons:
+  - $ref: m2-46.yaml
+  - $ref: m2-47.yaml
+  - $ref: m2-48.yaml
+  - $ref: m2-49.yaml
+  - $ref: m2-50.yaml
+  - $ref: m2-51.yaml
+  - $ref: m2-52.yaml
+quiz:
+  - question: O que representa o 'Arrange' num teste?
+    options:
+      - Executar o código
+      - Preparar os objetos e os dados
+      - Verificar o resultado
+      - Limpar a base de dados
+    correctIndex: 1
+    explanation: "Arrange, Act, Assert: preparar, executar, verificar."
+  - question: Quando usar [Theory] em vez de [Fact]?
+    options:
+      - Quando o teste é lento
+      - Quando o mesmo teste corre com vários dados
+      - Quando há exceções
+      - Quando há mocks
+    correctIndex: 1
+    explanation: "[InlineData] fornece cada caso e cada um aparece como teste separado."
+  - question: Porque é que um mock exige que a dependência seja uma interface?
+    options:
+      - Por regra do xUnit
+      - Porque é preciso poder substituí-la por um falso
+      - Porque o EF o exige
+      - Não exige
+    correctIndex: 1
+    explanation: Sem interface (ou método virtual), não há como substituir a implementação.

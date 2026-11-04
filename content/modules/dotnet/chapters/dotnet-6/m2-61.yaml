@@ -1,0 +1,24 @@
+id: m2-61
+title: A API em camadas
+type: exercise
+steps:
+  - keyword: Projetos
+    text: criar Domain, Application e Infrastructure e referenciá-los pela ordem certa
+  - keyword: Mover
+    text: as entidades para o Domain e o DbContext para a Infrastructure
+  - keyword: Repositório
+    text: IAccountRepository na Application, implementado na Infrastructure
+  - keyword: Handlers
+    text: OpenAccount e GetAccount, injetados no controller
+  - keyword: Verificar
+    text: que os testes continuam a passar e que o Domain não referencia o EF Core
+expectedOutput: |-
+  Api            -> Application
+                 Infrastructure
+  Infrastructure -> Application
+  Application    -> Domain
+  Domain         -> (nothing)
+challenge: Acrescentar a consulta ListCustomerAccounts com o seu handler.
+learnMore:
+  explanation: "Só passas ao capítulo seguinte quando o resultado esperado aparecer no teu computador. Se algo falhar, lê a mensagem de erro de baixo para cima: a última linha costuma dizer o que correu mal."
+  tryIt: Acrescentar a consulta ListCustomerAccounts com o seu handler.

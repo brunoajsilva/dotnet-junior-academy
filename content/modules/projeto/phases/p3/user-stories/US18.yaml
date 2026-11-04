@@ -1,0 +1,69 @@
+id: US18
+title: Refresh token
+story: Como cliente, quero manter a sessão sem voltar a escrever a password.
+feature: F5
+endpoint: POST /api/auth/refresh
+body: '{ "refreshToken": "a1b2c3..." }'
+rules:
+  - O Login passa a devolver também um refresh token aleatório com validade de 7 dias
+  - Guarda-se apenas o hash do refresh token, numa nova entidade RefreshToken
+  - Cada refresh troca o token por um novo e invalida o antigo (rotation)
+  - Reutilizar um refresh token antigo revoga todas as sessões do cliente
+responses:
+  - result: success
+    when: Novo access token e novo refresh token
+  - result: unauthorized
+    when: Refresh token inválido, expirado ou revogado
+criteria:
+  - O refresh token tem pelo menos 32 bytes aleatórios
+  - Nenhum refresh token está em claro na base de dados
+  - Há teste à reutilização de um token antigo
+  - Pedidos na coleção do Bruno
+uses:
+  - auth-6
+  - auth-7
+hint:
+  explanation: "O refresh token não é um JWT mas sim um valor aleatório, que só tem significado no teu servidor. Para o guardar com hash, usa um hash rápido e determinístico (SHA-256): precisas de o procurar por valor, e a sua aleatoriedade já impede os ataques de dicionário."
+  pitfall: Guardar o refresh token em claro. Quem ler a base de dados passa a ter todas as sessões.
+businessValue: Médio
+dependsOn: ""
+details:
+  persona: cliente autenticado
+  want: manter a sessão sem voltar a escrever a password
+  purpose: usar a aplicação sem interrupções e com segurança
+  description: O login devolve também um refresh token aleatório. Cada refresh troca o token por um novo (rotation) e a reutilização de um token antigo revoga todas as sessões do cliente.
+  scenarios:
+    - title: Renovar sessão
+      given:
+        - tenho um refresh token válido
+      when:
+        - peço um refresh
+      then:
+        - recebo um novo access token e um novo refresh token
+        - o refresh token antigo deixa de funcionar
+    - title: Reutilização de token antigo
+      given:
+        - já troquei o refresh token A pelo B
+      when:
+        - envio o token A
+      then:
+        - recebo unauthorized
+        - todas as minhas sessões são revogadas
+    - title: Token expirado
+      given:
+        - o refresh token tem mais de 7 dias
+      when:
+        - peço um refresh
+      then:
+        - recebo unauthorized
+    - title: Armazenamento seguro
+      given:
+        - foi emitido um refresh token
+      when:
+        - consulto a base de dados
+      then:
+        - só existe o hash do token, nunca o valor em claro
+  outOfScope:
+    - Gestão de dispositivos
+    - Sessões simultâneas por dispositivo
+  storyPoints: 5

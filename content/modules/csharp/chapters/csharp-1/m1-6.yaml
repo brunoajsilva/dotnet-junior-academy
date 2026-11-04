@@ -1,0 +1,16 @@
+id: m1-6
+title: Tipos e variáveis
+type: code
+language: cs
+codeFile: code/m1-6.cs
+keyPoints:
+  - "Valor ou referência: int, decimal e bool são valores; string e classes são referências."
+  - Dinheiro é decimal, nunca double.
+  - var deixa o compilador inferir o tipo.
+learnMore:
+  explanation: |-
+    Em C# cada variável tem um tipo fixo, decidido em compilação. Os tipos de valor (int, decimal, bool) guardam o próprio valor; os de referência (string, classes) guardam um apontador para o objeto. Na prática, isto muda o que acontece quando copias uma variável ou a passas a um método.
+
+    Os tipos double e float guardam números em binário e não conseguem representar 0.1 exatamente. O decimal trabalha em base 10, por isso é o tipo certo para dinheiro. O sufixo m em 320.50m diz ao compilador que o literal é decimal.
+  pitfall: 0.1 + 0.2 == 0.3 devolve false com double. Num banco, esse erro de arredondamento aparece em saldos, juros e comissões.
+  tryIt: Antes de correres o código, escreve o tipo que esperas para total. Depois passa o rato por cima de var no IDE e confirma.

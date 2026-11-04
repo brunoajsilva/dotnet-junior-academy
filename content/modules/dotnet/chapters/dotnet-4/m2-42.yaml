@@ -1,0 +1,13 @@
+id: m2-42
+title: Gravar alterações
+type: code
+language: cs
+codeFile: code/m2-42.cs
+keyPoints:
+  - O EF acompanha as entidades que carrega.
+  - Nada vai para a base de dados até SaveChangesAsync.
+  - Todas as alterações de um SaveChanges correm numa transação.
+  - "Alterar a propriedade basta: não há «update» explícito."
+learnMore:
+  explanation: O EF acompanha as entidades que carrega (change tracking). Alteras uma propriedade, chamas SaveChangesAsync, e o EF gera o UPDATE só dos campos alterados, tudo numa transação. Para inserir, Add + SaveChangesAsync.
+  pitfall: Esquecer o SaveChangesAsync. Não há erro e nada fica gravado.

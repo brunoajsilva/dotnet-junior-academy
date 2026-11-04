@@ -1,0 +1,76 @@
+id: US8
+title: Cancelar transferência
+story: Como cliente, quero cancelar uma transferência que fiz por engano.
+feature: F2
+endpoint: POST /api/transfers/reverse
+body: '{ "transferId": 17 }'
+rules:
+  - Só nos 5 minutos seguintes à transferência
+  - Só quem a fez a pode cancelar
+  - O destino tem de ter saldo para devolver
+  - Cria dois movimentos de estorno e marca a transferência como Reversed
+  - Não se cancela duas vezes
+  - Pede que a US7 guarde um identificador comum (TransferId) nos dois movimentos
+responses:
+  - result: success
+    when: Estorno feito
+  - result: unauthorized
+    when: Sem token válido
+  - result: not_found
+    when: Transferência inexistente ou de outro cliente
+  - result: conflict
+    when: Fora do prazo, já cancelada ou destino sem saldo
+criteria:
+  - O prazo vem de configuração e não está escrito no código
+  - Há teste ao limite dos 5 minutos
+  - Tudo grava numa só chamada a SaveChanges
+  - Pedido na coleção do Bruno
+uses:
+  - dotnet-4
+  - dotnet-2
+hint:
+  explanation: O relógio é uma dependência. Se o handler chamar DateTime.UtcNow diretamente, é impossível testar «passaram 5 minutos». Pensa numa interface pequena para a hora atual que consegues substituir num teste.
+  pitfall: Testes que usam Thread.Sleep ou datas escritas à mão que deixam de funcionar daqui a um ano.
+businessValue: Baixo
+dependsOn: US7
+details:
+  persona: cliente autenticado
+  want: cancelar uma transferência que fiz por engano
+  purpose: recuperar o dinheiro enviado por erro
+  description: O estorno só é possível durante uma janela curta, configurável, e apenas se o destino ainda tiver saldo. Cria dois movimentos de estorno e marca a transferência como Reversed.
+  scenarios:
+    - title: Estorno dentro do prazo
+      given:
+        - fiz uma transferência há 2 minutos
+        - o destino tem saldo suficiente
+      when:
+        - peço o estorno
+      then:
+        - recebo success
+        - os saldos voltam ao valor anterior
+        - a transferência fica Reversed
+    - title: Fora do prazo
+      given:
+        - a transferência tem 6 minutos
+      when:
+        - peço o estorno
+      then:
+        - recebo conflict
+    - title: Transferência de outro cliente
+      given:
+        - a transferência foi feita por outro cliente
+      when:
+        - peço o estorno
+      then:
+        - recebo not_found
+    - title: Segundo estorno
+      given:
+        - a transferência já está Reversed
+      when:
+        - peço o estorno outra vez
+      then:
+        - recebo conflict
+  outOfScope:
+    - Estorno parcial
+    - Aprovação do destinatário
+  storyPoints: 5

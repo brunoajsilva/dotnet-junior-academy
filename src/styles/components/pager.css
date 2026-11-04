@@ -1,0 +1,51 @@
+/* Chapter outro and previous/next pager. */
+
+.outro {
+  margin-top: 56px;
+}
+
+.outro h2 {
+  font-size: 1.4rem;
+  margin-bottom: 6px;
+}
+
+.pager {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  margin-top: 64px;
+  flex-wrap: wrap;
+}
+
+.pager a {
+  flex: 1 1 240px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 16px 0;
+  border-top: 1px solid var(--line2);
+  text-decoration: none;
+  color: var(--fg);
+  min-width: 0;
+}
+
+.pager a:hover span {
+  color: var(--accent);
+}
+
+.pager a small {
+  color: var(--faint);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.pager a span {
+  font-weight: 550;
+  font-size: 1.02rem;
+}
+
+.pager a.nx {
+  text-align: right;
+}

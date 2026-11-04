@@ -1,0 +1,30 @@
+id: au-4-2
+title: Claims registadas
+type: table
+rows:
+  - - Claim
+    - Nome
+    - Significado
+  - - sub
+    - Subject
+    - Quem é o utilizador (o id do cliente).
+  - - iss
+    - Issuer
+    - Quem emitiu o token.
+  - - aud
+    - Audience
+    - Para que API é o token.
+  - - exp
+    - Expiration
+    - Quando deixa de ser válido (segundos desde 1970, UTC).
+  - - iat
+    - Issued at
+    - Quando foi emitido.
+  - - nbf
+    - Not before
+    - Só é válido a partir daqui.
+  - - name, email, role
+    - Personalizadas
+    - "Dados úteis à API. Mantém-nas poucas: o token vai em todos os pedidos."
+learnMore:
+  explanation: O payload cresce com cada claim, e o token viaja em todos os pedidos. Por isso incluem-se apenas o identificador e o que a API usa em quase todos os pedidos (papel, nome). Os restantes dados vão-se buscar à base de dados com o id do sub.

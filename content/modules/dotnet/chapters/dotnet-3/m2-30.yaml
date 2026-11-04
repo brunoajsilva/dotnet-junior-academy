@@ -1,0 +1,18 @@
+id: m2-30
+title: Boas práticas
+type: cards
+cards:
+  - title: Depender de interfaces
+    lines:
+      - "Pedir IInterestCalculator e não PromoInterest: trocar a implementação não obriga a alterar a classe."
+  - title: Poucas dependências
+    lines:
+      - Um construtor com sete parâmetros é sinal de que a classe faz demasiado.
+  - title: Sem new nos serviços
+    lines:
+      - Se uma classe cria o que usa, não se consegue substituir nem testar sozinha.
+  - title: Sem GetService
+    lines:
+      - Pedir ao container dentro do código esconde as dependências. Usar o construtor.
+learnMore:
+  explanation: "Um construtor com sete parâmetros é um sinal: a classe provavelmente faz demasiado. GetService dentro do código (service locator) esconde as dependências e dificulta os testes. O construtor é o sítio honesto para declarar do que a classe precisa."

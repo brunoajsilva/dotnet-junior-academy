@@ -1,0 +1,75 @@
+id: US4
+title: Depósito
+story: Como cliente, quero depositar dinheiro numa das minhas contas.
+feature: F2
+endpoint: POST /api/accounts/deposit
+body: '{ "number": "AC-123456", "amount": 250.00, "description": "Salary" }'
+rules:
+  - "Nova entidade Transaction: tipo, valor, saldo depois do movimento, descrição e data (UTC)"
+  - O valor tem de ser maior que zero e ter no máximo duas casas decimais
+  - A conta tem de estar ativa
+  - O saldo e a Transaction são gravados juntos, numa só chamada a SaveChanges
+responses:
+  - result: success
+    when: Movimento criado, com o novo saldo
+  - result: validation
+    when: Valor inválido
+  - result: unauthorized
+    when: Sem token válido
+  - result: not_found
+    when: A conta não existe ou não é do cliente
+  - result: conflict
+    when: Conta fechada
+criteria:
+  - A entidade Transaction tem configuração e migration
+  - Account.Deposit atualiza o saldo e o handler cria a Transaction
+  - Há Theory para os valores inválidos (0, negativo, três casas)
+  - O pedido está na coleção do Bruno
+uses:
+  - dotnet-4
+  - dotnet-5
+hint:
+  explanation: "Pensa em quem cria a Transaction: o método Deposit da conta pode devolvê-la, para garantir que o saldo e o movimento nunca ficam desalinhados. O campo BalanceAfter permite reconstruir o extrato sem recalcular tudo."
+  pitfall: Fazer duas gravações separadas (saldo e movimento). Se a segunda falhar, ficas com dinheiro sem movimento.
+businessValue: Alto
+dependsOn: US1
+details:
+  persona: cliente autenticado
+  want: depositar dinheiro numa das minhas contas
+  purpose: aumentar o saldo disponível
+  description: Cada depósito atualiza o saldo e cria uma Transaction com o saldo depois do movimento. As duas alterações são gravadas na mesma chamada a SaveChanges.
+  scenarios:
+    - title: Depósito válido
+      given:
+        - a conta A tem saldo 100,00
+      when:
+        - deposito 50,00
+      then:
+        - recebo success com o novo saldo 150,00
+        - fica registada uma Transaction do tipo Deposit com saldo depois 150,00
+    - title: Valor inválido
+      given:
+        - tenho sessão iniciada
+      when:
+        - deposito 0, -5 ou 10,001
+      then:
+        - recebo validation em todos os casos
+        - o saldo não muda
+    - title: Conta fechada
+      given:
+        - a conta A está Closed
+      when:
+        - deposito 10,00
+      then:
+        - recebo conflict
+    - title: Conta de outro cliente
+      given:
+        - a conta B não é minha
+      when:
+        - deposito 10,00 na conta B
+      then:
+        - recebo not_found
+  outOfScope:
+    - Depósito por cheque ou multibanco
+    - Comissões
+  storyPoints: 3

@@ -1,0 +1,13 @@
+id: m1-12
+title: "Condições: switch inline (expressão)"
+type: code
+language: cs
+codeFile: code/m1-12.cs
+keyPoints:
+  - switch como expressão devolve um valor.
+  - => liga cada padrão ao resultado.
+  - _ é o caso por omissão.
+  - Aceita intervalos e combinações.
+learnMore:
+  explanation: O switch expression devolve um valor e usa => em vez de case/break. Cada braço é um padrão, o que permite relacionais (< 18), combinações (and/or) e propriedades. O _ funciona como default. Se nenhum braço cobrir o valor, o compilador avisa.
+  tryIt: Escreve um switch expression que devolve o bónus da taxa de juro (0, 0.5%, 1%) consoante os anos de cliente, com intervalos.

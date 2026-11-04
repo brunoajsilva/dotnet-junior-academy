@@ -1,0 +1,15 @@
+id: m1-25
+title: "Coleções: List e Dictionary"
+type: code
+language: cs
+codeFile: code/m1-25.cs
+keyPoints:
+  - "List: sequência ordenada."
+  - "Dictionary: acesso por chave."
+  - TryGetValue evita exceções.
+learnMore:
+  explanation: |-
+    List<T> mantém ordem e permite aceder por índice. Dictionary<K,V> procura por chave em tempo praticamente constante, ideal para encontrar uma conta pelo número.
+
+    O indexador dict[key] lança KeyNotFoundException se a chave não existir. TryGetValue devolve bool e preenche o valor, sem exceção.
+  pitfall: Usar List e procurar com um ciclo quando a pesquisa é sempre por chave.

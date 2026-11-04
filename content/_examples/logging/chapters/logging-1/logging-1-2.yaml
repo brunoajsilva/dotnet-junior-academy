@@ -1,0 +1,14 @@
+id: logging-1-2
+title: Níveis de log
+type: table
+rows:
+  - - Nível
+    - Quando usar
+  - - Information
+    - Um facto normal e relevante, como um depósito concluído.
+  - - Warning
+    - Algo inesperado que a aplicação tratou, como um saldo insuficiente.
+  - - Error
+    - Uma operação falhou e precisa de atenção.
+  - - Debug
+    - Detalhe para desenvolvimento, desligado em produção.

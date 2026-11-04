@@ -1,0 +1,22 @@
+id: au-3-2
+title: Os quatro papéis
+type: cards
+cards:
+  - title: Resource Owner
+    lines:
+      - O dono dos dados.
+      - O cliente do banco.
+  - title: Client
+    lines:
+      - A aplicação que quer aceder.
+      - A app móvel, um site, outro serviço.
+  - title: Authorization Server
+    lines:
+      - Autentica o utilizador e emite tokens.
+      - "No projeto: a própria API. Num banco real: um servidor de identidade."
+  - title: Resource Server
+    lines:
+      - A API que guarda os dados e valida os tokens.
+      - A BankingApp.
+learnMore:
+  explanation: "Em projetos pequenos, o Authorization Server e o Resource Server são a mesma aplicação, como acontece na BankingApp: a mesma API emite e valida o token. Em sistemas maiores são separados (Microsoft Entra ID, Keycloak, Auth0, Duende IdentityServer), e a API só valida tokens que outro emitiu."

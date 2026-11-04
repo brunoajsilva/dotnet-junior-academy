@@ -1,0 +1,17 @@
+id: m1-7
+title: "Operadores: aritméticos, comparação e lógicos"
+type: code
+language: cs
+codeFile: code/m1-7.cs
+keyPoints:
+  - / entre inteiros dá um inteiro.
+  - "% devolve o resto."
+  - "&& e || param quando o resultado já é certo."
+  - += e ++ abreviam atribuições.
+learnMore:
+  explanation: |-
+    A divisão entre dois inteiros é inteira: 7 / 2 dá 3. Para obter 3.5, pelo menos um dos operandos tem de ser decimal ou double. O operador % devolve o resto e é útil para testar múltiplos (é a base do FizzBuzz).
+
+    Os operadores && e || são de curto-circuito: se o lado esquerdo já decide o resultado, o direito nem é avaliado. Isso permite escrever user != null && user.IsActive sem rebentar.
+  pitfall: Dividir inteiros e esperar um decimal. Converter o resultado depois da divisão já é tarde demais.
+  tryIt: Calcula 7 / 2, 7 % 2 e 7m / 2 e compara os três resultados.

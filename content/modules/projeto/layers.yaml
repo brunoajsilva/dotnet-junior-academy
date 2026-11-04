@@ -1,0 +1,63 @@
+- id: domain
+  name: BankingApp.Domain
+  role: Regras do negócio
+  color: domain
+  contains:
+    - Customer, Account e AccountStatus
+    - Transaction e as entidades das tuas user stories
+    - DomainException
+  references: []
+  neverKnows: EF Core, ASP.NET Core, ou qualquer outro projeto.
+  rationale: É o centro. As regras do banco (saldo, estado da conta, validações) vivem aqui. Como não referencia nada, é rápido de testar e impossível de contaminar com detalhes técnicos.
+- id: application
+  name: BankingApp.Application
+  role: Casos de uso
+  color: application
+  contains:
+    - Commands, queries e handlers
+    - ICustomerRepository, IPasswordHasher, ITokenService
+    - Request, Response, Error e IHandler
+    - AddApplication()
+  references:
+    - BankingApp.Domain
+  neverKnows: EF Core e ASP.NET Core.
+  rationale: "Orquestra o Domain: por exemplo, o RegisterHandler verifica o email, cria o cliente e a primeira conta. As interfaces vivem aqui porque quem as usa é que define o contrato."
+- id: infrastructure
+  name: BankingApp.Infrastructure
+  role: Detalhes técnicos
+  color: infra
+  contains:
+    - BankingAppContext, configurations e migrations
+    - Repositórios
+    - JwtTokenService e PasswordHasherService
+    - AddInfrastructure()
+  references:
+    - BankingApp.Application
+  neverKnows: A camada Api.
+  rationale: Implementa os contratos da Application com o EF Core e com as bibliotecas de segurança. Trocar de base de dados é escrever outra implementação aqui.
+- id: api
+  name: BankingApp.Api
+  role: HTTP
+  color: api
+  contains:
+    - Controllers e DTOs
+    - ExceptionMiddleware
+    - Configuração do JWT
+    - Program.cs e appsettings.json
+  references:
+    - BankingApp.Application
+    - BankingApp.Infrastructure
+  neverKnows: Lógica de negócio.
+  rationale: Traduz HTTP em comandos e consultas, valida o token e devolve sempre um Response (HTTP 200). Referencia a Infrastructure só para a registar no container.
+- id: tests
+  name: BankingApp.Tests
+  role: Verificação
+  color: tests
+  contains:
+    - Testes do Domain
+    - Testes dos handlers com mocks
+  references:
+    - BankingApp.Domain
+    - BankingApp.Application
+  neverKnows: Base de dados real.
+  rationale: Testa as regras e os handlers sem base de dados nem HTTP. Corre em segundos.

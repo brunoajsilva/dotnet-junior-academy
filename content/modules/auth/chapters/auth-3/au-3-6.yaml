@@ -1,0 +1,33 @@
+id: au-3-6
+title: Basic Auth vs OAuth 2.0
+type: table
+rows:
+  - - ""
+    - Basic Auth
+    - OAuth 2.0
+  - - O que a API recebe
+    - A password do utilizador
+    - Um token
+  - - Quem vê a password
+    - A API e todos os clientes
+    - Só o Authorization Server
+  - - Duração do acesso
+    - Até a password mudar
+    - Limitada (minutos)
+  - - Âmbito do acesso
+    - Tudo
+    - Limitado por scopes
+  - - Revogação
+    - Mudar a password
+    - Revogar o token ou o refresh token
+  - - Autenticação multifator
+    - Não suporta
+    - Suportada no servidor de identidade
+  - - Complexidade
+    - Muito baixa
+    - Mais peças (servidor, fluxos, tokens)
+  - - Quando usar
+    - Ferramentas internas, testes e serviços legados sobre HTTPS
+    - APIs expostas a aplicações e utilizadores
+learnMore:
+  explanation: "O custo do OAuth é a complexidade: mais peças, mais configuração. Em troca, a password nunca sai do Authorization Server e o acesso passa a ser limitado e revogável. Num banco, essa troca compensa sempre."

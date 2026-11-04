@@ -1,0 +1,120 @@
+- - User story
+  - Pedido
+  - Acesso
+  - Resultado (HTTP 200)
+  - Erros possíveis
+- - Guia
+  - POST /api/auth/register
+  - anónimo
+  - success (a primeira conta)
+  - validation, conflict
+- - Guia
+  - POST /api/auth/login
+  - anónimo
+  - success (o token)
+  - unauthorized
+- - Guia
+  - POST /api/dashboard/retrieve
+  - token
+  - success (o resumo)
+  - unauthorized
+- - US1
+  - POST /api/accounts/open
+  - token
+  - success (o número da conta)
+  - validation, unauthorized, conflict
+- - US2
+  - POST /api/accounts/list  ·  POST /api/accounts/get
+  - token
+  - success
+  - unauthorized, not_found
+- - US3
+  - POST /api/accounts/close
+  - token
+  - success
+  - unauthorized, not_found, conflict
+- - US4
+  - POST /api/accounts/deposit
+  - token
+  - success
+  - validation, unauthorized, not_found, conflict
+- - US5
+  - POST /api/accounts/withdraw
+  - token
+  - success
+  - validation, unauthorized, not_found, conflict
+- - US6
+  - POST /api/accounts/set-daily-limit
+  - token
+  - success
+  - validation, unauthorized, not_found
+- - US7
+  - POST /api/transfers/create
+  - token
+  - success
+  - validation, unauthorized, not_found, conflict
+- - US8
+  - POST /api/transfers/reverse
+  - token
+  - success
+  - unauthorized, not_found, conflict
+- - US9
+  - POST /api/accounts/list-transactions
+  - token
+  - success (a página)
+  - validation, unauthorized, not_found
+- - US10
+  - POST /api/dashboard/retrieve (completo)
+  - token
+  - success
+  - unauthorized
+- - US11
+  - POST /api/accounts/export-transactions
+  - token
+  - success (CSV)
+  - validation, unauthorized, not_found
+- - US12
+  - POST /api/beneficiaries/add · list · remove
+  - token
+  - success
+  - validation, unauthorized, not_found, conflict
+- - US13
+  - POST /api/payments/pay
+  - token
+  - success
+  - validation, unauthorized, not_found, conflict
+- - US14
+  - POST /api/accounts/get-interest · apply-interest
+  - token
+  - success
+  - unauthorized, not_found, conflict
+- - US15
+  - POST /api/loans/simulate
+  - token
+  - success
+  - validation, unauthorized
+- - US16
+  - POST /api/loans/request · list · cancel
+  - token
+  - success
+  - unauthorized, not_found, conflict
+- - US17
+  - POST /api/profile/get  ·  POST /api/profile/change-password
+  - token
+  - success
+  - validation, unauthorized
+- - US18
+  - POST /api/auth/refresh
+  - anónimo
+  - success
+  - unauthorized
+- - US19
+  - POST /api/auth/logout
+  - anónimo
+  - success
+  - validation
+- - US20
+  - POST /api/auth/login (limite)
+  - anónimo
+  - success
+  - unauthorized, rate_limited

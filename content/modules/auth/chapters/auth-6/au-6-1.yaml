@@ -1,0 +1,13 @@
+id: au-6-1
+title: Papéis (roles)
+type: code
+language: cs
+codeFile: code/au-6-1.cs
+keyPoints:
+  - O token já leva a claim role.
+  - RoleClaimType diz ao ASP.NET Core qual claim é o papel.
+  - "[Authorize(Roles = ...)] protege o método."
+  - "Papel errado: 403."
+learnMore:
+  explanation: 'Sem RoleClaimType = "role", o ASP.NET Core procura a claim com o nome comprido da Microsoft e nunca encontra o papel: todos os pedidos dão 403, mesmo para o gestor.'
+  pitfall: "Papéis a mais. Quando os papéis passam de três ou quatro, reparas que estás a combinar regras: é a altura de usar policies."

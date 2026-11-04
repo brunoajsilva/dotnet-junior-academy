@@ -1,0 +1,100 @@
+id: schedule
+title: Cronograma
+blocks:
+  - type: paragraph
+    text: A Academia dura 15 dias úteis, três semanas. Começa pelo C#, passa pela plataforma .NET e pela autenticação, e termina com o projeto final e a entrega.
+  - type: schedule
+    weeks:
+      - title: Semana 1
+        days:
+          - day: 1
+            items:
+              - moduleId: academia
+                title: Instalação do software
+                detail: SDK, IDE, Git, SQL Server e restantes ferramentas, com a verificação de cada uma.
+                routeId: academia-software
+              - moduleId: csharp
+                title: Fundamentos da linguagem
+                detail: Tipos, operadores, condições, ciclos, strings e métodos.
+                routeId: csharp-1
+          - day: 2
+            items:
+              - moduleId: csharp
+                title: Objetos e coleções
+                detail: Classes, records, interfaces, List, Dictionary e genéricos.
+                routeId: csharp-2
+          - day: 3
+            items:
+              - moduleId: csharp
+                title: LINQ, exceções e async/await
+                detail: De manhã.
+                routeId: csharp-3
+              - moduleId: csharp
+                title: Mini-aplicação de consola
+                detail: À tarde, a partir de um enunciado.
+                routeId: csharp-4
+          - day: 4
+            items:
+              - moduleId: dotnet
+                title: .NET, dia 1 de 4
+                routeId: dotnet-1
+          - day: 5
+            items:
+              - moduleId: dotnet
+                title: .NET, dia 2 de 4
+      - title: Semana 2
+        days:
+          - day: 6
+            items:
+              - moduleId: dotnet
+                title: .NET, dia 3 de 4
+          - day: 7
+            items:
+              - moduleId: dotnet
+                title: .NET, dia 4 de 4
+          - day: 8
+            items:
+              - moduleId: auth
+                title: Autenticação e autorização, dia 1 de 2
+                routeId: auth-1
+          - day: 9
+            items:
+              - moduleId: auth
+                title: Autenticação e autorização, dia 2 de 2
+          - day: 10
+            items:
+              - moduleId: projeto
+                title: Introdução ao Projeto Final, com o formador
+                detail: Planeamento das user stories.
+                routeId: projeto-p4
+              - moduleId: projeto
+                title: Projeto, dia 1
+                detail: Montar a solução e autenticação JWT.
+                routeId: projeto-p1
+      - title: Semana 3
+        days:
+          - day: 11
+            items:
+              - moduleId: projeto
+                title: Projeto, dia 2
+                detail: Executas o plano.
+                routeId: projeto-p3
+          - day: 12
+            items:
+              - moduleId: projeto
+                title: Projeto, dia 3
+          - day: 13
+            items:
+              - moduleId: projeto
+                title: Projeto, dia 4
+          - day: 14
+            items:
+              - moduleId: projeto
+                title: Projeto, dia 5
+                detail: A meio do dia revês o plano.
+          - day: 15
+            items:
+              - moduleId: projeto
+                title: Entrega final
+                detail: Entregas o projeto e fazemos a review em conjunto.
+                routeId: projeto-check

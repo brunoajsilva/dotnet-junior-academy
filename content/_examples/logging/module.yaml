@@ -1,0 +1,19 @@
+id: logging
+kind: course
+title: Logging e Observabilidade
+shortTitle: Logging
+tagline: Registar o que a aplicação faz com ILogger, níveis e mensagens estruturadas, para perceber o que se passou em produção.
+chapters:
+  - $ref: chapters/logging-1/chapter.yaml
+wrapUp:
+  learned:
+    - Injetar e usar ILogger
+    - Escrever mensagens estruturadas
+    - Escolher o nível de log certo
+  practiceIdeas:
+    - Registar também as transferências, com o nível certo
+    - Procurar nos logs todas as mensagens de uma conta
+    - Ler sobre níveis de log e filtros por categoria
+  docs:
+    - title: Logging no .NET
+      url: https://learn.microsoft.com/dotnet/core/extensions/logging

@@ -1,0 +1,483 @@
+id: p2
+day: Dia 1
+kind: build
+title: Autenticação JWT
+goal: Configurar o token JWT, um método anónimo (Register e Login), um método autenticado (RetrieveDashboard) e a coleção do Bruno com o cabeçalho Authorize.
+uses:
+  - auth-4
+  - auth-5
+  - dotnet-3
+  - dotnet-4
+trees:
+  - title: O que muda na estrutura
+    note: "Cada ficheiro tem uma etiqueta: novo, alterado ou apagar."
+    root:
+      name: BankingApp/
+      description: Só aparecem as pastas e ficheiros que mudam neste passo.
+      children:
+        - name: src/
+          description: Código.
+          children:
+            - name: BankingApp.Domain/
+              description: Ganha a entidade Account e as credenciais no Customer.
+              children:
+                - name: Accounts/
+                  description: Contas bancárias.
+                  children:
+                    - name: Account.cs
+                      description: Entidade Account e Account.Open.
+                      file: BankingApp.Domain/Accounts/Account.cs
+                      tag: novo
+                    - name: AccountStatus.cs
+                      description: "O estado da conta: Active ou Closed."
+                      file: BankingApp.Domain/Accounts/AccountStatus.cs
+                      tag: novo
+                - name: Customers/
+                  description: Clientes.
+                  children:
+                    - name: Customer.cs
+                      description: Passa a ter Email, PasswordHash e a lista de contas.
+                      file: BankingApp.Domain/Customers/Customer.cs
+                      tag: alterado
+            - name: BankingApp.Application/
+              description: Casos de uso de autenticação e dashboard.
+              children:
+                - name: Abstractions/
+                  description: Contratos.
+                  children:
+                    - name: ICustomerRepository.cs
+                      description: Ganha os métodos de email e de leitura com contas.
+                      file: BankingApp.Application/Abstractions/ICustomerRepository.cs
+                      tag: alterado
+                    - name: IPasswordHasher.cs
+                      description: Contrato do hash das passwords.
+                      file: BankingApp.Application/Abstractions/IPasswordHasher.cs
+                      tag: novo
+                    - name: ITokenService.cs
+                      description: Contrato que cria o token.
+                      file: BankingApp.Application/Abstractions/ITokenService.cs
+                      tag: novo
+                    - name: TokenResult.cs
+                      description: O token e a data de expiração.
+                      file: BankingApp.Application/Abstractions/TokenResult.cs
+                      tag: novo
+                - name: Handlers/
+                  description: Os casos de uso, separados em comandos e consultas.
+                  children:
+                    - name: CommandHandlers/
+                      description: Um caso de uso por pasta. Entram o Register e o Login; sai o CreateCustomer.
+                      children:
+                        - name: Register/
+                          description: Caso de uso anónimo.
+                          children:
+                            - name: RegisterCommand.cs
+                              description: Os dados de entrada do Register.
+                              file: BankingApp.Application/Handlers/CommandHandlers/Register/RegisterCommand.cs
+                              tag: novo
+                            - name: RegisterResult.cs
+                              description: "O resultado: id do cliente e número da conta."
+                              file: BankingApp.Application/Handlers/CommandHandlers/Register/RegisterResult.cs
+                              tag: novo
+                            - name: RegisterHandler.cs
+                              description: Cria o cliente e a primeira conta.
+                              file: BankingApp.Application/Handlers/CommandHandlers/Register/RegisterHandler.cs
+                              tag: novo
+                        - name: Login/
+                          description: Caso de uso anónimo.
+                          children:
+                            - name: LoginCommand.cs
+                              description: Os dados de entrada do Login.
+                              file: BankingApp.Application/Handlers/CommandHandlers/Login/LoginCommand.cs
+                              tag: novo
+                            - name: LoginResult.cs
+                              description: "O resultado: o token."
+                              file: BankingApp.Application/Handlers/CommandHandlers/Login/LoginResult.cs
+                              tag: novo
+                            - name: LoginHandler.cs
+                              description: Valida as credenciais e devolve o token.
+                              file: BankingApp.Application/Handlers/CommandHandlers/Login/LoginHandler.cs
+                              tag: novo
+                        - name: CreateCustomer/
+                          description: "Apaga esta pasta: serviu só para validar o Passo 1."
+                          children:
+                            - name: (apagar)
+                              description: CreateCustomerCommand, CustomerResult e CreateCustomerHandler.
+                              file: null
+                              tag: apagar
+                    - name: QueryHandlers/
+                      description: Entra o RetrieveDashboard; sai o ListCustomers.
+                      children:
+                        - name: RetrieveDashboard/
+                          description: Caso de uso autenticado.
+                          children:
+                            - name: RetrieveDashboardQuery.cs
+                              description: "A consulta: o id do cliente."
+                              file: BankingApp.Application/Handlers/QueryHandlers/RetrieveDashboard/RetrieveDashboardQuery.cs
+                              tag: novo
+                            - name: DashboardAccount.cs
+                              description: Uma conta no resumo.
+                              file: BankingApp.Application/Handlers/QueryHandlers/RetrieveDashboard/DashboardAccount.cs
+                              tag: novo
+                            - name: DashboardResult.cs
+                              description: "O resumo: cliente, saldo total e contas."
+                              file: BankingApp.Application/Handlers/QueryHandlers/RetrieveDashboard/DashboardResult.cs
+                              tag: novo
+                            - name: RetrieveDashboardHandler.cs
+                              description: Calcula o resumo das contas ativas.
+                              file: BankingApp.Application/Handlers/QueryHandlers/RetrieveDashboard/RetrieveDashboardHandler.cs
+                              tag: novo
+                        - name: ListCustomers/
+                          description: "Apaga esta pasta: serviu só para validar o Passo 1."
+                          children:
+                            - name: (apagar)
+                              description: ListCustomersQuery e ListCustomersHandler.
+                              file: null
+                              tag: apagar
+            - name: BankingApp.Infrastructure/
+              description: Implementa o token, o hash e as novas tabelas.
+              children:
+                - name: Authentication/
+                  description: Tudo o que é segurança.
+                  children:
+                    - name: JwtOptions.cs
+                      description: As opções lidas da secção "Jwt".
+                      file: BankingApp.Infrastructure/Authentication/JwtOptions.cs
+                      tag: novo
+                    - name: JwtTokenService.cs
+                      description: Cria e assina o token.
+                      file: BankingApp.Infrastructure/Authentication/JwtTokenService.cs
+                      tag: novo
+                    - name: PasswordHasherService.cs
+                      description: Faz o hash e a verificação das passwords.
+                      file: BankingApp.Infrastructure/Authentication/PasswordHasherService.cs
+                      tag: novo
+                - name: Persistence/
+                  description: EF Core.
+                  children:
+                    - name: BankingAppContext.cs
+                      description: Ganha DbSet<Account>.
+                      file: BankingApp.Infrastructure/Persistence/BankingAppContext.cs
+                      tag: alterado
+                    - name: Configurations/
+                      description: Fluent API.
+                      children:
+                        - name: CustomerConfiguration.cs
+                          description: Email e PasswordHash.
+                          file: BankingApp.Infrastructure/Persistence/Configurations/CustomerConfiguration.cs
+                          tag: alterado
+                        - name: AccountConfiguration.cs
+                          description: Número único, precisão e relação.
+                          file: BankingApp.Infrastructure/Persistence/Configurations/AccountConfiguration.cs
+                          tag: novo
+                - name: Repositories/
+                  description: Implementações.
+                  children:
+                    - name: CustomerRepository.cs
+                      description: Novos métodos de leitura.
+                      file: BankingApp.Infrastructure/Repositories/CustomerRepository.cs
+                      tag: alterado
+                - name: DependencyInjection.cs
+                  description: Regista JwtOptions, hasher e token service.
+                  file: BankingApp.Infrastructure/DependencyInjection.cs
+                  tag: alterado
+            - name: BankingApp.Api/
+              description: Autenticação e novos controllers.
+              children:
+                - name: Contracts/
+                  description: DTOs.
+                  children:
+                    - name: Auth/
+                      description: Register e Login.
+                      children:
+                        - name: RegisterRequest.cs
+                          description: O pedido de Register, com validação.
+                          file: BankingApp.Api/Contracts/Auth/RegisterRequest.cs
+                          tag: novo
+                        - name: RegisterResponse.cs
+                          description: A resposta de Register.
+                          file: BankingApp.Api/Contracts/Auth/RegisterResponse.cs
+                          tag: novo
+                        - name: LoginRequest.cs
+                          description: O pedido de Login.
+                          file: BankingApp.Api/Contracts/Auth/LoginRequest.cs
+                          tag: novo
+                        - name: LoginResponse.cs
+                          description: A resposta de Login, com o token.
+                          file: BankingApp.Api/Contracts/Auth/LoginResponse.cs
+                          tag: novo
+                    - name: Dashboard/
+                      description: RetrieveDashboard.
+                      children:
+                        - name: DashboardAccountResponse.cs
+                          description: Uma conta na resposta.
+                          file: BankingApp.Api/Contracts/Dashboard/DashboardAccountResponse.cs
+                          tag: novo
+                        - name: DashboardResponse.cs
+                          description: A resposta do dashboard.
+                          file: BankingApp.Api/Contracts/Dashboard/DashboardResponse.cs
+                          tag: novo
+                - name: Controllers/
+                  description: Controllers.
+                  children:
+                    - name: AuthController.cs
+                      description: Register e Login (anónimos).
+                      file: BankingApp.Api/Controllers/AuthController.cs
+                      tag: novo
+                    - name: DashboardController.cs
+                      description: RetrieveDashboard (autenticado).
+                      file: BankingApp.Api/Controllers/DashboardController.cs
+                      tag: novo
+                    - name: CustomersController.cs
+                      description: "Apaga: foi só para validar o Passo 1."
+                      file: null
+                      tag: apagar
+                - name: Authentication/
+                  description: Respostas de autenticação.
+                  children:
+                    - name: RpcJwtBearerEvents.cs
+                      description: "Sem token ou sem permissão: 200 com o erro unauthorized ou forbidden."
+                      file: BankingApp.Api/Authentication/RpcJwtBearerEvents.cs
+                      tag: novo
+                - name: appsettings.json
+                  description: Ganha a secção "Jwt", com a chave de desenvolvimento.
+                  file: BankingApp.Api/appsettings.json
+                  tag: alterado
+                - name: Program.cs
+                  description: Autenticação JWT (com os eventos RPC) e UseAuthentication/UseAuthorization.
+                  file: BankingApp.Api/Program.cs
+                  tag: alterado
+        - name: tests/
+          description: Testes.
+          children:
+            - name: BankingApp.Tests/
+              description: xUnit.
+              children:
+                - name: Application/
+                  description: Testes aos handlers.
+                  children:
+                    - name: LoginHandlerTests.cs
+                      description: Dois testes com mocks.
+                      file: BankingApp.Tests/Application/LoginHandlerTests.cs
+                      tag: novo
+sections:
+  - title: Como funciona o token JWT
+    intro: No login, a API devolve um token assinado. O cliente envia-o em cada pedido, no cabeçalho Authorization. A API valida a assinatura e a validade, e fica a saber quem fez o pedido sem ir à base de dados.
+    files:
+      - name: Um JWT descodificado
+        language: sh
+        codeFile: code/um-jwt-descodificado.sh
+  - title: Pacotes e configuração do JWT
+    intro: "O token é assinado com uma chave que fica no appsettings.json, na secção Jwt. Para a formação, é a forma mais simples: uma chave de desenvolvimento, que muda de cada vez que quiseres. Num projeto real, esta chave seria um segredo fora do repositório (variável de ambiente ou cofre), mas isso fica para outro dia."
+    steps:
+      - Instalar os pacotes do JWT e do hash de passwords
+      - Acrescentar a secção Jwt ao appsettings.json, com a Key (pelo menos 32 caracteres)
+    files:
+      - name: Instalar dependências
+        language: sh
+        codeFile: code/instalar-dependencias.sh
+      - name: BankingApp.Api/appsettings.json
+        language: json
+        codeFile: code/BankingApp.Api/appsettings.json
+  - title: "Domain: credenciais no cliente e a entidade Account"
+    intro: O Customer passa a ter email e hash da password (nunca a password). Cada cliente começa com uma conta, por isso nasce a entidade Account.
+    files:
+      - name: BankingApp.Domain/Customers/Customer.cs
+        language: cs
+        codeFile: code/BankingApp.Domain/Customers/Customer.cs
+      - name: BankingApp.Domain/Accounts/Account.cs
+        language: cs
+        codeFile: code/BankingApp.Domain/Accounts/Account.cs
+      - name: BankingApp.Domain/Accounts/AccountStatus.cs
+        language: cs
+        codeFile: code/BankingApp.Domain/Accounts/AccountStatus.cs
+  - title: "Application: Register, Login e RetrieveDashboard"
+    intro: Dois casos de uso anónimos e um autenticado, todos com Request e Response. O Login devolve sempre o mesmo erro (unauthorized) para email desconhecido e password errada, para não revelar que emails existem. O Register junta todos os problemas numa lista de erros.
+    steps:
+      - Acrescentar ao Abstractions o IPasswordHasher, o ITokenService e o TokenResult (um ficheiro cada)
+      - "Criar uma pasta por caso de uso: Handlers/CommandHandlers/Register, Handlers/CommandHandlers/Login e Handlers/QueryHandlers/RetrieveDashboard, com o comando (ou consulta), o resultado e o handler lado a lado"
+      - Registar os handlers no AddApplication()
+      - Apagar as pastas Handlers/CommandHandlers/CreateCustomer e Handlers/QueryHandlers/ListCustomers, que já não são precisas
+    files:
+      - name: BankingApp.Application/Abstractions/ICustomerRepository.cs
+        language: cs
+        codeFile: code/BankingApp.Application/Abstractions/ICustomerRepository.cs
+      - name: BankingApp.Application/Abstractions/IPasswordHasher.cs
+        language: cs
+        codeFile: code/BankingApp.Application/Abstractions/IPasswordHasher.cs
+      - name: BankingApp.Application/Abstractions/TokenResult.cs
+        language: cs
+        codeFile: code/BankingApp.Application/Abstractions/TokenResult.cs
+      - name: BankingApp.Application/Abstractions/ITokenService.cs
+        language: cs
+        codeFile: code/BankingApp.Application/Abstractions/ITokenService.cs
+      - name: BankingApp.Application/Handlers/CommandHandlers/Register/RegisterCommand.cs
+        language: cs
+        codeFile: code/BankingApp.Application/Handlers/CommandHandlers/Register/RegisterCommand.cs
+      - name: BankingApp.Application/Handlers/CommandHandlers/Register/RegisterResult.cs
+        language: cs
+        codeFile: code/BankingApp.Application/Handlers/CommandHandlers/Register/RegisterResult.cs
+      - name: BankingApp.Application/Handlers/CommandHandlers/Register/RegisterHandler.cs
+        language: cs
+        codeFile: code/BankingApp.Application/Handlers/CommandHandlers/Register/RegisterHandler.cs
+      - name: BankingApp.Application/Handlers/CommandHandlers/Login/LoginCommand.cs
+        language: cs
+        codeFile: code/BankingApp.Application/Handlers/CommandHandlers/Login/LoginCommand.cs
+      - name: BankingApp.Application/Handlers/CommandHandlers/Login/LoginResult.cs
+        language: cs
+        codeFile: code/BankingApp.Application/Handlers/CommandHandlers/Login/LoginResult.cs
+      - name: BankingApp.Application/Handlers/CommandHandlers/Login/LoginHandler.cs
+        language: cs
+        codeFile: code/BankingApp.Application/Handlers/CommandHandlers/Login/LoginHandler.cs
+      - name: BankingApp.Application/Handlers/QueryHandlers/RetrieveDashboard/RetrieveDashboardQuery.cs
+        language: cs
+        codeFile: code/BankingApp.Application/Handlers/QueryHandlers/RetrieveDashboard/RetrieveDashboardQuery.cs
+      - name: BankingApp.Application/Handlers/QueryHandlers/RetrieveDashboard/DashboardAccount.cs
+        language: cs
+        codeFile: code/BankingApp.Application/Handlers/QueryHandlers/RetrieveDashboard/DashboardAccount.cs
+      - name: BankingApp.Application/Handlers/QueryHandlers/RetrieveDashboard/DashboardResult.cs
+        language: cs
+        codeFile: code/BankingApp.Application/Handlers/QueryHandlers/RetrieveDashboard/DashboardResult.cs
+      - name: BankingApp.Application/Handlers/QueryHandlers/RetrieveDashboard/RetrieveDashboardHandler.cs
+        language: cs
+        codeFile: code/BankingApp.Application/Handlers/QueryHandlers/RetrieveDashboard/RetrieveDashboardHandler.cs
+      - name: BankingApp.Application/DependencyInjection.cs
+        language: cs
+        codeFile: code/BankingApp.Application/DependencyInjection.cs
+  - title: "Infrastructure: token, hash, tabelas e migration"
+    intro: As implementações dos contratos novos, a configuração da tabela Accounts e a migration que acrescenta as colunas e a tabela.
+    files:
+      - name: BankingApp.Infrastructure/Authentication/JwtOptions.cs
+        language: cs
+        codeFile: code/BankingApp.Infrastructure/Authentication/JwtOptions.cs
+      - name: BankingApp.Infrastructure/Authentication/JwtTokenService.cs
+        language: cs
+        codeFile: code/BankingApp.Infrastructure/Authentication/JwtTokenService.cs
+      - name: BankingApp.Infrastructure/Authentication/PasswordHasherService.cs
+        language: cs
+        codeFile: code/BankingApp.Infrastructure/Authentication/PasswordHasherService.cs
+      - name: BankingApp.Infrastructure/Persistence/Configurations/CustomerConfiguration.cs
+        language: cs
+        codeFile: code/BankingApp.Infrastructure/Persistence/Configurations/CustomerConfiguration.cs
+      - name: BankingApp.Infrastructure/Persistence/Configurations/AccountConfiguration.cs
+        language: cs
+        codeFile: code/BankingApp.Infrastructure/Persistence/Configurations/AccountConfiguration.cs
+      - name: BankingApp.Infrastructure/Persistence/BankingAppContext.cs
+        language: cs
+        codeFile: code/BankingApp.Infrastructure/Persistence/BankingAppContext.cs
+      - name: BankingApp.Infrastructure/Repositories/CustomerRepository.cs
+        language: cs
+        codeFile: code/BankingApp.Infrastructure/Repositories/CustomerRepository.cs
+      - name: BankingApp.Infrastructure/DependencyInjection.cs
+        language: cs
+        codeFile: code/BankingApp.Infrastructure/DependencyInjection.cs
+      - name: Terminal (migrations)
+        language: sh
+        codeFile: code/terminal-migrations.sh
+    expectedOutcome: |-
+      Applying migration '20261104100000_AddCredentialsAndAccounts'.
+      Done.
+  - title: "Api: métodos anónimos e método autenticado"
+    intro: "Register e Login têm [AllowAnonymous]. O RetrieveDashboard está num controller com [Authorize]: sem token válido, a API continua a responder 200, mas com success false e o erro unauthorized (é para isso que serve o RpcJwtBearerEvents). O id do cliente vem do token."
+    steps:
+      - Criar os DTOs de Register, Login e Dashboard
+      - Criar o AuthController com Register e Login anónimos
+      - Criar o DashboardController com RetrieveDashboard autenticado
+      - Criar o RpcJwtBearerEvents e atualizar o Program.cs
+      - Apagar o CustomersController
+    files:
+      - name: BankingApp.Api/Contracts/Auth/RegisterRequest.cs
+        language: cs
+        codeFile: code/BankingApp.Api/Contracts/Auth/RegisterRequest.cs
+      - name: BankingApp.Api/Contracts/Auth/RegisterResponse.cs
+        language: cs
+        codeFile: code/BankingApp.Api/Contracts/Auth/RegisterResponse.cs
+      - name: BankingApp.Api/Contracts/Auth/LoginRequest.cs
+        language: cs
+        codeFile: code/BankingApp.Api/Contracts/Auth/LoginRequest.cs
+      - name: BankingApp.Api/Contracts/Auth/LoginResponse.cs
+        language: cs
+        codeFile: code/BankingApp.Api/Contracts/Auth/LoginResponse.cs
+      - name: BankingApp.Api/Contracts/Dashboard/DashboardAccountResponse.cs
+        language: cs
+        codeFile: code/BankingApp.Api/Contracts/Dashboard/DashboardAccountResponse.cs
+      - name: BankingApp.Api/Contracts/Dashboard/DashboardResponse.cs
+        language: cs
+        codeFile: code/BankingApp.Api/Contracts/Dashboard/DashboardResponse.cs
+      - name: BankingApp.Api/Controllers/AuthController.cs
+        language: cs
+        codeFile: code/BankingApp.Api/Controllers/AuthController.cs
+      - name: BankingApp.Api/Controllers/DashboardController.cs
+        language: cs
+        codeFile: code/BankingApp.Api/Controllers/DashboardController.cs
+      - name: BankingApp.Api/Authentication/RpcJwtBearerEvents.cs
+        language: cs
+        codeFile: code/BankingApp.Api/Authentication/RpcJwtBearerEvents.cs
+      - name: BankingApp.Api/Program.cs
+        language: cs
+        codeFile: code/BankingApp.Api/Program.cs
+  - title: "Bruno: configurar o Authorize passo a passo"
+    intro: O Bruno guarda a coleção em ficheiros de texto (.bru), que podes pôr no repositório, em docs/bruno. O fluxo é fazer Login, guardar o token numa variável e usá-lo como Bearer Token.
+    brunoRequests:
+      - title: Instalar e criar a coleção
+        description: Instala o Bruno (usebruno.com). Em Collections escolhe Create Collection, dá-lhe o nome BankingApp e guarda-a numa pasta do repositório, por exemplo docs/bruno.
+      - title: Criar o ambiente Local
+        description: No canto superior direito, abre o seletor de ambientes e escolhe Configure. Cria o ambiente Local com a variável baseUrl, com o endereço https com que a Api arranca (está no launchSettings.json). Depois seleciona o ambiente Local.
+      - title: Pedido Register (anónimo)
+        description: "New Request, método POST, URL {{baseUrl}}/api/auth/register. No separador Body escolhe JSON e escreve o corpo. O separador Auth fica em No Auth. Envia: esperas HTTP 200 com success true."
+      - title: Pedido Login e guardar o token
+        description: Novo pedido POST {{baseUrl}}/api/auth/login com email e password. No separador Vars, secção Post Response, acrescenta a variável token com o valor res.body.data.accessToken (o token vem dentro de data). Cada vez que fizeres Login, o token novo fica guardado.
+      - title: Pedido RetrieveDashboard (autenticado)
+        description: "Novo pedido POST {{baseUrl}}/api/dashboard/retrieve, com o corpo JSON {}. No separador Auth escolhe Bearer Token e escreve {{token}} no campo Token. O Bruno envia o cabeçalho Authorization: Bearer <token>."
+      - title: Experimentar os dois resultados
+        description: "Corre o Login e depois o RetrieveDashboard: esperas success true com as contas em data. Muda o Auth do RetrieveDashboard para No Auth e envia outra vez: continua a ser HTTP 200, mas com success false e o erro unauthorized. Isso prova que o [Authorize] está a funcionar."
+      - title: Se der erro de certificado
+        description: "Em desenvolvimento, o certificado HTTPS é local. Na primeira execução o IDE pergunta se queres confiar nele: aceita. Se o Bruno continuar a recusar, desativa a verificação do certificado SSL nas preferências (só em desenvolvimento)."
+      - title: "Opcional: autenticação ao nível da coleção"
+        description: Nas definições da coleção, separador Auth, escolhe Bearer Token com {{token}}. Nos pedidos que precisam de token, põe o modo Inherit. Evita repetir a configuração em cada pedido.
+    files:
+      - name: docs/bruno/BankingApp/bruno.json
+        language: bru
+        codeFile: code/docs/bruno/bankingapp/bruno.json.bru
+      - name: docs/bruno/BankingApp/environments/Local.bru
+        language: bru
+        codeFile: code/docs/bruno/BankingApp/environments/Local.bru
+      - name: docs/bruno/BankingApp/Register.bru
+        language: bru
+        codeFile: code/docs/bruno/BankingApp/Register.bru
+      - name: docs/bruno/BankingApp/Login.bru
+        language: bru
+        codeFile: code/docs/bruno/BankingApp/Login.bru
+      - name: docs/bruno/BankingApp/RetrieveDashboard.bru
+        language: bru
+        codeFile: code/docs/bruno/BankingApp/RetrieveDashboard.bru
+  - title: Testes aos handlers de autenticação
+    intro: "Os handlers dependem de interfaces, por isso testam-se com mocks: sem base de dados e sem gerar tokens reais."
+    files:
+      - name: BankingApp.Tests/Application/LoginHandlerTests.cs
+        language: cs
+        codeFile: code/BankingApp.Tests/Application/LoginHandlerTests.cs
+    expectedOutcome: |-
+      Test Explorer
+      9 passed, 0 failed, 0 skipped
+  - title: Verificar
+    intro: Confirma os cinco casos antes de avançares.
+    steps:
+      - "POST /api/auth/register válido: success true com o número da primeira conta"
+      - "Repetir o Register com o mesmo email e NIF: success false com dois erros conflict"
+      - "POST /api/auth/login com password errada: success false, erro unauthorized"
+      - "POST /api/dashboard/retrieve sem token: success false, erro unauthorized (e HTTP 200)"
+      - "POST /api/dashboard/retrieve com o token do Login: success true com uma conta e saldo 0"
+    expectedOutcome: |-
+      register         -> success: true
+      register repetido -> success: false  [conflict, conflict]
+      login errado     -> success: false  [unauthorized]
+      dashboard s/ token -> success: false [unauthorized]
+      dashboard c/ token -> success: true
+      (todos com HTTP 200)
+learnMore:
+  explanation: |-
+    Este passo aplica, na BankingApp, o que fizeste no AuthLab. O JWT (JSON Web Token) é o formato do token; o esquema Bearer, usado no cabeçalho Authorization, é a forma de o enviar. A própria API emite o token, em vez de um servidor de identidade externo. Num banco real usar-se-ia um servidor de identidade; aqui aprendes a base.
+
+    A password nunca é guardada: guarda-se o hash. O token só prova quem és até expirar (ExpiresMinutes), por isso é curto.
+  pitfall: Usar a chave de formação num projeto real. Quem tiver a chave consegue fabricar tokens válidos para qualquer cliente, por isso em produção ela vem de um cofre ou de uma variável de ambiente.
+  tryIt: Copia o token do Login para jwt.io e vê os claims. Percebe porque nunca se põem segredos no payload.

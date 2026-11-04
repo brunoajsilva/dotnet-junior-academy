@@ -1,0 +1,58 @@
+id: p3
+day: Dias 2 a 5
+kind: brief
+title: "Enunciado: user stories"
+goal: "O catálogo de user stories que o banco quer. São mais do que consegues fazer: decide o que entra no teu plano."
+uses:
+  - dotnet-2
+  - dotnet-4
+  - dotnet-5
+  - auth-6
+rules:
+  - "Há mais user stories do que tempo. Não as tentes fazer todas: lê o enunciado até ao fim, estima e escolhe (Introdução ao Projeto Final)."
+  - "Cada user story segue a mesma receita: regra no domain, caso de uso na application, repositório e migration na infrastructure, controller e dtos na api, testes e pedido no Bruno."
+  - Todos os pedidos são POST, com os parâmetros no corpo JSON (RPC). O id do cliente vem sempre do token, nunca do pedido. Dinheiro é decimal com precisão (18,2) e as datas guardam-se em UTC.
+  - "A API é RPC: responde sempre HTTP 200 e o resultado vai no Response (success, data, errors). Os erros esperados devolvem-se com Error.NotFound, Error.Conflict, etc.; os erros de regras do Domain lançam DomainException."
+  - "Convenção do projeto: tudo são classes (sem records), uma classe por ficheiro e uma responsabilidade por classe."
+  - Uma user story só está pronta com testes e um pedido na coleção do Bruno.
+  - "Se ficares bloqueado, abre o «Saber mais» da user story: tem uma pista de abordagem, sem a solução."
+features:
+  - id: F1
+    title: Gestão de contas
+    description: Abrir, consultar e fechar as contas do cliente.
+  - id: F2
+    title: Movimentos e extratos
+    description: Depósitos, levantamentos, transferências e tudo o que se consulta sobre eles.
+  - id: F3
+    title: Pagamentos
+    description: "Pagar a quem se deve: beneficiários guardados e serviços por entidade e referência."
+  - id: F4
+    title: Poupança e crédito
+    description: Juros sobre o saldo e empréstimos, da simulação ao pedido.
+  - id: F5
+    title: Identidade e segurança
+    description: Perfil, sessões renovadas e proteção contra tentativas de acesso indevido.
+userStories:
+  - $ref: user-stories/US1.yaml
+  - $ref: user-stories/US2.yaml
+  - $ref: user-stories/US3.yaml
+  - $ref: user-stories/US4.yaml
+  - $ref: user-stories/US5.yaml
+  - $ref: user-stories/US6.yaml
+  - $ref: user-stories/US7.yaml
+  - $ref: user-stories/US8.yaml
+  - $ref: user-stories/US9.yaml
+  - $ref: user-stories/US10.yaml
+  - $ref: user-stories/US11.yaml
+  - $ref: user-stories/US12.yaml
+  - $ref: user-stories/US13.yaml
+  - $ref: user-stories/US14.yaml
+  - $ref: user-stories/US15.yaml
+  - $ref: user-stories/US16.yaml
+  - $ref: user-stories/US17.yaml
+  - $ref: user-stories/US18.yaml
+  - $ref: user-stories/US19.yaml
+  - $ref: user-stories/US20.yaml
+learnMore:
+  explanation: "O número de user stories é propositadamente alto. Se concluíres que consegues fazer todas em 6 dias, estimaste mal. O que se avalia é a qualidade do plano e da execução: uma user story pronta e bem testada vale mais do que cinco a meio."
+  tryIt: Antes de estimares, lê todas as user stories e tenta adivinhar quais têm mais risco. No fim do projeto, compara com o que realmente aconteceu.

@@ -1,0 +1,18 @@
+id: m2-51
+title: Boas práticas
+type: cards
+cards:
+  - title: Nomes que explicam
+    lines:
+      - "Method_Scenario_Result: ao ver o nome de um teste que falha, percebe-se o problema."
+  - title: Um comportamento por teste
+    lines:
+      - Se um teste falha, deve ser óbvio o que partiu. Evitar testes longos.
+  - title: Independentes e rápidos
+    lines:
+      - Sem ordem entre testes, sem base de dados e sem rede. Devem correr em segundos.
+  - title: Testar o teu código
+    lines:
+      - "Não testar o framework: confiar que o EF e o ASP.NET Core fazem o que prometem."
+learnMore:
+  explanation: Method_Scenario_Result, por exemplo Calculate_PromoRate_ReturnsInterest. Quando este teste falhar no CI, o nome já diz o que se partiu, sem abrir o código.

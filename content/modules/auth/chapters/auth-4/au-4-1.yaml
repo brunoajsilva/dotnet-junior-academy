@@ -1,0 +1,17 @@
+id: au-4-1
+title: Três partes
+type: code
+language: sh
+codeFile: code/au-4-1.sh
+keyPoints:
+  - Header, payload e assinatura, separados por pontos.
+  - Header e payload são JSON em base64url.
+  - Qualquer pessoa pode ler o payload.
+  - A assinatura impede que seja alterado.
+learnMore:
+  explanation: |-
+    Um JWT (JSON Web Token, pronuncia-se «jót») está assinado, não encriptado. A assinatura garante que o conteúdo não foi alterado e que foi emitido por quem tem a chave. Não esconde nada: podes colar o token em jwt.io e ler as claims.
+
+    Por isso nunca se põem passwords, números de cartão ou outros segredos no payload.
+  pitfall: Achar que o JWT é secreto. Se um dado não pode ser lido pelo utilizador ou por quem intercete o token, não pertence ao payload.
+  tryIt: Corre o Login do AuthLab (capítulo seguinte), cola o accessToken em jwt.io e vê as claims. Altera um carácter do payload e vê a assinatura ficar inválida.

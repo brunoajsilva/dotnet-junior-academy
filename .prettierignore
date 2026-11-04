@@ -1,0 +1,6 @@
+dist/
+.astro/
+node_modules/
+content/**/code/
+content/modules/projeto/phases/*/code/
+package-lock.json

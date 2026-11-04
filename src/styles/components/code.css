@@ -1,0 +1,130 @@
+/* Code blocks, tabbed code and terminal output. */
+
+.code {
+  border-radius: 16px;
+  background: var(--code-bg);
+  color: var(--code-fg);
+  overflow: hidden;
+  min-width: 0;
+  border: 0;
+}
+
+.code .ch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px 8px 16px;
+  border-bottom: 0;
+  font-family: var(--f-mono);
+  font-size: 0.74rem;
+  color: var(--code-mute);
+  background: var(--md-surface-high);
+}
+
+.code .ch .fn {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.copy {
+  border: 0;
+  background: var(--md-secondary-container);
+  color: var(--md-on-secondary-container);
+  border-radius: 6px;
+  font-size: 0.74rem;
+  padding: 4px 12px;
+  font-family: var(--f-body);
+  font-weight: 550;
+}
+
+.copy:hover {
+  color: var(--md-on-secondary-container);
+  border-color: var(--fg);
+  box-shadow: var(--shadow-1);
+}
+
+.code pre {
+  margin: 0;
+  padding: 16px 20px 18px;
+  overflow-x: auto;
+  font-family: var(--f-mono);
+  font-size: 0.82rem;
+  line-height: 1.65;
+  tab-size: 4;
+  scrollbar-width: thin;
+  scrollbar-color: var(--md-outline-variant) transparent;
+}
+
+.code pre.sm {
+  font-size: 0.78rem;
+}
+
+pre .k {
+  color: var(--c-kw);
+}
+
+pre .s {
+  color: var(--c-str);
+}
+
+pre .t {
+  color: var(--c-ty);
+}
+
+pre .n {
+  color: var(--c-num);
+}
+
+pre .c {
+  color: var(--c-com);
+  font-style: italic;
+}
+
+.tabs {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  padding: 0 6px;
+  border-bottom: 0;
+  background: var(--md-surface-high);
+}
+
+.tabs button {
+  flex: none;
+  border: 0;
+  background: transparent;
+  color: var(--code-mute);
+  font-family: var(--f-mono);
+  font-size: 0.74rem;
+  padding: 9px 12px;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  white-space: nowrap;
+}
+
+.tabs button:hover {
+  color: var(--fg);
+}
+
+.tabs button[aria-selected="true"] {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  border-bottom-width: 3px;
+}
+
+.term {
+  margin: 0;
+  padding: 14px 18px;
+  border-radius: 16px;
+  background: var(--code-bg);
+  border: 0;
+  color: var(--code-fg);
+  font-family: var(--f-mono);
+  font-size: 0.82rem;
+  line-height: 1.6;
+  overflow-x: auto;
+  white-space: pre;
+}

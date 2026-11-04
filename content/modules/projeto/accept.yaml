@@ -1,0 +1,14 @@
+- Entreguei um plano com estimativas, riscos, dependências e o que ficou de fora
+- Revi o plano a meio do projeto e sei explicar o que mudou
+- A solução compila sem avisos e todos os testes passam
+- O Domain não referencia nenhum projeto nem pacote do EF Core
+- As migrations criam todas as tabelas e os índices únicos
+- Sei explicar porque é que, num projeto real, a chave do JWT não ficaria no appsettings.json
+- Os endpoints anónimos funcionam sem token e os restantes devolvem o erro unauthorized sem token
+- Nenhum cliente consegue ver ou mexer em contas de outro cliente
+- Todas as respostas, incluindo as de erro, chegam num Response com HTTP 200, nunca como exceção sem tratamento
+- Os saldos nunca ficam desalinhados com os movimentos, mesmo quando algo falha
+- Os logs não têm passwords nem tokens
+- Cada user story que entreguei tem testes e um pedido no Bruno
+- Consigo explicar o percurso de um pedido, do cabeçalho Authorization à base de dados
+- Comparei o estimado com o real e sei o que aprendi

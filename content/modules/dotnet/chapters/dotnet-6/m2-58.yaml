@@ -1,0 +1,19 @@
+id: m2-58
+title: "CQRS: comandos e consultas"
+type: cards
+cards:
+  - title: Comando
+    lines:
+      - "Pede uma alteração de estado e não devolve dados de negócio. Exemplo: OpenAccount, CloseAccount."
+  - title: Consulta
+    lines:
+      - "Lê dados e nunca altera o estado. Exemplo: GetAccount, ListCustomerAccounts."
+  - title: Handler
+    lines:
+      - Uma classe por comando ou consulta, com um só método. Recebe o pedido e devolve o resultado.
+  - title: ""
+    lines:
+      - "Regra simples: se altera o estado, é um comando; se só lê, é uma consulta."
+    isNote: true
+learnMore:
+  explanation: "CQRS (Command Query Responsibility Segregation) separa quem altera de quem lê. Aqui aplica-se na forma simples: classes pequenas, uma por caso de uso. Não é preciso nenhuma biblioteca. Se um dia a equipa adotar uma biblioteca de mediação, confirma primeiro a licença."

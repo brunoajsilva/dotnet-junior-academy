@@ -1,0 +1,13 @@
+id: au-1-3
+title: Onde entra no pipeline
+type: code
+language: cs
+codeFile: code/au-1-3.cs
+keyPoints:
+  - UseAuthentication lê as credenciais e preenche o User.
+  - UseAuthorization decide, com o User já preenchido.
+  - "A ordem importa: a autorização depende da autenticação."
+  - Ambos vêm antes do MapControllers.
+learnMore:
+  explanation: "Se trocares a ordem, a autorização corre com um utilizador anónimo e todos os endpoints protegidos respondem 401, mesmo com um token válido. É um erro clássico: o token está certo, o pipeline é que está pela ordem errada."
+  pitfall: Esquecer o UseAuthentication. O [Authorize] passa a responder sempre 401.

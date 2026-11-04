@@ -1,0 +1,15 @@
+id: m1-31
+title: "LINQ: IQueryable"
+type: code
+language: cs
+codeFile: code/m1-31.cs
+keyPoints:
+  - IQueryable<T> descreve a consulta; o provider traduz para SQL.
+  - Só executa no .ToList, .First, .Count...
+  - Filtrar na base de dados evita carregar dados a mais.
+learnMore:
+  explanation: |-
+    IQueryable<T> não guarda dados: guarda uma descrição da consulta. O provider (por exemplo, o do EF Core) traduz essa descrição para SQL e só vai à base de dados quando a consulta é executada.
+
+    Por isso o Where deve vir antes do ToList: o filtro corre na base de dados e não em memória.
+  pitfall: "Chamar ToList cedo e filtrar depois: a tabela inteira é carregada para memória."

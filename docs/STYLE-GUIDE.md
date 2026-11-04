@@ -22,11 +22,11 @@
 
 ## Estrutura pedagógica
 
-- **Lição**: uma ideia. 2 a 4 `points`. Um exemplo. Um `more` quando há profundidade que não cabe no cartão.
-- **`pit`** (armadilha): o erro que um júnior realmente comete, numa frase.
-- **`tryit`**: algo que o aluno faz em menos de 2 minutos para ver o efeito.
+- **Lição**: uma ideia. 2 a 4 `keyPoints`. Um exemplo. Um `learnMore` quando há profundidade que não cabe no cartão.
+- **`pitfall`** (armadilha): o erro que um júnior realmente comete, numa frase.
+- **`tryIt`**: algo que o aluno faz em menos de 2 minutos para ver o efeito.
 - **Exercício**: 3 a 6 passos verificáveis ("o endpoint devolve 404", não "perceber o endpoint"). Dá o `hint` sem dar a solução.
-- **Quiz**: perguntas de compreensão, não de memória de sintaxe. Distratores plausíveis. A explicação `w` diz porquê.
+- **Quiz**: perguntas de compreensão, não de memória de sintaxe. Distratores plausíveis. A `explanation` diz porquê.
 - **Progressão**: cada capítulo usa o anterior. Não introduzas dois conceitos novos na mesma lição.
 
 ## O que nunca escrever
@@ -34,19 +34,19 @@
 - Nomes de empresas, clientes ou colegas. Logótipos e marcas como identidade.
 - Postman (a academia usa Bruno).
 - Promessas de duração ("em 5 minutos") nos títulos.
-- Texto copiado da documentação oficial. Reformula e cita o link em `outro.docs`.
+- Texto copiado da documentação oficial. Reformula e cita o link em `wrapUp.docs`.
 - Afirmações sem confirmação sobre versões, preços ou suporte. Se não confirmaste, não escrevas.
 
 ## Checklist de qualidade
 
 Marca tudo antes de entregar:
 
-- [ ] `validate.py` sem erros; `build.py` e `smoke.js` passam.
+- [ ] `npm run check` sem erros e `npm test` a passar.
 - [ ] Cada capítulo tem 3 a 14 lições e um quiz de 3 a 6 perguntas.
 - [ ] Nenhuma lição tem mais de 24 linhas de código.
 - [ ] Todo o código está em inglês e usa `decimal` para dinheiro.
 - [ ] Os ids seguem o padrão e não repetem ids existentes.
 - [ ] Nenhum texto tem Markdown, HTML ou emojis.
-- [ ] Os links de `outro.docs` são oficiais e abrem.
+- [ ] Os links de `wrapUp.docs` são oficiais e abrem.
 - [ ] As respostas certas do quiz não estão todas na mesma posição.
 - [ ] No resumo final disseste o que **não** conseguiste verificar (por exemplo, "o código não foi compilado").

@@ -1,0 +1,35 @@
+id: auth
+kind: course
+title: Autenticação e Autorização
+shortTitle: Autenticação e Autorização
+tagline: A diferença entre Basic Auth e OAuth 2.0, como funciona um JWT e um hands-on onde emites, validas e proteges com tokens.
+chapters:
+  - $ref: chapters/auth-1/chapter.yaml
+  - $ref: chapters/auth-2/chapter.yaml
+  - $ref: chapters/auth-3/chapter.yaml
+  - $ref: chapters/auth-4/chapter.yaml
+  - $ref: chapters/auth-5/chapter.yaml
+  - $ref: chapters/auth-6/chapter.yaml
+  - $ref: chapters/auth-7/chapter.yaml
+wrapUp:
+  learned:
+    - Distinguir autenticação de autorização e escolher entre 401, 403 e 404
+    - Explicar as diferenças entre Basic Auth e OAuth 2.0
+    - Identificar os papéis e os fluxos do OAuth 2.0
+    - Ler um JWT e perceber o que a API valida
+    - Emitir e validar um JWT em ASP.NET Core
+    - Proteger endpoints com papéis, policies e verificação de propriedade
+  practiceIdeas:
+    - Acrescentar um endpoint /refresh ao AuthLab
+    - Criar uma policy com um requisito próprio
+    - Mudar a assinatura de HS256 para RS256
+    - Ler o OWASP API Security Top 10
+  docs:
+    - title: Autenticação e autorização no ASP.NET Core
+      url: https://learn.microsoft.com/aspnet/core/security/
+    - title: Autenticação JWT Bearer
+      url: https://learn.microsoft.com/aspnet/core/security/authentication/
+    - title: OAuth 2.0 e OpenID Connect
+      url: https://oauth.net/2/
+    - title: Bruno
+      url: https://www.usebruno.com/

@@ -1,0 +1,111 @@
+/* Top app bar (mobile) and its buttons. */
+
+.topbar {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 50;
+  padding-top: 14px;
+  pointer-events: none;
+}
+
+.topbar .in {
+  pointer-events: auto;
+  height: 64px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  max-width: 1760px;
+  margin: 0 auto;
+  background: var(--tb-bg);
+  backdrop-filter: saturate(1.5) blur(14px);
+  -webkit-backdrop-filter: saturate(1.5) blur(14px);
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  box-shadow: var(--shadow-2);
+  padding: 0 12px 0 20px;
+  border-color: var(--md-outline-variant);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: 0;
+  padding: 4px 6px;
+  margin-left: -6px;
+  font-size: 1rem;
+  color: var(--fg);
+}
+
+.brand svg {
+  flex: none;
+}
+
+.brand .logo {
+  margin-right: 9px;
+}
+
+.brand .wm {
+  font-weight: 560;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  font-size: 1.06rem;
+}
+
+.brand .wm b {
+  font-weight: 750;
+  color: var(--accent);
+}
+
+.sp {
+  flex: 1;
+}
+
+.ibtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 50px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.88rem;
+  border-color: var(--md-outline);
+}
+
+.ibtn:hover {
+  border-color: var(--md-outline);
+  color: var(--fg);
+  background: color-mix(in srgb, var(--md-on-surface) 8%, transparent);
+}
+
+.ibtn kbd {
+  font-family: var(--f-mono);
+  font-size: 0.72rem;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 0 5px;
+  color: var(--faint);
+}
+
+.menu-btn {
+  display: none;
+}
+
+.pill {
+  font-size: 0.8rem;
+  color: var(--md-on-secondary-container);
+  white-space: nowrap;
+  padding: 6px 12px;
+  background: var(--md-secondary-container);
+  border-radius: 8px;
+}
+
+.pill b {
+  color: inherit;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}

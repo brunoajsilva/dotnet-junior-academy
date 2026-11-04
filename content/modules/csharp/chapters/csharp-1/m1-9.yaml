@@ -1,0 +1,17 @@
+id: m1-9
+title: "Operadores: ternário, is e nameof"
+type: code
+language: cs
+codeFile: code/m1-9.cs
+keyPoints:
+  - "c ? a : b escolhe entre dois valores."
+  - is testa o tipo e declara a variável.
+  - and, or, not combinam padrões.
+  - nameof evita nomes escritos à mão.
+learnMore:
+  explanation: |-
+    O operador ternário c ? a : b é uma expressão: devolve um valor, por isso pode ser usado dentro de uma atribuição ou de uma interpolação. Se a condição precisa de mais de duas ramificações, um switch expression fica mais legível.
+
+    O operador is faz pattern matching: testa o tipo e, no mesmo passo, declara uma variável já convertida (obj is Account p). Os padrões and, or e not permitem escrever intervalos como age is >= 18 and < 65.
+  pitfall: Encadear ternários dentro de ternários. Passados dois níveis, troca por um switch expression.
+  tryIt: Escreve um método que recebe object e devolve texto diferente para int, string e Account usando is.

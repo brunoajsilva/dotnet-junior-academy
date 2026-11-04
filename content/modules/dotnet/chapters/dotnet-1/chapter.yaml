@@ -1,0 +1,34 @@
+id: dotnet-1
+title: A plataforma .NET
+intro: O que acontece entre escrever C# e ver o programa a correr, e como se organiza uma solução.
+lessons:
+  - $ref: m2-7.yaml
+  - $ref: m2-8.yaml
+  - $ref: m2-9.yaml
+  - $ref: m2-10.yaml
+  - $ref: m2-11.yaml
+quiz:
+  - question: O que contém um ficheiro .dll gerado pelo compilador?
+    options:
+      - Código máquina para Windows
+      - IL (Intermediate Language)
+      - Código C# minificado
+      - Apenas metadados
+    correctIndex: 1
+    explanation: O IL é convertido em código máquina pelo JIT, na altura de executar.
+  - question: Qual a diferença entre SDK e runtime?
+    options:
+      - Nenhuma
+      - O SDK serve para desenvolver; o runtime para executar
+      - O runtime inclui o compilador
+      - O SDK só existe no Windows
+    correctIndex: 1
+    explanation: Num servidor basta o runtime; no teu computador instalas o SDK.
+  - question: Que elemento do .csproj liga um projeto a outro?
+    options:
+      - PackageReference
+      - ProjectReference
+      - TargetFramework
+      - ImplicitUsings
+    correctIndex: 1
+    explanation: PackageReference traz pacotes NuGet; ProjectReference liga projetos.

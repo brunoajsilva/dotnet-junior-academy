@@ -1,0 +1,12 @@
+id: m1-30
+title: "LINQ: ICollection"
+type: code
+language: cs
+codeFile: code/m1-30.cs
+keyPoints:
+  - ICollection<T> é uma coleção que se pode contar e alterar.
+  - Tem Count, Add, Remove, Contains e Clear.
+  - List<T> e HashSet<T> implementam-na.
+  - Usar como tipo do parâmetro aceita várias coleções.
+learnMore:
+  explanation: "ICollection<T> é a interface para coleções que se podem contar e alterar. Se um método aceita ICollection<T> em vez de List<T>, aceita também HashSet<T> e outras. Regra prática: pedir o tipo mais geral que o método realmente precisa."

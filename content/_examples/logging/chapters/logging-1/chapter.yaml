@@ -1,0 +1,32 @@
+id: logging-1
+title: Registar com ILogger
+intro: Aprendes a escrever mensagens de log úteis e a escolher o nível certo, sem expor dados sensíveis.
+lessons:
+  - $ref: logging-1-1.yaml
+  - $ref: logging-1-2.yaml
+  - $ref: logging-1-3.yaml
+quiz:
+  - question: Qual a vantagem dos marcadores nomeados no log?
+    options:
+      - Os valores ficam pesquisáveis como campos
+      - O texto fica mais curto
+      - O log corre mais depressa
+      - Não precisa de ILogger
+    correctIndex: 0
+    explanation: Cada marcador é guardado como um campo próprio, por isso podes filtrar por conta ou valor.
+  - question: Que nível usas para um saldo insuficiente tratado pela aplicação?
+    options:
+      - Debug
+      - Warning
+      - Critical
+      - Trace
+    correctIndex: 1
+    explanation: "É um acontecimento inesperado mas tratado: Warning."
+  - question: Podes registar a password do cliente para ajudar a depurar?
+    options:
+      - Sim, em Debug
+      - Sim, se estiver em hash
+      - Não, nunca
+      - Só em produção
+    correctIndex: 2
+    explanation: Dados sensíveis nunca devem aparecer em logs, em nenhum nível.

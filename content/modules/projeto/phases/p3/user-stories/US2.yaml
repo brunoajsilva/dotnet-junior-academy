@@ -1,0 +1,63 @@
+id: US2
+title: Consultar contas
+story: Como cliente, quero ver as minhas contas e o detalhe de cada uma.
+feature: F1
+endpoint: POST /api/accounts/list  ·  POST /api/accounts/get
+body: '{ "status": "Active" }'
+rules:
+  - Só devolve contas do cliente autenticado
+  - Uma conta de outro cliente responde not_found, igual a uma conta inexistente
+  - Filtro opcional status (Active ou Closed), enviado no corpo
+  - 'O detalhe (get) recebe o número da conta no corpo: { "number": "AC-123456" }'
+  - Ordenado por número
+responses:
+  - result: success
+    when: Lista ou detalhe da conta
+  - result: unauthorized
+    when: Sem token válido
+  - result: not_found
+    when: A conta não existe ou não é do cliente
+criteria:
+  - Não é possível ver contas de outro cliente (testado)
+  - O filtro por estado é feito na base de dados, não em memória
+  - Usa AsNoTracking nas consultas
+  - Os pedidos estão na coleção do Bruno
+uses:
+  - dotnet-4
+  - csharp-3
+hint:
+  explanation: Responder not_found em vez de forbidden para contas de outros clientes evita revelar que o número existe. O filtro construído com IQueryable só vai à base de dados no fim, por isso podes acrescentar o Where apenas quando o parâmetro vier preenchido.
+  pitfall: Chamar ToList antes do Where traz todas as contas de todos os clientes para memória.
+businessValue: Alto
+dependsOn: US1
+details:
+  persona: cliente autenticado
+  want: ver as minhas contas e o detalhe de cada uma
+  purpose: saber quanto tenho e onde
+  description: Listagem das contas do cliente, com filtro opcional por estado, e consulta do detalhe de uma conta pelo número. Uma conta que não é do cliente é indistinguível de uma conta que não existe.
+  scenarios:
+    - title: Listar as minhas contas
+      given:
+        - tenho 3 contas, uma delas fechada
+      when:
+        - peço a lista de contas
+      then:
+        - recebo success com as 3 contas ordenadas por número
+    - title: Filtrar por estado
+      given:
+        - tenho 3 contas, uma delas fechada
+      when:
+        - peço a lista com o filtro status Active
+      then:
+        - recebo apenas as 2 contas ativas
+    - title: Conta de outro cliente
+      given:
+        - a conta 123 pertence a outro cliente
+      when:
+        - peço o detalhe da conta 123
+      then:
+        - recebo not_found, igual a uma conta inexistente
+  outOfScope:
+    - Pesquisa por texto
+    - Paginação da lista de contas
+  storyPoints: 2

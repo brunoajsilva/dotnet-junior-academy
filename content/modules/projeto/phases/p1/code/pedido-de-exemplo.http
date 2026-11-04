@@ -1,0 +1,12 @@
+POST https://localhost:5001/api/customers/create
+Content-Type: application/json
+
+{ "name": "Ana Pereira", "taxId": "123456789" }
+
+# 200 OK
+# { "success": true, "errors": [], "data": { "id": 1, "name": "Ana Pereira", "taxId": "123456789" } }
+#
+# repeat the same request -> still 200 OK, but the body says it failed
+# { "success": false,
+#   "errors": [ { "code": "conflict", "message": "A customer with tax id 123456789 already exists." } ],
+#   "data": null }

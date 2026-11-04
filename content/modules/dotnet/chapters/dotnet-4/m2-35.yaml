@@ -1,0 +1,12 @@
+id: m2-35
+title: Entidades
+type: code
+language: cs
+codeFile: code/m2-35.cs
+keyPoints:
+  - Cada classe é uma tabela; cada propriedade, uma coluna.
+  - Id é a chave primária, por convenção.
+  - CustomerId é a chave estrangeira.
+  - Customer e Accounts são propriedades de navegação.
+learnMore:
+  explanation: As entidades são classes simples. Por convenção, uma propriedade chamada Id (ou ClassNameId) é a chave primária. CustomerId é a chave estrangeira para Customer, e as propriedades de navegação (Customer, Accounts) permitem percorrer a relação em C# sem escrever JOINs.

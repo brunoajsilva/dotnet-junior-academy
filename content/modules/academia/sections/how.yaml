@@ -1,0 +1,30 @@
+id: how
+title: Como funciona
+blocks:
+  - type: paragraph
+    text: "Cada tema segue o mesmo ritmo: ouvir, experimentar e explicar."
+  - type: steps
+    steps:
+      - title: Aprender
+        summary: Explicação curta com um exemplo real e leitura guiada da documentação oficial.
+        learnMore:
+          explanation: "Neste site é o cartão do tema: pontos-chave e um exemplo de código. Se quiseres ir mais fundo, abre o «Saber mais»."
+      - title: Fazer
+        summary: Exercício prático em que escreves o código, com apoio nas partes mais difíceis.
+        learnMore:
+          explanation: Os exercícios têm uma lista de passos que podes ir marcando, o resultado esperado (para saberes que chegaste ao fim) e um extra opcional para quem acaba cedo.
+      - title: Explicar
+        summary: Demonstras o que fizeste e respondes a perguntas de «porquê».
+        learnMore:
+          explanation: "Não é um exame. É uma conversa de equipa: mostras o código, explicas as decisões e dizes o que farias diferente."
+  - type: cards
+    title: Como tirar partido deste site
+    cards:
+      - title: Saber mais
+        summary: Os botões com este nome abrem um painel com a explicação completa, sem sair do tema.
+        learnMore:
+          explanation: O painel fecha com Esc ou ao clicares fora dele. Podes abri-lo em qualquer tema, por qualquer ordem.
+      - title: Progresso
+        summary: Marca os temas como vistos. O progresso fica guardado neste browser.
+        learnMore:
+          explanation: O progresso é guardado apenas neste computador e neste browser. Se limpares os dados do browser, perde-se.

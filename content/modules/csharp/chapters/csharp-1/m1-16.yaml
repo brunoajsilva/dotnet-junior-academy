@@ -1,0 +1,13 @@
+id: m1-16
+title: "Strings: interpolação"
+type: code
+language: cs
+codeFile: code/m1-16.cs
+keyPoints:
+  - $"..." insere expressões entre chavetas.
+  - Aceita operadores e chamadas de métodos.
+  - Condições vão entre parênteses.
+  - '""" evita escapar aspas.'
+learnMore:
+  explanation: A interpolação $"..." é a forma preferida de construir texto. Dentro das chavetas podes usar qualquer expressão, incluindo chamadas de métodos e ternários (entre parênteses). As raw strings com três aspas dispensam escapes e são ideais para JSON e SQL de teste.
+  pitfall: Esquecer o $ no início e ver as chavetas escritas literalmente no ecrã.

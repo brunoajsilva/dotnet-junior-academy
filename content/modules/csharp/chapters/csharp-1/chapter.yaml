@@ -1,0 +1,51 @@
+id: csharp-1
+title: Fundamentos da linguagem
+intro: "As peças básicas da linguagem: tipos, operadores, decisões, repetições, texto e métodos."
+lessons:
+  - $ref: m1-6.yaml
+  - $ref: m1-7.yaml
+  - $ref: m1-8.yaml
+  - $ref: m1-9.yaml
+  - $ref: m1-10.yaml
+  - $ref: m1-11.yaml
+  - $ref: m1-12.yaml
+  - $ref: m1-13.yaml
+  - $ref: m1-14.yaml
+  - $ref: m1-15.yaml
+  - $ref: m1-16.yaml
+  - $ref: m1-17.yaml
+  - $ref: m1-18.yaml
+  - $ref: m1-19.yaml
+quiz:
+  - question: Que tipo deves usar para guardar um saldo bancário?
+    options:
+      - double
+      - decimal
+      - float
+      - int
+    correctIndex: 1
+    explanation: decimal trabalha em base 10 e não tem os erros de arredondamento de double ou float.
+  - question: O que devolve 7 / 2 quando os dois valores são int?
+    options:
+      - "3.5"
+      - "4"
+      - "3"
+      - Lança uma exceção
+    correctIndex: 2
+    explanation: A divisão entre inteiros é inteira. Para 3.5 um dos operandos tem de ser decimal ou double.
+  - question: O que faz email ?? "n/a" quando email é null?
+    options:
+      - Lança NullReferenceException
+      - Devolve "n/a"
+      - Devolve null
+      - Não compila
+    correctIndex: 1
+    explanation: ?? devolve o valor da direita quando o da esquerda é null.
+  - question: Qual o ciclo que corre pelo menos uma vez?
+    options:
+      - for
+      - foreach
+      - while
+      - do-while
+    correctIndex: 3
+    explanation: do-while testa a condição no fim de cada volta.

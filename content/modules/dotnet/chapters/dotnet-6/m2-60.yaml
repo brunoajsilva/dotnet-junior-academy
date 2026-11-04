@@ -1,0 +1,29 @@
+id: m2-60
+title: O percurso de um pedido
+type: cards
+flowSteps: 5
+cards:
+  - title: Pedido
+    lines:
+      - POST /api/accounts
+  - title: Controller
+    lines:
+      - valida o DTO
+  - title: Handler
+    lines:
+      - aplica as regras
+  - title: Repositório
+    lines:
+      - fala com o EF Core
+  - title: Base de dados
+    lines:
+      - INSERT
+  - title: ""
+    lines:
+      - O controller converte HTTP em comandos e consultas.
+      - O handler decide; o repositório guarda.
+      - A resposta faz o caminho inverso, com o código HTTP certo.
+    isNote: true
+learnMore:
+  explanation: "Segue o pedido de um POST /api/accounts: o controller converte HTTP em comando, o handler decide, o repositório guarda e a resposta faz o caminho inverso. Cada passo tem uma só responsabilidade, por isso podes testar e alterar cada um sem mexer nos outros."
+  tryIt: Abre o Módulo 5 e usa o explorador «Percurso de um pedido» para ver este caminho com código real.

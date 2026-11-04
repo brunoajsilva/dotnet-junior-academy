@@ -1,0 +1,12 @@
+id: m2-50
+title: Isolar dependências com mocks
+type: code
+language: cs
+codeFile: code/m2-50.cs
+keyPoints:
+  - Um mock é um objeto falso que substitui uma dependência.
+  - Define o que devolve e verifica como foi chamado.
+  - O serviço é testado sem base de dados.
+  - Só funciona porque a dependência é uma interface.
+learnMore:
+  explanation: "Um mock substitui uma dependência por um objeto falso que controlas: defines o que devolve e depois verificas como foi chamado. Com NSubstitute, Substitute.For<IAccountRepository>() cria o falso. Só funciona porque a dependência é uma interface, e é por isso que a Dependency Injection e os testes andam juntos."

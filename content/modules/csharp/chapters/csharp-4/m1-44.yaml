@@ -1,0 +1,14 @@
+id: m1-44
+title: "Enunciado: exemplo de execução"
+type: cards
+cards:
+  - title: Exemplo de execução
+    lines: []
+    codeFile: code/m1-44.cs
+  - title: Extras (opcional)
+    lines:
+      - Pesquisar uma conta pelo número, com um Dictionary.
+      - Calcular os juros com a interface IInterestCalculator.
+      - Impedir dois clientes com o mesmo NIF.
+learnMore:
+  explanation: Reproduz o exemplo exatamente, incluindo o formato do saldo com duas casas e vírgula decimal. Os extras são opcionais, mas o de impedir NIFs repetidos obriga-te a pensar num Dictionary.

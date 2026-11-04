@@ -1,0 +1,29 @@
+id: csharp
+kind: course
+title: Introdução ao C#
+shortTitle: Introdução ao C#
+tagline: "A linguagem de base: tipos, objetos, coleções, LINQ, erros e async/await, até uma aplicação de consola completa."
+chapters:
+  - $ref: chapters/csharp-1/chapter.yaml
+  - $ref: chapters/csharp-2/chapter.yaml
+  - $ref: chapters/csharp-3/chapter.yaml
+  - $ref: chapters/csharp-4/chapter.yaml
+wrapUp:
+  learned:
+    - Escrever C# com tipos, condições, ciclos e strings
+    - Modelar um domínio com classes, records e interfaces
+    - Consultar dados com LINQ
+    - Tratar erros e usar async/await
+    - Construir uma aplicação de consola
+  practiceIdeas:
+    - Acrescentar uma opção nova à aplicação de consola
+    - Reescrever um ciclo com LINQ
+    - Criar uma exceção própria para uma regra de negócio
+    - Paralelizar um pedido com Task.WhenAll
+  docs:
+    - title: Documentação oficial de C#
+      url: https://learn.microsoft.com/dotnet/csharp/
+    - title: Visita guiada ao C#
+      url: https://learn.microsoft.com/dotnet/csharp/tour-of-csharp/
+    - title: Referência da linguagem
+      url: https://learn.microsoft.com/dotnet/csharp/language-reference/

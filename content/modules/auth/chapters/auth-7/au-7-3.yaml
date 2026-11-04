@@ -1,0 +1,21 @@
+id: au-7-3
+title: Onde guardar o token no cliente
+type: table
+rows:
+  - - Local
+    - Risco
+    - Nota
+  - - localStorage
+    - Qualquer script na página lê o token (XSS)
+    - Simples, mas exposto.
+  - - Cookie HttpOnly + Secure + SameSite
+    - Scripts não conseguem lê-lo
+    - Exige proteção contra CSRF.
+  - - Memória da aplicação
+    - Perde-se ao recarregar
+    - Mais seguro, com refresh token para recuperar.
+  - - Cofre do sistema (apps móveis)
+    - Protegido pelo sistema operativo
+    - Keychain no iOS, Keystore no Android.
+learnMore:
+  explanation: Não há uma resposta única. Cada opção troca um risco por outro. O importante é saberes qual escolheste e porquê. Este tema pertence ao cliente (web ou móvel), mas quem desenha a API precisa de o conhecer, porque define como o token é enviado.

@@ -1,0 +1,20 @@
+---
+import Base from "../layouts/Base.astro";
+import { loadSite } from "../lib/load-site";
+import { createRenderContext } from "../lib/render/context";
+import { emptyProgress } from "../lib/progress";
+import { setBaseUrl } from "../lib/html";
+import { pageTitle, renderPage } from "../lib/render/page";
+
+export async function getStaticPaths() {
+  const site = await loadSite();
+  return site.routes.map((route) => ({ params: { route: route.id } }));
+}
+
+setBaseUrl(import.meta.env.BASE_URL);
+const site = await loadSite();
+const { route: routeId } = Astro.params;
+const context = createRenderContext(site, emptyProgress(), routeId);
+---
+
+<Base routeId={routeId} site={site} title={pageTitle(context)} mainHtml={renderPage(context)} />

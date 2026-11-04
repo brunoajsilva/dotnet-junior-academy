@@ -1,0 +1,74 @@
+id: US17
+title: Perfil e password
+story: Como cliente, quero ver os meus dados e mudar a minha password.
+feature: F5
+endpoint: POST /api/profile/get  ·  POST /api/profile/change-password
+body: '{ "currentPassword": "Passw0rd!", "newPassword": "N3w-Passw0rd" }'
+rules:
+  - O get devolve nome, email, NIF e o número de contas
+  - A password atual tem de estar certa
+  - A nova tem pelo menos 8 caracteres e é diferente da atual
+  - Guarda-se só o hash
+  - Os tokens antigos continuam válidos até expirarem
+responses:
+  - result: success
+    when: Dados do cliente
+  - result: success
+    when: Password alterada
+  - result: validation
+    when: Password nova inválida
+  - result: unauthorized
+    when: Sem token ou password atual errada
+criteria:
+  - Reutiliza IPasswordHasher
+  - A password nunca aparece em logs nem em respostas
+  - Testes às regras da nova password
+  - Pedidos na coleção do Bruno
+uses:
+  - auth-7
+  - dotnet-2
+hint:
+  explanation: Pensa onde vive a regra «pelo menos 8 caracteres e diferente da atual». Se já existe no Register, evita duplicá-la.
+businessValue: Médio
+dependsOn: ""
+details:
+  persona: cliente autenticado
+  want: ver os meus dados e mudar a minha password
+  purpose: manter a minha conta segura e os meus dados atualizados
+  description: Consulta do perfil (nome, email, NIF e número de contas) e alteração da password. A password é guardada apenas como hash e nunca aparece em respostas nem em logs.
+  scenarios:
+    - title: Ver perfil
+      given:
+        - tenho sessão iniciada
+      when:
+        - peço o meu perfil
+      then:
+        - vejo nome, email, NIF e número de contas
+        - não vejo hash nem password
+    - title: Mudar password
+      given:
+        - conheço a password atual
+      when:
+        - envio a atual e uma nova com 8 ou mais caracteres
+      then:
+        - recebo success
+        - consigo fazer login com a nova password
+    - title: Password atual errada
+      given:
+        - tenho sessão iniciada
+      when:
+        - envio uma password atual incorreta
+      then:
+        - recebo unauthorized
+        - a password não muda
+    - title: Nova password inválida
+      given:
+        - tenho sessão iniciada
+      when:
+        - envio uma nova com 5 caracteres ou igual à atual
+      then:
+        - recebo validation
+  outOfScope:
+    - Recuperação de password por email
+    - Invalidar os tokens já emitidos
+  storyPoints: 3

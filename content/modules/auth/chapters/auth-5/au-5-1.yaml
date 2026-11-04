@@ -1,0 +1,12 @@
+id: au-5-1
+title: Criar o projeto
+type: code
+language: sh
+codeFile: code/au-5-1.sh
+keyPoints:
+  - dotnet new webapi --use-controllers cria uma Web API com controllers.
+  - O pacote JwtBearer valida tokens.
+  - A chave tem de ter pelo menos 32 caracteres para HS256.
+learnMore:
+  explanation: "Neste laboratório a chave fica no appsettings.json, para simplificar. Em produção, a mesma chave vem de uma variável de ambiente ou de um cofre (Azure Key Vault, por exemplo): o código lê sempre de builder.Configuration e não sabe a diferença."
+  pitfall: Copiar a chave do laboratório para um projeto real. Quem a tiver consegue fabricar tokens válidos.

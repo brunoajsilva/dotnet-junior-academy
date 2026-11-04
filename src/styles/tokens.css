@@ -1,0 +1,95 @@
+/* Design tokens: every colour, font and size used by the site lives here as a CSS variable. */
+
+:root {
+  color-scheme: light;
+  /* Material Design 3 color roles (seed: violet-indigo). Light scheme. */
+  --md-primary: #4a47c2;
+  --md-on-primary: #ffffff;
+  --md-primary-container: #e3e0ff;
+  --md-on-primary-container: #0e0a68;
+  --md-secondary-container: #e4e1f9;
+  --md-on-secondary-container: #1a1a2e;
+  --md-surface: #fcf8ff;
+  --md-surface-lowest: #ffffff;
+  --md-surface-low: #f6f2fb;
+  --md-surface-container: #f0ecf5;
+  --md-surface-high: #eae6ef;
+  --md-surface-highest: #e4e1e9;
+  --md-on-surface: #1b1b21;
+  --md-on-surface-variant: #47464f;
+  --md-outline: #777680;
+  --md-outline-variant: #c8c5d0;
+  --md-error: #ba1a1a;
+  --md-error-container: #ffdad6;
+  --md-on-error-container: #410002;
+  --md-scrim: rgba(14, 13, 20, 0.42);
+  /* legacy names mapped onto the roles, so every component follows the scheme */
+
+  /* Semantic aliases used by the components (they follow the Material roles above) */
+  --bg: var(--md-surface);
+  --surface: var(--md-surface-low);
+  --surface2: var(--md-surface-container);
+  --fg: var(--md-on-surface);
+  --muted: var(--md-on-surface-variant);
+  --faint: #6a6974;
+  --line: var(--md-outline-variant);
+  --line2: #b3b0bd;
+  --accent: var(--md-primary);
+  --accent-soft: var(--md-primary-container);
+  --accent-fg: var(--md-on-primary);
+  --ok: #14724f;
+  --ok-soft: #e1f3ea;
+  --warn: #8f4d00;
+  --warn-soft: #fdefd9;
+  --bad: var(--md-error);
+  --bad-soft: var(--md-error-container);
+
+  /* Code block surface and syntax colours */
+  --code-bg: var(--md-surface-container);
+  --code-fg: #23222b;
+  --code-mute: #6a6974;
+  --c-str: #0b6b62;
+  --c-kw: #6b2fd6;
+  --c-ty: #1d4ed8;
+  --c-num: #a24a00;
+  --c-com: #74737e;
+
+  /* Colours for modules authored later (assigned in rotation by js/main.js) */
+  --c-x0: #0f766e;
+  --c-x1: #be123c;
+  --c-x2: #92400e;
+  --c-x3: #1e40af;
+  --c-x4: #4d7c0f;
+  --c-x5: #a21caf;
+
+  /* One colour per module */
+  --c-academia: #14724f;
+  --c-csharp: #5b3fd0;
+  --c-dotnet: #1d5bd8;
+  --c-auth: #be185d;
+  --c-projeto: #c2410c;
+  --on-c: #ffffff;
+
+  /* Architecture layers */
+  --l-domain: #b35c00;
+  --l-application: #14724f;
+  --l-infra: #1d5bd8;
+  --l-api: #7c3aed;
+  --l-tests: #5c606b;
+
+  /* Elevation and top bar */
+  --tb-bg: rgba(246, 242, 251, 0.82);
+  --shadow-1: 0 1px 2px rgba(20, 18, 40, 0.1), 0 1px 3px 1px rgba(20, 18, 40, 0.06);
+  --shadow-2: 0 1px 2px rgba(20, 18, 40, 0.12), 0 2px 6px 2px rgba(20, 18, 40, 0.08);
+
+  /* Typography */
+  --f-serif: "Instrument Serif", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --f-body: "Inter", "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-display: var(--f-body);
+  --f-mono: "JetBrains Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
+
+  /* Layout */
+  --tb: 78px;
+  --r: 12px;
+  --e-in: cubic-bezier(0.2, 0, 0, 1);
+}

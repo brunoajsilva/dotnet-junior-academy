@@ -1,0 +1,9 @@
+id: csharp-4
+title: Mini-aplicação de consola
+intro: O enunciado de uma aplicação de consola completa, para juntar tudo o que aprendeste.
+lessons:
+  - $ref: m1-42.yaml
+  - $ref: m1-43.yaml
+  - $ref: m1-44.yaml
+  - $ref: m1-45.yaml
+quiz: []

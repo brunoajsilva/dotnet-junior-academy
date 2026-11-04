@@ -1,0 +1,12 @@
+id: m2-41
+title: Consultar dados
+type: code
+language: cs
+codeFile: code/m2-41.cs
+keyPoints:
+  - É o LINQ e o IQueryable que já conheces.
+  - Include carrega a relação na mesma consulta.
+  - Os métodos Async libertam a thread.
+  - AsNoTracking acelera as consultas só de leitura.
+learnMore:
+  explanation: Consultar com o EF é usar o LINQ que já conheces sobre um DbSet. Include carrega a relação na mesma consulta (um JOIN). Os métodos Async (ToListAsync, FirstOrDefaultAsync) libertam a thread. AsNoTracking diz ao EF que não vais alterar os resultados, o que torna a consulta mais leve.

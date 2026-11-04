@@ -1,0 +1,36 @@
+id: csharp-2
+title: Objetos e coleções
+intro: Como representar o domínio de um banco com classes, records, interfaces e coleções.
+lessons:
+  - $ref: m1-21.yaml
+  - $ref: m1-22.yaml
+  - $ref: m1-23.yaml
+  - $ref: m1-24.yaml
+  - $ref: m1-25.yaml
+  - $ref: m1-26.yaml
+  - $ref: m1-27.yaml
+quiz:
+  - question: Qual a principal diferença entre record e class?
+    options:
+      - O record não pode ter métodos
+      - O record compara por valor
+      - A class é mais rápida
+      - O record é sempre mutável
+    correctIndex: 1
+    explanation: Dois records com os mesmos valores são iguais. Duas instâncias de class só são iguais se forem o mesmo objeto.
+  - question: O que permite uma propriedade com init?
+    options:
+      - Escrever em qualquer momento
+      - Escrever só ao criar o objeto
+      - Só ler
+      - Escrever apenas dentro da classe
+    correctIndex: 1
+    explanation: init só aceita atribuição na criação do objeto.
+  - question: Porque é que TryGetValue é preferível ao indexador de um Dictionary?
+    options:
+      - É mais curto
+      - Não lança exceção se a chave não existir
+      - Ordena os valores
+      - Evita duplicados
+    correctIndex: 1
+    explanation: O indexador lança KeyNotFoundException; TryGetValue devolve false.

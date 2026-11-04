@@ -1,0 +1,13 @@
+/* Buttons (Material Design 3): filled, tonal, outlined and text. */
+
+.btn,
+.more,
+.pickbtn,
+.minibtn,
+.copy {
+  border-radius: 50px;
+  transition:
+    background-color 0.15s var(--e-in),
+    box-shadow 0.15s var(--e-in),
+    border-color 0.15s;
+}

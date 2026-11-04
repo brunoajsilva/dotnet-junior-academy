@@ -4,7 +4,7 @@ Receita para transformar "quero um módulo sobre X" num módulo publicado. Segue
 
 ## 1. Perceber o pedido
 
-Antes de escrever, fixa por escrito (no resumo final, não no ficheiro):
+Antes de escrever, fixa por escrito (no resumo final, não nos ficheiros):
 
 - **Tema** e **ideia central**: o que o aluno consegue fazer no fim que não fazia antes.
 - **Público**: programador júnior a médio, já fez os módulos C# e .NET da academia. Não repitas o que lá está.
@@ -16,11 +16,11 @@ Se faltar informação que muda o conteúdo (versão, biblioteca, nível), faz *
 ## 2. Verificar os factos
 
 Para qualquer afirmação técnica que não sabes de cor, confirma na documentação oficial (learn.microsoft.com) antes de a escreveres.
-Nunca inventes nomes de métodos, pacotes ou comandos. Cada módulo termina com links oficiais (`outro.docs`).
+Nunca inventes nomes de métodos, pacotes ou comandos. Cada módulo termina com links oficiais (`wrapUp.docs`).
 
 ## 3. Esboçar o módulo
 
-Antes do JSON, escreve o esboço como tabela:
+Antes dos ficheiros, escreve o esboço como tabela:
 
 | Capítulo | Lição | Tipo | Ideia única |
 |---|---|---|---|
@@ -34,39 +34,56 @@ Regras de composição:
 - Fecha o capítulo com um `exercise` que junta o que foi visto, e depois o quiz.
 - O último capítulo pode ter um `exercise` com enunciado completo (a "mini-aplicação").
 
-## 4. Escrever o JSON
+## 4. Criar os ficheiros
 
-Cria `content/modules/<id>.json`. O `id` é curto, em minúsculas, sem espaços (`efcore`, `logging`, `docker`).
-Parte do exemplo `content/modules/_exemplo-logging.json` e segue `docs/CONTENT-SCHEMA.md`.
-
-Ids obrigatórios e únicos:
-- capítulos: `<id>-1`, `<id>-2`...
-- lições: `<id>-1-1`, `<id>-1-2`, `<id>-2-1`...
-
-Ficheiros que começam por `_` são ignorados pelo build (servem de exemplo).
-
-## 5. Validar, gerar, testar
+O `id` é curto, em minúsculas, sem espaços (`efcore`, `logging`, `docker`). O caminho mais rápido:
 
 ```bash
-python3 src/validate.py content/modules/<id>.json
-python3 src/build.py --out index.html
-node src/tests/smoke.js index.html
+npm run new:module -- <id> "Título completo" "Nome curto"     # cria content/_drafts/<id>/
+npm run new:lesson -- <id> <id>-1 <id>-1-2 "Título" code       # junta uma lição a um capítulo
 ```
 
-O módulo aparece sozinho no menu do topo, antes do "Projeto final", com cor atribuída automaticamente.
-Os módulos são renumerados: o "Projeto final" passa a ser o último.
+Ou copia `content/_examples/logging/` para `content/modules/<id>/` e adapta.
+
+```
+content/modules/<id>/
+  module.yaml                        metadados, lista de capítulos e o fecho (wrapUp)
+  chapters/<id>-1/
+    chapter.yaml                     lista de lições ($ref) e quiz do capítulo
+    <id>-1-1.yaml                    uma lição por ficheiro
+    code/<id>-1-1.cs                 um ficheiro por exemplo de código
+  chapters/<id>-2/ ...
+```
+
+Ids obrigatórios e únicos:
+- capítulos: `<id>-1`, `<id>-2`... (e a pasta tem o mesmo nome)
+- lições: `<id>-1-1`, `<id>-1-2`, `<id>-2-1`...
+
+Escreve o código em ficheiros `.cs` (ou `.sh`, `.json`...) com o realce do teu editor e referencia-os com `codeFile`. Os campos estão em `docs/CONTENT-SCHEMA.md`.
+
+## 5. Registar, validar e testar
+
+1. Move a pasta de `content/_drafts/<id>/` para `content/modules/<id>/` e acrescenta `modules/<id>/module.yaml` ao `content/manifest.yaml`, **antes** de `modules/projeto/module.yaml` (o projeto final fica sempre em último).
+2. `npm run check` até dizer `OK`.
+3. `npm run dev` e abre o módulo no browser.
+4. `npm test` (faz o build e abre todas as páginas, desktop e mobile).
+
+O módulo aparece sozinho nos menus, com número e cor atribuídos automaticamente. Os módulos são numerados pela ordem do manifesto.
 
 ## 6. Rever antes de entregar
 
 Passa pela lista em `docs/STYLE-GUIDE.md` (secção "Checklist de qualidade").
-No resumo ao utilizador diz: capítulos e lições criados, quantas perguntas, links usados, **o que não verificaste** (por exemplo, código não compilado).
+No resumo ao utilizador diz: capítulos e lições criados, quantas perguntas, links usados e **o que não verificaste** (por exemplo, código não compilado).
 
 ## 7. Publicar
 
-O utilizador faz `git add`, commit e `git push`. O GitHub Pages publica o `index.html`.
+O utilizador faz `git add`, commit e `git push` para `main`; o GitHub Actions faz o build e publica. Depois de publicar, `npm run check -- --update-ids` regista os ids novos.
 
 ## Corrigir ou estender um módulo existente
 
-- Módulos novos (JSON): edita o JSON, valida e gera.
-- Módulos da base (Academia, C#, .NET, Autenticação): estão em `src/` (`m1.json`, `m2.json`, `mods.py`, `mod_auth.py`). Altera só o que foi pedido e volta a gerar.
-- O "Projeto final" é gerado a partir de `src/m4_head.py`, `src/m4_tail.py` e `src/m4_stories.py` com `python3 src/asm.py`. Só mexas aí se o pedido for sobre o projeto.
+Todos os módulos têm a mesma estrutura de ficheiros (ver `docs/ARCHITECTURE.md`):
+
+- Texto de uma lição: edita o ficheiro da lição (`<id>.yaml`). Código: edita o ficheiro em `code/`.
+- Nova lição: `npm run new:lesson` (cria o ficheiro e acrescenta a referência ao capítulo), com um `id` novo.
+- **Nunca mudes o `id` de uma lição publicada**: o progresso do aluno é guardado por id.
+- Projeto final: `content/modules/projeto/` (fases, user stories, código do BankingApp). Mexe aí só se o pedido for sobre o projeto.

@@ -1,0 +1,16 @@
+id: m2-10
+title: Solução, projeto e NuGet
+type: code
+language: xml
+codeFile: code/m2-10.xml
+keyPoints:
+  - .sln agrupa projetos; .csproj descreve um projeto.
+  - TargetFramework indica a versão do .NET.
+  - PackageReference traz pacotes do NuGet.
+  - ProjectReference liga projetos entre si.
+learnMore:
+  explanation: |-
+    A solução (.sln) é só uma lista de projetos para o IDE abrir em conjunto. Cada projeto (.csproj) é um XML pequeno que diz o que é (Sdk), para que versão compila (TargetFramework), de que pacotes depende (PackageReference) e de que outros projetos depende (ProjectReference).
+
+    As referências entre projetos formam a arquitetura: se o Domain não referencia nada, é impossível usar o EF Core lá dentro por engano.
+  pitfall: "Referências circulares entre projetos. O compilador recusa: é sinal de que as responsabilidades estão mal divididas."

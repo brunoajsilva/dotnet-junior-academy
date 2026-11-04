@@ -1,0 +1,27 @@
+id: projeto
+kind: project
+title: "Projeto final: BankingApp"
+shortTitle: Projeto final
+tagline: "Uma API de um banco, em 6 dias: montas a base com os passos guiados e depois decides, planeias e constróis sozinho."
+brief:
+  $ref: brief.yaml
+days:
+  $ref: days.yaml
+layers:
+  $ref: layers.yaml
+flow:
+  $ref: flow.yaml
+finalDelivery:
+  $ref: final-delivery.yaml
+endpoints:
+  $ref: endpoints.yaml
+acceptanceCriteria:
+  $ref: accept.yaml
+extras:
+  - Alterar o plano para incluir uma user story que ficou de fora e estimar o quanto demoraria
+  - Acrescentar um endpoint de saúde (/health) que verifica a ligação à base de dados
+phases:
+  - $ref: phases/p4/phase.yaml
+  - $ref: phases/p1/phase.yaml
+  - $ref: phases/p2/phase.yaml
+  - $ref: phases/p3/phase.yaml

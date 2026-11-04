@@ -1,0 +1,12 @@
+id: m2-47
+title: O primeiro teste com xUnit
+type: code
+language: cs
+codeFile: code/m2-47.cs
+keyPoints:
+  - "[Fact] marca um teste."
+  - "Arrange: preparar os objetos."
+  - "Act: executar o que se testa."
+  - "Assert: verificar o resultado."
+learnMore:
+  explanation: "Um teste unitário segue três passos: Arrange (preparar), Act (executar), Assert (verificar). [Fact] marca o método como teste. Um bom teste lê-se como uma frase: dado este contexto, quando fizer isto, então acontece aquilo."

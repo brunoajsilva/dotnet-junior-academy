@@ -1,0 +1,71 @@
+id: US6
+title: Limites por conta
+story: Como cliente, quero definir o meu limite diário de levantamentos.
+feature: F2
+endpoint: POST /api/accounts/set-daily-limit
+body: '{ "number": "AC-123456", "dailyWithdrawal": 300.00 }'
+rules:
+  - Por omissão é 500 €
+  - Tem de estar entre 50 € e 2 000 €
+  - A US5 passa a usar o limite da conta em vez do valor fixo
+  - Baixar o limite aplica-se logo; subir só tem efeito no dia seguinte
+responses:
+  - result: success
+    when: Limite alterado
+  - result: validation
+    when: Fora dos valores permitidos
+  - result: unauthorized
+    when: Sem token válido
+  - result: not_found
+    when: Conta inexistente ou de outro cliente
+criteria:
+  - Há migration para o novo campo, com valor por omissão
+  - A regra «subir só no dia seguinte» tem teste
+  - A US5 continua a passar nos testes
+uses:
+  - dotnet-4
+  - csharp-2
+hint:
+  explanation: Acrescentar uma coluna a uma tabela com dados exige um valor por omissão na migration. Lê a migration que o EF gera antes de a aplicar.
+businessValue: Baixo
+dependsOn: US5
+details:
+  persona: cliente autenticado
+  want: definir o meu limite diário de levantamentos
+  purpose: controlar o risco em caso de perda ou roubo do cartão
+  description: Cada conta passa a ter o seu limite diário, entre 50 € e 2 000 €. Baixar o limite aplica-se logo; subir só tem efeito no dia seguinte.
+  scenarios:
+    - title: Baixar o limite
+      given:
+        - o limite atual é 500,00
+      when:
+        - defino 200,00
+      then:
+        - recebo success
+        - o novo limite aplica-se de imediato
+    - title: Subir o limite
+      given:
+        - o limite atual é 500,00
+      when:
+        - defino 1 000,00
+      then:
+        - recebo success
+        - o novo limite só tem efeito no dia seguinte
+    - title: Fora do intervalo
+      given:
+        - tenho sessão iniciada
+      when:
+        - defino 10,00 ou 5 000,00
+      then:
+        - recebo validation
+    - title: Regressão do levantamento
+      given:
+        - o limite da conta é 300,00
+      when:
+        - levanto 300,01
+      then:
+        - recebo conflict
+  outOfScope:
+    - Limites por tipo de operação
+    - Limites mais altos com autorização
+  storyPoints: 3

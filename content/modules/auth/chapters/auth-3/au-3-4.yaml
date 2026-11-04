@@ -1,0 +1,22 @@
+id: au-3-4
+title: Que fluxo usar?
+type: table
+rows:
+  - - Cenário
+    - Fluxo
+    - Notas
+  - - Site ou app com um utilizador a fazer login
+    - Authorization Code + PKCE
+    - O fluxo por omissão.
+  - - Um serviço a chamar outro, sem utilizador
+    - Client Credentials
+    - O cliente autentica-se com o seu id e segredo.
+  - - Dispositivo sem teclado (televisão)
+    - Device Code
+    - O utilizador autentica-se noutro dispositivo.
+  - - Aplicação própria que envia email e password
+    - Password (ROPC)
+    - Desaconselhado e removido do OAuth 2.1.
+note: Na BankingApp, a API recebe o email e a password e emite o token. É uma simplificação para aprender o JWT; num sistema real, o login seria feito por um servidor de identidade.
+learnMore:
+  explanation: "O Implicit Flow, usado antigamente por SPAs, também foi retirado: devolvia o token no URL. Hoje as SPAs usam o Authorization Code com PKCE."

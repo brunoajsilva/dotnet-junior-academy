@@ -1,0 +1,75 @@
+id: US5
+title: Levantamento
+story: Como cliente, quero levantar dinheiro de uma das minhas contas.
+feature: F2
+endpoint: POST /api/accounts/withdraw
+body: '{ "number": "AC-123456", "amount": 80.00, "description": "ATM" }'
+rules:
+  - As regras de valor e de conta ativa do depósito aplicam-se aqui
+  - "Não pode ficar com saldo negativo: erro conflict próprio («Insufficient funds»)"
+  - Limite diário de 500 € por conta, somando os levantamentos do dia (UTC)
+  - A soma do dia é calculada na base de dados
+responses:
+  - result: success
+    when: Movimento criado, com o novo saldo
+  - result: validation
+    when: Valor inválido
+  - result: unauthorized
+    when: Sem token válido
+  - result: not_found
+    when: A conta não existe ou não é do cliente
+  - result: conflict
+    when: Saldo insuficiente, limite diário ou conta fechada
+criteria:
+  - O saldo insuficiente é devolvido como Response.Fail, sem lançar exceção
+  - O limite diário usa SumAsync na base de dados
+  - Há testes ao limite exato (500 permitido, 500,01 recusado)
+  - O pedido está na coleção do Bruno
+uses:
+  - csharp-3
+  - dotnet-4
+hint:
+  explanation: Para o limite diário precisas de uma consulta ao repositório (por exemplo, a soma dos levantamentos de hoje). Define esse método no contrato da Application e implementa-o na Infrastructure com Where e SumAsync.
+  tryIt: Faz dois levantamentos de 300 € seguidos e confirma que o segundo é recusado.
+businessValue: Alto
+dependsOn: US4
+details:
+  persona: cliente autenticado
+  want: levantar dinheiro de uma das minhas contas
+  purpose: dispor do meu dinheiro quando preciso
+  description: "O levantamento reutiliza as regras de valor e de conta ativa do depósito e acrescenta duas: saldo suficiente e limite diário, calculado na base de dados."
+  scenarios:
+    - title: Levantamento válido
+      given:
+        - a conta A tem saldo 200,00
+      when:
+        - levanto 50,00
+      then:
+        - recebo success com o novo saldo 150,00
+        - fica registada uma Transaction do tipo Withdrawal
+    - title: Saldo insuficiente
+      given:
+        - a conta A tem saldo 20,00
+      when:
+        - levanto 50,00
+      then:
+        - recebo conflict com a mensagem «Insufficient funds»
+        - o saldo não muda
+    - title: Limite diário no limite exato
+      given:
+        - já levantei 450,00 hoje
+      when:
+        - levanto 50,00
+      then:
+        - recebo success
+    - title: Limite diário excedido
+      given:
+        - já levantei 450,00 hoje
+      when:
+        - levanto 50,01
+      then:
+        - recebo conflict
+  outOfScope:
+    - Levantamento em caixa automático
+    - Limites diferentes por conta (ver US6)
+  storyPoints: 5

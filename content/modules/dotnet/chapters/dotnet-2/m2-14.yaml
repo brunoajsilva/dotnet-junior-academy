@@ -1,0 +1,28 @@
+id: m2-14
+title: "Middleware: o pipeline de pedidos"
+type: cards
+flowSteps: 5
+cards:
+  - title: Pedido
+    lines:
+      - HTTP
+  - title: HTTPS
+    lines:
+      - redireciona para https
+  - title: Autenticação
+    lines:
+      - quem és?
+  - title: Autorização
+    lines:
+      - podes fazer isto?
+  - title: Controller
+    lines:
+      - executa a ação
+  - title: ""
+    lines:
+      - Cada middleware pode tratar o pedido, passá-lo ao seguinte ou terminá-lo.
+      - A ordem do registo no Program.cs é a ordem de execução.
+      - A resposta volta pelo mesmo caminho, em sentido contrário.
+    isNote: true
+learnMore:
+  explanation: "O pipeline é uma cadeia: cada middleware pode responder logo (por exemplo, rejeitar um pedido sem autenticação) ou passar ao seguinte. Quando o controller devolve a resposta, esta volta pela mesma cadeia, ao contrário. É por isso que a ordem no Program.cs importa."

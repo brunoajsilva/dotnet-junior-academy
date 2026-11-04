@@ -1,0 +1,7 @@
+horas por dia          = 6
+dias para construir    = Dia 2 + Dia 3 + Dia 4 + Dia 5
+margem para imprevistos = 20 %
+
+capacidade = (6 + 6 + 6 + 6) x 0,8 = 19,2 h
+
+# se a soma das estimativas dos Must passar da capacidade, algo tem de sair

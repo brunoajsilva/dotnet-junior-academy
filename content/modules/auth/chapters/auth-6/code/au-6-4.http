@@ -1,0 +1,12 @@
+POST /login
+  -> { "accessToken": "eyJ...", "expiresAtUtc": "...in 15 min",
+       "refreshToken": "a1b2c3..." }                      # long-lived, random, stored hashed on the server
+
+# 15 minutes later the access token expires: the API answers 401
+
+POST /refresh   { "refreshToken": "a1b2c3..." }
+  -> { "accessToken": "eyJ...(new)", "refreshToken": "d4e5f6...(new)" }
+     # the old refresh token is now invalid (rotation)
+
+POST /logout    { "refreshToken": "d4e5f6..." }
+  -> 204                                                  # the server deletes it: the session is over

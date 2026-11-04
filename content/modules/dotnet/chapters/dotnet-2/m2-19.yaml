@@ -1,0 +1,12 @@
+id: m2-19
+title: Devolver o resultado certo
+type: code
+language: cs
+codeFile: code/m2-19.cs
+keyPoints:
+  - Ok, NotFound, BadRequest...
+  - CreatedAtAction devolve 201 e o endereço do novo recurso.
+  - ActionResult<T> documenta o tipo devolvido.
+learnMore:
+  explanation: O código de estado é parte do contrato da API. Os métodos auxiliares (Ok, NotFound, BadRequest, CreatedAtAction) devolvem o código certo. ActionResult<T> permite devolver tanto o objeto como um código de erro, e o OpenAPI percebe o tipo.
+  tryIt: Faz GET de uma conta que não existe e confirma que recebes 404 e não 200 com corpo vazio.

@@ -1,0 +1,16 @@
+id: m1-39
+title: "async: cancelamento"
+type: code
+language: cs
+codeFile: code/m1-39.cs
+keyPoints:
+  - O token pede o cancelamento e viaja até quem executa.
+  - O .NET aceita o token e, ao cancelar, lança uma exceção.
+  - Em ciclos próprios, verificar o token.
+  - Numa API, o token do pedido HTTP já vem do ASP.NET.
+learnMore:
+  explanation: |-
+    O cancelamento é cooperativo: o CancellationToken só avisa. Quem executa tem de o receber e verificar (os métodos do .NET já o fazem e lançam OperationCanceledException). Passa o token a todas as chamadas async encadeadas.
+
+    Numa API, o ASP.NET Core dá-te o token do pedido HTTP: se o cliente fechar a ligação, o trabalho é cancelado.
+  tryIt: Reduz o tempo do CancellationTokenSource para 100 ms e confirma que o catch corre.

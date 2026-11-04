@@ -1,0 +1,48 @@
+id: dotnet-2
+title: ASP.NET Core e Web API
+intro: "Construir uma Web API: pipeline, controllers, códigos HTTP, DTOs, validação e documentação."
+lessons:
+  - $ref: m2-13.yaml
+  - $ref: m2-14.yaml
+  - $ref: m2-15.yaml
+  - $ref: m2-16.yaml
+  - $ref: m2-17.yaml
+  - $ref: m2-18.yaml
+  - $ref: m2-19.yaml
+  - $ref: m2-20.yaml
+  - $ref: m2-21.yaml
+  - $ref: m2-22.yaml
+  - $ref: m2-23.yaml
+quiz:
+  - question: Que código HTTP devolve um POST que criou uma conta?
+    options:
+      - 200 OK
+      - 201 Created
+      - 204 No Content
+      - 202 Accepted
+    correctIndex: 1
+    explanation: 201 Created, com o cabeçalho Location do novo recurso.
+  - question: O que acontece à ordem dos middlewares no Program.cs?
+    options:
+      - É irrelevante
+      - É a ordem de execução do pipeline
+      - Corre ao contrário
+      - O framework reordena-os
+    correctIndex: 1
+    explanation: Cada middleware corre pela ordem do registo; a resposta volta em sentido contrário.
+  - question: Porque se usam DTOs em vez de devolver a entidade?
+    options:
+      - Por exigência do EF Core
+      - Para separar o contrato da API do modelo da base de dados
+      - Para o JSON ficar mais pequeno
+      - Porque as entidades não são serializáveis
+    correctIndex: 1
+    explanation: Assim a base de dados pode mudar sem partir os clientes da API.
+  - question: Qual o código para uma conta com número repetido?
+    options:
+      - "400"
+      - "404"
+      - "409"
+      - "500"
+    correctIndex: 2
+    explanation: "409 Conflict: o pedido conflita com o estado atual."

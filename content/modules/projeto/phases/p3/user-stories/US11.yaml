@@ -1,0 +1,71 @@
+id: US11
+title: Exportar extrato em CSV
+story: Como cliente, quero descarregar o extrato para abrir numa folha de cálculo.
+feature: F2
+endpoint: POST /api/accounts/export-transactions
+body: '{ "number": "AC-123456", "from": "2026-01-01", "to": "2026-12-31" }'
+rules:
+  - Usa os mesmos filtros da US9
+  - Máximo de 12 meses por pedido
+  - "Colunas: data, tipo, descrição, valor, saldo depois"
+  - Content-Type text/csv e nome de ficheiro no Content-Disposition
+  - Valores com ponto decimal, datas em ISO 8601
+responses:
+  - result: success
+    when: Ficheiro CSV
+  - result: validation
+    when: Intervalo acima de 12 meses
+  - result: unauthorized
+    when: Sem token válido
+  - result: not_found
+    when: Conta inexistente ou de outro cliente
+criteria:
+  - Descrições com vírgulas e aspas ficam bem escapadas
+  - O ficheiro abre corretamente numa folha de cálculo
+  - Pedido na coleção do Bruno
+uses:
+  - dotnet-2
+  - csharp-3
+hint:
+  explanation: Escrever CSV à mão parece trivial até uma descrição ter uma vírgula ou aspas. Decide como tratas esses casos antes de escreveres o código.
+businessValue: Baixo
+dependsOn: US9
+details:
+  persona: cliente autenticado
+  want: descarregar o extrato para abrir numa folha de cálculo
+  purpose: arquivar e analisar os meus movimentos
+  description: Usa os mesmos filtros da US9 e devolve um ficheiro CSV. O período máximo por pedido é de 12 meses.
+  scenarios:
+    - title: Exportar
+      given:
+        - a conta A tem movimentos
+      when:
+        - peço a exportação com from e to
+      then:
+        - recebo um ficheiro text/csv
+        - o nome do ficheiro vem no Content-Disposition
+    - title: Escape de caracteres
+      given:
+        - uma descrição contém vírgulas e aspas
+      when:
+        - exporto o extrato
+      then:
+        - o CSV mantém essa descrição numa única célula
+    - title: Período excessivo
+      given:
+        - tenho sessão iniciada
+      when:
+        - peço um intervalo de 13 meses
+      then:
+        - recebo validation
+    - title: Formatos
+      given:
+        - exportei o extrato
+      when:
+        - abro o ficheiro
+      then:
+        - os valores usam ponto decimal e as datas ISO 8601
+  outOfScope:
+    - Exportação em PDF ou Excel
+    - Envio do extrato por email
+  storyPoints: 3

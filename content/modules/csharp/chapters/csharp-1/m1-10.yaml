@@ -1,0 +1,17 @@
+id: m1-10
+title: "Condições: if e else"
+type: code
+language: cs
+codeFile: code/m1-10.cs
+keyPoints:
+  - if avalia uma condição bool.
+  - else if só é testado se a anterior falhar.
+  - Usar chavetas quando o bloco tem várias linhas.
+  - Retornar cedo evita ifs aninhados.
+learnMore:
+  explanation: |-
+    O if avalia sempre um bool. Em C# não existe a conversão implícita de números ou objetos para bool, o que evita erros do tipo if (x = 5).
+
+    A técnica de retornar cedo (guard clauses) trata primeiro os casos inválidos e sai do método. O caminho feliz fica no fim, sem aninhamento.
+  pitfall: Omitir as chavetas num bloco de várias linhas. Só a primeira linha pertence ao if.
+  tryIt: Reescreve um if/else aninhado com três níveis usando retornos antecipados.

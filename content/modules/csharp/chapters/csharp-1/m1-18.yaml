@@ -1,0 +1,12 @@
+id: m1-18
+title: Métodos
+type: code
+language: cs
+codeFile: code/m1-18.cs
+keyPoints:
+  - Um método tem nome, parâmetros e tipo de retorno.
+  - => abrevia métodos de uma expressão.
+  - Parâmetros podem ter valor por omissão.
+learnMore:
+  explanation: Um método tem assinatura (nome, parâmetros, tipo de retorno) e corpo. Quando o corpo é uma só expressão, => abrevia. Os parâmetros podem ter valor por omissão e podem ser passados pelo nome, o que deixa chamadas com vários bool muito mais legíveis.
+  tryIt: Cria CalculateInterest(decimal balance, decimal bonus = 0m) e chama-o com e sem bónus, com o parâmetro nomeado.

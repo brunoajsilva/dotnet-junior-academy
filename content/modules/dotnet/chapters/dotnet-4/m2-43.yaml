@@ -1,0 +1,18 @@
+id: m2-43
+title: Armadilhas comuns
+type: cards
+cards:
+  - title: Consulta em ciclo (N+1)
+    lines:
+      - Carregar a relação dentro de um ciclo faz uma consulta por linha. Usar Include.
+  - title: ToList cedo demais
+    lines:
+      - Chamar ToList antes do Where traz a tabela toda para memória.
+  - title: Esquecer o SaveChanges
+    lines:
+      - Sem SaveChangesAsync, nada é gravado e nenhum erro aparece.
+  - title: DbContext e threads
+    lines:
+      - "O DbContext não é seguro entre threads: não o partilhar em tarefas paralelas."
+learnMore:
+  explanation: "O N+1 acontece quando carregas uma lista (1 consulta) e depois acedes a uma relação de cada item (N consultas). Include resolve com um JOIN. ToList antes do Where traz tudo para memória. Estes dois erros não dão exceção: só se notam na lentidão, por isso convém olhar para o SQL gerado (LogTo ou o log do EF)."

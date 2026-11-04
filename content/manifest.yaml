@@ -1,0 +1,7 @@
+title: .NET Backend Academy
+modules:
+  - modules/academia/module.yaml
+  - modules/csharp/module.yaml
+  - modules/dotnet/module.yaml
+  - modules/auth/module.yaml
+  - modules/projeto/module.yaml

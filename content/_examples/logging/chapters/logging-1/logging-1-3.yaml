@@ -1,0 +1,14 @@
+id: logging-1-3
+title: Registar uma operação
+type: exercise
+steps:
+  - keyword: Injetar
+    text: Injeta ILogger<T> no handler de levantamento.
+  - keyword: Sucesso
+    text: Regista um Information com a conta e o valor.
+  - keyword: Recusa
+    text: Regista um Warning quando o saldo é insuficiente.
+  - keyword: Verificar
+    text: Confirma na consola que nenhuma mensagem contém dados sensíveis.
+expectedOutput: null
+hint: Começa pelo caso de sucesso e só depois trata a recusa.

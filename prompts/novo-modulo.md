@@ -18,24 +18,26 @@ Notas minhas: [ex.: insistir em AsNoTracking e em migrations com valor por omiss
 
 Faz, por esta ordem:
 1. Mostra-me primeiro o esboço (tabela capítulo, lição, tipo, ideia única) e espera pela minha aprovação.
-2. Depois de aprovado, escreve content/modules/<id>.json.
-3. Corre validate.py, build.py e smoke.js e corrige o que falhar.
+2. Depois de aprovado, cria o módulo com `npm run new:module` e completa-o (module.yaml, um chapter.yaml por capítulo, uma lição
+   por ficheiro e os ficheiros de código em code/); depois move-o para content/modules/<id>/ e acrescenta-o
+   ao content/manifest.yaml, antes do projeto.
+3. Corre npm run check e npm test e corrige o que falhar.
 4. No fim, resume: capítulos, lições, perguntas, links usados e o que NÃO conseguiste verificar.
 
-Não edites index.html nem src/tpl.html. Não inventes APIs: confirma na documentação oficial.
+Não alteres src/, tools/ nem os workflows. Não inventes APIs: confirma na documentação oficial.
 ```
 
 ## Variantes
 
 **Só estender um módulo existente**
 ```
-Lê AGENTS.md. No módulo content/modules/<id>.json acrescenta um capítulo sobre [tema], com 6 lições e um quiz.
-Mantém o estilo do módulo e não alteres ids existentes. Valida, gera e testa.
+Lê AGENTS.md. No módulo content/modules/<id>/ acrescenta um capítulo sobre [tema], com 6 lições e um quiz.
+Mantém o estilo do módulo e não alteres ids existentes. Valida e testa.
 ```
 
 **Rever um módulo**
 ```
-Lê AGENTS.md e docs/STYLE-GUIDE.md. Revê content/modules/<id>.json contra a checklist de qualidade.
+Lê AGENTS.md e docs/STYLE-GUIDE.md. Revê content/modules/<id>/ contra a checklist de qualidade.
 Lista os problemas por gravidade e corrige os que forem de estilo. Não mudes o sentido técnico sem me perguntar.
 ```
 

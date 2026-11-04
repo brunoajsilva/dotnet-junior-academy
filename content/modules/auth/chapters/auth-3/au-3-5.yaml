@@ -1,0 +1,24 @@
+id: au-3-5
+title: Os tokens
+type: table
+rows:
+  - - Token
+    - Para quê
+    - Duração
+    - Para quem
+  - - Access token
+    - Chamar a API
+    - Curta (minutos)
+    - A API (Resource Server)
+  - - Refresh token
+    - Pedir um novo access token sem novo login
+    - Longa (dias)
+    - O Authorization Server
+  - - ID token (OpenID Connect)
+    - Dizer à aplicação quem é o utilizador
+    - Curta
+    - A aplicação cliente
+note: "O OpenID Connect (OIDC) é uma camada de identidade sobre o OAuth 2.0: acrescenta o ID token e o endpoint userinfo, para a aplicação saber quem fez login."
+learnMore:
+  explanation: O access token pode ser opaco (uma referência que a API pergunta ao servidor) ou um JWT (a API valida sozinha). O formato dos access tokens neste curso é o JWT, tema do capítulo seguinte.
+  pitfall: Enviar o ID token à API. O ID token é para a aplicação cliente; a API só deve aceitar access tokens.

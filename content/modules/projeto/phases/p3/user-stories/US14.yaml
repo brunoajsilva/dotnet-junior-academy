@@ -1,0 +1,76 @@
+id: US14
+title: Juros
+story: Como cliente, quero ver e receber os juros da minha conta.
+feature: F4
+endpoint: POST /api/accounts/get-interest  ·  POST /api/accounts/apply-interest
+body: '{ "number": "AC-123456" }'
+rules:
+  - Usa IInterestCalculator, com StandardInterest (1 % ao ano) e PromoInterest(taxa)
+  - A taxa é escolhida por configuração (IOptions)
+  - Juros mensais = saldo × taxa ÷ 12, arredondados a 2 casas decimais
+  - Aplicar cria um movimento de depósito do tipo Interest
+  - Só pode aplicar-se uma vez por mês
+  - Conta fechada não recebe juros
+responses:
+  - result: success
+    when: Juros calculados
+  - result: success
+    when: Juros aplicados
+  - result: unauthorized
+    when: Sem token válido
+  - result: not_found
+    when: Conta inexistente ou de outro cliente
+  - result: conflict
+    when: Já aplicados este mês ou conta fechada
+criteria:
+  - A estratégia é injetada pelo container, não criada com new
+  - Theory com vários saldos e taxas
+  - O arredondamento tem um teste
+  - Pedidos na coleção do Bruno
+uses:
+  - dotnet-3
+  - csharp-2
+hint:
+  explanation: "É o padrão Strategy que viste no módulo C#: a mesma interface com várias implementações. A escolha entre Standard e Promo faz-se no registo do container, e o handler nem sabe qual está a usar."
+businessValue: Médio
+dependsOn: US4
+details:
+  persona: cliente autenticado
+  want: ver e receber os juros da minha conta
+  purpose: ser remunerado pelo dinheiro que mantenho no banco
+  description: O cálculo dos juros é uma estratégia (IInterestCalculator) escolhida por configuração. Os juros mensais são saldo × taxa ÷ 12, arredondados a duas casas decimais, e só podem ser aplicados uma vez por mês.
+  scenarios:
+    - title: Simular juros
+      given:
+        - a conta A tem saldo 1 200,00 e a taxa é 1 % ao ano
+      when:
+        - consulto os juros
+      then:
+        - vejo 1,00 de juros mensais
+    - title: Aplicar juros
+      given:
+        - ainda não apliquei juros este mês
+      when:
+        - peço para aplicar os juros
+      then:
+        - recebo success
+        - fica uma Transaction do tipo Interest
+        - o saldo aumenta
+    - title: Segunda aplicação no mês
+      given:
+        - já apliquei juros este mês
+      when:
+        - peço para aplicar outra vez
+      then:
+        - recebo conflict
+    - title: Conta fechada
+      given:
+        - a conta A está Closed
+      when:
+        - peço para aplicar juros
+      then:
+        - recebo conflict
+  outOfScope:
+    - Capitalização diária
+    - Execução automática por job agendado
+  storyPoints: 5

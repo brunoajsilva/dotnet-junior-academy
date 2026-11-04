@@ -1,0 +1,21 @@
+id: au-2-1
+title: Como funciona
+type: cards
+flowSteps: 3
+cards:
+  - title: Pedido
+    lines:
+      - O cliente chama um endpoint protegido sem credenciais.
+  - title: Desafio
+    lines:
+      - "A API responde 401 com o cabeçalho WWW-Authenticate: Basic."
+  - title: Credenciais
+    lines:
+      - "O cliente repete o pedido com Authorization: Basic base64(user:password)."
+  - title: ""
+    lines:
+      - O servidor valida o utilizador e a password em todos os pedidos.
+      - "Não há sessão nem token: as credenciais viajam sempre."
+    isNote: true
+learnMore:
+  explanation: O Basic Auth faz parte do próprio protocolo HTTP (RFC 7617). É suportado por qualquer cliente HTTP sem código adicional, o que o torna útil em ferramentas internas e em testes rápidos.

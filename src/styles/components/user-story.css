@@ -1,0 +1,127 @@
+/* User story drawer: metadata, Gherkin scenarios and the copy button. */
+
+.drawer .db .usline {
+  font-family: var(--f-serif);
+  font-size: 1.3rem;
+  line-height: 1.5;
+}
+
+.drawer .db .usline b {
+  color: var(--accent);
+  font-weight: 400;
+  font-style: italic;
+}
+
+.usmeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.usmeta span {
+  border: 0;
+  border-radius: 8px;
+  padding: 4px 12px;
+  font-size: 0.84rem;
+  background: var(--md-surface-high);
+}
+
+.usmeta i {
+  font-style: normal;
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-right: 7px;
+}
+
+.drawer .db h3 {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--faint);
+  font-family: var(--f-body);
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+.usl {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 6px;
+  font-size: 0.98rem;
+}
+
+.gk {
+  border: 0;
+  border-radius: 16px;
+  padding: 12px 14px;
+  display: grid;
+  gap: 3px;
+  background: var(--md-surface-low);
+}
+
+.gk h4 {
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+}
+
+.gk p {
+  font-size: 0.94rem !important;
+  line-height: 1.55 !important;
+}
+
+.gk p b {
+  display: inline-block;
+  min-width: 4.6rem;
+  color: var(--c-projeto);
+  font-weight: 600;
+}
+
+.more.story {
+  border-color: transparent;
+  color: var(--accent-fg);
+  background: var(--accent);
+}
+
+.uscopy {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 16px;
+  background: var(--md-surface-high);
+}
+
+.uscopy span {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-right: 4px;
+}
+
+.uscopy button {
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 500;
+  padding: 6px 14px;
+  border: 1px solid var(--c-projeto);
+  color: var(--c-projeto);
+  background: transparent;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.uscopy button:hover {
+  background: var(--c-projeto);
+  color: var(--on-c);
+}
+
+.more.story:hover {
+  background: color-mix(in srgb, var(--accent) 92%, var(--md-on-primary));
+  color: var(--accent-fg);
+}

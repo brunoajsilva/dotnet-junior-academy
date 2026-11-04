@@ -1,0 +1,20 @@
+id: au-7-4
+title: Rever o AuthLab com olhos de atacante
+type: exercise
+steps:
+  - keyword: Hash
+    text: substituir as passwords em texto por hashes com PasswordHasher
+  - keyword: Por omissão
+    text: exigir autenticação em todos os endpoints com uma FallbackPolicy e abrir o Login e os endpoints públicos com AllowAnonymous
+  - keyword: Limite
+    text: bloquear o login durante 1 minuto após 5 tentativas falhadas do mesmo email
+  - keyword: Logs
+    text: confirmar que nenhum log escreve a password nem o token
+  - keyword: Explicar
+    text: escrever três frases sobre o que acontece se alguém roubar o access token e o que limita o estrago
+expectedOutput: |-
+  Tentativa 6 do mesmo email -> 429 Too Many Requests (ou 401 com mensagem genérica)
+  Endpoint novo sem atributo -> 401
+challenge: Acrescenta um endpoint /refresh com rotation, como no capítulo anterior.
+learnMore:
+  explanation: "Rever com olhos de atacante é perguntar: se eu fosse mal-intencionado, o que tentava? Trocar o id na URL, repetir uma password mil vezes, reutilizar um token expirado, ler o payload à procura de segredos. A checklist do início do capítulo responde às mesmas perguntas."

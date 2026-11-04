@@ -1,0 +1,24 @@
+id: au-4-3
+title: "Assinatura: simétrica ou assimétrica"
+type: table
+rows:
+  - - ""
+    - HS256 (simétrica)
+    - RS256 (assimétrica)
+  - - Chaves
+    - Uma só, partilhada
+    - Privada (assina) e pública (valida)
+  - - Quem assina
+    - Quem tem a chave
+    - Só o dono da chave privada
+  - - Quem valida
+    - Quem tem a chave (e por isso também podia assinar)
+    - Qualquer um com a chave pública
+  - - Ideal para
+    - Uma API que emite e valida os seus tokens
+    - Um servidor de identidade e várias APIs
+  - - Neste curso
+    - Usada
+    - Para saberes que existe
+learnMore:
+  explanation: "Com HS256, qualquer serviço que valide o token tem a chave que também permite assinar tokens. Para uma API que emite e valida os seus tokens, como a BankingApp, é adequado e simples. Quando várias APIs validam tokens de um servidor de identidade, usa-se RS256: as APIs só têm a chave pública e não conseguem fabricar tokens."

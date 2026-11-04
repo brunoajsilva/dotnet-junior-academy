@@ -1,0 +1,12 @@
+id: m2-56
+title: Estrutura da solução
+type: code
+language: cs
+codeFile: code/m2-56.cs
+keyPoints:
+  - Um projeto por camada.
+  - As referências impõem a regra das dependências.
+  - O Domínio não referencia nada.
+  - Só a Api conhece a Infrastructure, para a registar.
+learnMore:
+  explanation: "Cada camada é um projeto. As referências entre projetos impõem a regra: Domain não referencia nada; Application referencia Domain; Infrastructure referencia Application; Api referencia Application e Infrastructure (só para registar). Se alguém tentar usar o EF Core no Domain, o código não compila."

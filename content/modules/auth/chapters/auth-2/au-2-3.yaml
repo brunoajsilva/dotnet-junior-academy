@@ -1,0 +1,20 @@
+id: au-2-3
+title: Os limites do Basic Auth
+type: table
+rows:
+  - - Problema
+    - Consequência
+  - - A password viaja em todos os pedidos
+    - Mais oportunidades de ser intercetada ou registada em logs.
+  - - A API vê a password do utilizador
+    - Uma aplicação de terceiros teria de receber a tua password do banco.
+  - - Não expira
+    - Só deixa de funcionar se mudares a password.
+  - - Sem âmbito (scope)
+    - Quem tem as credenciais pode fazer tudo.
+  - - Sem revogação parcial
+    - Para cortar o acesso a uma aplicação tens de mudar a password, e todas as outras aplicações perdem acesso.
+  - - Sem autenticação multifator
+    - Não há onde encaixar um segundo fator.
+learnMore:
+  explanation: "Estes limites são a razão de ser do OAuth 2.0: dar a uma aplicação um acesso limitado, temporário e revogável, sem lhe entregar a password."

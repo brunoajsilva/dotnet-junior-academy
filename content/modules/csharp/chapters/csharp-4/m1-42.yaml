@@ -1,0 +1,17 @@
+id: m1-42
+title: "Enunciado: gestão de contas"
+type: cards
+cards:
+  - title: Contexto
+    lines:
+      - Um banco quer uma aplicação de consola para registar contas e consultar totais por cliente. Os dados ficam em memória enquanto o programa corre.
+    codeFile: code/m1-42.cs
+  - title: Funcionalidades
+    lines:
+      - "1 · Criar conta: pede o número, o nome e o NIF do cliente e o saldo inicial."
+      - "2 · Listar contas: mostra número, cliente e saldo, do maior para o menor."
+      - "3 · Total por cliente: mostra a soma dos saldos de cada cliente."
+      - "0 · Sair: termina o programa."
+learnMore:
+  explanation: "Tudo fica em memória enquanto o programa corre: não há base de dados neste módulo. Decide tu a ordem em que implementas as opções do menu. Uma sugestão: começa pela 1 e pela 2, porque a 3 depende de ter contas criadas."
+  tryIt: Antes de escreveres código, desenha as classes que vais precisar e a estrutura de dados onde guardas as contas.

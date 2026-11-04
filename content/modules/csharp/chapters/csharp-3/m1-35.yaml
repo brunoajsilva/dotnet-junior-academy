@@ -1,0 +1,15 @@
+id: m1-35
+title: async/await
+type: code
+language: cs
+codeFile: code/m1-35.cs
+keyPoints:
+  - Esperar por rede, disco ou base de dados não deve bloquear a thread.
+  - await liberta a thread e retoma quando a operação termina.
+  - O código lê-se como se fosse sequencial.
+  - Numa API, liberta a thread para outros pedidos.
+learnMore:
+  explanation: |-
+    Esperar por rede, disco ou base de dados não gasta CPU, mas uma thread bloqueada continua ocupada. Com await a thread é libertada enquanto a operação decorre e retoma quando termina. Numa API, isto significa servir mais pedidos com o mesmo número de threads.
+
+    O código lê-se de cima para baixo, como se fosse síncrono.

@@ -1,0 +1,43 @@
+id: auth-5
+title: "Hands-on I: gerar e validar um JWT"
+intro: "Constróis de raiz uma Web API pequena, o AuthLab: configuras a autenticação JWT, crias no controller um método que gera o token e outro que só responde a quem o enviar. Não é a BankingApp: serve para perceberes cada peça antes do projeto."
+lessons:
+  - $ref: au-5-1.yaml
+  - $ref: au-5-2.yaml
+  - $ref: au-5-3.yaml
+  - $ref: au-5-4.yaml
+  - $ref: au-5-5.yaml
+  - $ref: au-5-6.yaml
+quiz:
+  - question: Onde fica a chave de assinatura durante o desenvolvimento?
+    options:
+      - Num cofre ou numa variável de ambiente
+      - No código-fonte
+      - No nome do projeto
+      - Num comentário
+    correctIndex: 0
+    explanation: Fora do repositório. Num laboratório pode ficar no appsettings.json, mas em produção vem de variáveis de ambiente ou de um cofre.
+  - question: O que devolve o método Me se o token tiver um carácter alterado?
+    options:
+      - "200"
+      - "401"
+      - "403"
+      - "500"
+    correctIndex: 1
+    explanation: "A assinatura deixa de bater certo e a autenticação falha: 401."
+  - question: Porque tem o Login o atributo [AllowAnonymous]?
+    options:
+      - Para ser mais rápido
+      - Porque quem faz login ainda não tem token
+      - Porque o JWT o exige
+      - Para devolver 403
+    correctIndex: 1
+    explanation: O Login é o método que gera o primeiro token, por isso não pode exigir um.
+  - question: O que faz o atributo [Authorize] num método do controller?
+    options:
+      - Valida a password
+      - Exige um utilizador autenticado
+      - Emite o token
+      - Encripta a resposta
+    correctIndex: 1
+    explanation: Sem utilizador autenticado, a resposta é 401.

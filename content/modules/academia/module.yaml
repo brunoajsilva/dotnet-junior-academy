@@ -1,0 +1,12 @@
+id: academia
+kind: intro
+title: Introdução à Academia
+shortTitle: Introdução à Academia
+tagline: O que é a .NET Backend Academy, o que vais conseguir fazer no fim, como está organizada e o que tens de instalar.
+sections:
+  - $ref: sections/what.yaml
+  - $ref: sections/goals.yaml
+  - $ref: sections/plan.yaml
+  - $ref: sections/schedule.yaml
+  - $ref: sections/how.yaml
+  - $ref: sections/software.yaml

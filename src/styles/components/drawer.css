@@ -1,0 +1,376 @@
+/* "Saber mais" drawer and the global responsive rules for the project pages. */
+
+.dr-scrim {
+  position: fixed;
+  inset: 0;
+  background: var(--md-scrim);
+  z-index: 80;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+.dr-scrim.on {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(540px, 100%);
+  max-width: 100vw;
+  overflow: hidden;
+  background: var(--md-surface-container);
+  z-index: 90;
+  transform: translateX(100%);
+  transition:
+    transform 0.25s ease,
+    visibility 0.25s;
+  display: flex;
+  flex-direction: column;
+  visibility: hidden;
+  padding-top: env(safe-area-inset-top, 0px);
+  border-radius: 28px 0 0 28px;
+}
+
+.drawer.on {
+  transform: none;
+  visibility: visible;
+  box-shadow: var(--shadow-2);
+}
+
+.drawer .dh {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px 12px max(24px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+  border-bottom: 1px solid var(--line);
+}
+
+.drawer .dh .eyebrow {
+  margin: 0;
+  color: var(--faint);
+  flex: 1;
+}
+
+.drawer .db {
+  overflow: auto;
+  padding: 28px max(28px, env(safe-area-inset-right, 0px))
+    calc(36px + env(safe-area-inset-bottom, 0px)) max(28px, env(safe-area-inset-left, 0px));
+  display: grid;
+  gap: 18px;
+  align-content: start;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.drawer h2 {
+  font-family: var(--f-serif);
+  font-weight: 400;
+  font-size: 2rem;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+}
+
+.drawer .db p {
+  font-size: 1.02rem;
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+.drawer .db * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.drawer .db .pre {
+  white-space: pre-line;
+}
+
+.callout {
+  padding: 14px 0 14px 16px;
+  font-size: 0.96rem;
+  border-left: 2px solid var(--line2);
+  border-radius: 0 12px 12px 0;
+  background: var(--md-surface-low);
+}
+
+.callout b {
+  display: block;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.callout.pit {
+  border-left-color: var(--warn);
+}
+
+.callout.pit b {
+  color: var(--warn);
+}
+
+.callout.try {
+  border-left-color: var(--accent);
+}
+
+.callout.try b {
+  color: var(--accent);
+}
+
+.sbox {
+  position: fixed;
+  left: 50%;
+  top: max(10vh, calc(env(safe-area-inset-top, 0px) + 12px));
+  transform: translateX(-50%);
+  width: min(620px, calc(100% - 32px));
+  max-height: 76vh;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  z-index: 95;
+  box-shadow: 0 24px 60px rgba(20, 21, 26, 0.22);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sbox.on {
+  display: flex;
+}
+
+.sbox input {
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  padding: 18px 20px;
+  font: inherit;
+  font-size: 1.05rem;
+  background: transparent;
+  color: var(--fg);
+  outline: none;
+}
+
+.sres {
+  overflow: auto;
+  padding: 8px;
+}
+
+.sres a {
+  display: block;
+  padding: 10px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--fg);
+}
+
+.sres a:hover,
+.sres a.hot {
+  background: var(--surface2);
+}
+
+.sres small {
+  display: block;
+  color: var(--faint);
+  font-size: 0.76rem;
+}
+
+.sres em {
+  font-style: normal;
+  color: var(--muted);
+  font-size: 0.84rem;
+  display: block;
+}
+
+.sempty {
+  padding: 20px;
+  color: var(--muted);
+  text-align: center;
+}
+
+@media (max-width: 1180px) {
+  .modnav a .t {
+    display: none;
+  }
+  .modnav a {
+    padding: 0 14px;
+  }
+  .modnav a .n {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 1000px) {
+  .arch,
+  .treebox {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .lpanel,
+  .tpanel {
+    position: static;
+  }
+}
+
+@media (max-width: 920px) {
+  .shell {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    padding-block: 28px 56px;
+  }
+  .menu-btn {
+    display: inline-flex;
+  }
+  .modnav {
+    display: none;
+  }
+  .topbar .in {
+    display: flex;
+    padding: 0 12px 0 10px;
+  }
+  .topbar .in .brand {
+    flex: 1;
+  }
+  .side .side-ctx {
+    display: none;
+  }
+  .side .side-all {
+    display: block;
+  }
+  .side {
+    position: fixed;
+    z-index: 70;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: min(86vw, 320px);
+    max-height: none;
+    background: var(--surface);
+    padding: calc(20px + env(safe-area-inset-top, 0px)) 14px 24px
+      max(14px, env(safe-area-inset-left, 0px));
+    transform: translateX(-102%);
+    transition: transform 0.25s;
+    border-right: 1px solid var(--line);
+  }
+  .side.on {
+    transform: none;
+    box-shadow: var(--shadow-2);
+  }
+  .scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: var(--md-scrim);
+    z-index: 65;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+  }
+  .scrim.on {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .pill {
+    display: none;
+  }
+}
+
+@media (max-width: 620px) {
+  .lesson.exercise {
+    margin: 0 -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .lh {
+    flex-wrap: wrap;
+    gap: 8px 12px;
+  }
+  .lh h3 {
+    flex-basis: calc(100% - 3rem);
+  }
+  .seenbtn {
+    margin-left: 2.6rem;
+  }
+  .mcard {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .mcard .k {
+    grid-row: auto;
+  }
+  .mcard p,
+  .mcard .meta,
+  .mcard .go {
+    grid-column: 1;
+  }
+  .mcard .go {
+    grid-column: 2;
+    grid-row: auto;
+    margin-top: 6px;
+    min-width: 0;
+  }
+  .chcard,
+  .ph-card {
+    grid-template-columns: 2.2rem minmax(0, 1fr);
+  }
+  .chcard .st,
+  .ph-card .st {
+    grid-column: 2;
+    text-align: left;
+  }
+  .ph-card {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .ph-card .num,
+  .ph-card .st {
+    grid-column: 1;
+  }
+  .ibtn kbd,
+  .ibtn .lbl {
+    display: none;
+  }
+  .fstep {
+    flex-basis: 100%;
+    margin-right: 0;
+    margin-bottom: 22px;
+  }
+  .fstep:last-child {
+    margin-bottom: 0;
+  }
+  .fstep:not(:last-child)::after {
+    content: "↓";
+    right: auto;
+    left: 50%;
+    top: auto;
+    bottom: -24px;
+    transform: translateX(-50%);
+  }
+  .feat-row {
+    grid-template-columns: 2.2rem minmax(0, 1fr);
+  }
+  .feat-row .meta {
+    grid-column: 2;
+    justify-content: flex-start;
+  }
+  .smodal {
+    padding: 12px 0 0;
+    place-items: end stretch;
+  }
+  .smodal-card {
+    width: 100%;
+    max-height: 92vh;
+    border-radius: 28px 28px 0 0;
+  }
+  .smodal-head {
+    grid-template-columns: 2.2rem minmax(0, 1fr) auto;
+    padding: 20px 18px 14px;
+  }
+  .feat .fbody {
+    padding: 4px 18px 28px;
+  }
+  .quiz {
+    padding: 22px 18px 14px;
+  }
+}

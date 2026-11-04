@@ -1,0 +1,20 @@
+id: m2-46
+title: A pirâmide de testes
+type: pyramid
+levels:
+  - name: Ponta a ponta
+    description: poucos, lentos
+  - name: Integração
+    description: alguns
+  - name: Unitários
+    description: muitos, rápidos
+cards:
+  - title: Unitário
+    lines:
+      - Uma classe ou método isolado, sem base de dados nem rede.
+  - title: Integração
+    lines:
+      - Várias peças reais juntas, como a API e a base de dados.
+  - title: Ponta a ponta
+    lines:
+      - O sistema completo, como um utilizador o usa.

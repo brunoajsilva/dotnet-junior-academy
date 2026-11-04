@@ -1,0 +1,20 @@
+---
+import Base from "../layouts/Base.astro";
+import { loadSite } from "../lib/load-site";
+
+const site = await loadSite();
+const baseUrl = import.meta.env.BASE_URL;
+// The index is created by Pagefind after the build (npm run build), so it does not exist in `astro dev`.
+const searchPageHtml = `<header class="ph"><h1>Pesquisa</h1><p class="lead">Procura em todos os módulos, capítulos e exemplos de código.</p></header>
+<div id="search" data-pagefind-ignore></div>
+<link href="${baseUrl}pagefind/pagefind-ui.css" rel="stylesheet" />
+<script src="${baseUrl}pagefind/pagefind-ui.js"></script>
+<script>
+  window.addEventListener("DOMContentLoaded", function () {
+    if (window.PagefindUI) new PagefindUI({ element: "#search", showSubResults: true, translations: { placeholder: "Pesquisar" } });
+    else document.getElementById("search").textContent = "O índice de pesquisa só existe no site publicado (npm run build).";
+  });
+</script>`;
+---
+
+<Base routeId="pesquisa" site={site} title="Pesquisa · .NET Backend Academy" mainHtml={searchPageHtml} />

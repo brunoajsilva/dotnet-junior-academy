@@ -1,0 +1,16 @@
+id: m1-15
+title: "Strings: construção"
+type: code
+language: cs
+codeFile: code/m1-15.cs
+keyPoints:
+  - + serve para poucas junções.
+  - string.Join une uma coleção com um separador.
+  - StringBuilder em ciclos longos.
+  - "Uma string nunca muda: cada operação cria outra."
+learnMore:
+  explanation: |-
+    As strings em .NET são imutáveis: cada + cria uma string nova. Para três ou quatro junções não faz diferença. Num ciclo com milhares de iterações, o StringBuilder evita criar milhares de strings intermédias.
+
+    string.Join junta uma coleção com um separador sem teres de tratar o último elemento à parte.
+  tryIt: Junta os números de 1 a 5 com string.Join(", ", ...).

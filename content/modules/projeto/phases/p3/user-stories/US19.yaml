@@ -1,0 +1,68 @@
+id: US19
+title: Logout
+story: Como cliente, quero terminar a sessão, para que ninguém a possa reutilizar.
+feature: F5
+endpoint: POST /api/auth/logout
+body: '{ "refreshToken": "a1b2c3..." }'
+rules:
+  - Recebe o refresh token da sessão a terminar
+  - Apaga esse refresh token, sem afetar as sessões dos outros dispositivos
+  - O access token continua válido até expirar
+  - "Repetir o logout com o mesmo token não é erro: responde success"
+  - Usa a entidade RefreshToken da US18
+responses:
+  - result: success
+    when: Sessão terminada
+  - result: validation
+    when: Pedido sem refresh token
+criteria:
+  - Depois do logout, o refresh token deixa de funcionar
+  - As outras sessões do cliente continuam ativas
+  - Há teste ao logout repetido
+  - Pedido na coleção do Bruno
+uses:
+  - auth-6
+  - auth-7
+hint:
+  explanation: "O access token é um JWT sem estado: o servidor não o consegue apagar. Por isso o logout só impede a renovação, e o access token acaba por expirar sozinho. Pensa porque é que o access token deve ter validade curta."
+businessValue: Médio
+dependsOn: US18
+details:
+  persona: cliente autenticado
+  want: terminar a sessão
+  purpose: garantir que ninguém a pode reutilizar
+  description: O logout apaga o refresh token da sessão. O access token continua válido até expirar, por isso deve ter uma validade curta.
+  scenarios:
+    - title: Logout
+      given:
+        - tenho um refresh token válido
+      when:
+        - faço logout
+      then:
+        - recebo success
+        - o refresh token deixa de funcionar
+    - title: Outras sessões
+      given:
+        - tenho sessão noutro dispositivo
+      when:
+        - faço logout neste
+      then:
+        - a outra sessão continua ativa
+    - title: Logout repetido
+      given:
+        - já fiz logout com este token
+      when:
+        - faço logout outra vez
+      then:
+        - recebo success
+    - title: Pedido sem token
+      given:
+        - o corpo não tem refresh token
+      when:
+        - faço logout
+      then:
+        - recebo validation
+  outOfScope:
+    - Logout de todos os dispositivos
+    - Invalidar o access token já emitido
+  storyPoints: 2

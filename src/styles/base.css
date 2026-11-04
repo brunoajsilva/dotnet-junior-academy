@@ -1,0 +1,88 @@
+/* Reset and element defaults. */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--f-body);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  -webkit-text-size-adjust: 100%;
+  font-feature-settings: "cv11", "ss03";
+  -webkit-font-smoothing: antialiased;
+  transition:
+    background-color 0.25s var(--e-in),
+    color 0.25s var(--e-in);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  z-index: 60;
+  background: var(--surface);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: var(--f-display);
+  margin: 0;
+  text-wrap: balance;
+  letter-spacing: -0.018em;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: var(--accent);
+  text-underline-offset: 3px;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 70%, transparent);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+code,
+.mono {
+  font-family: var(--f-mono);
+  font-size: 0.88em;
+}
+
+.pad {
+  padding-left: max(clamp(20px, 3vw, 48px), env(safe-area-inset-left, 0px));
+  padding-right: max(clamp(20px, 3vw, 48px), env(safe-area-inset-right, 0px));
+}
+
+::selection {
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+}
+
+.loading {
+  color: var(--muted);
+}

@@ -1,0 +1,12 @@
+id: m2-39
+title: "Migrations: criar a primeira"
+type: code
+language: cs
+codeFile: code/m2-39.cs
+keyPoints:
+  - migrations add compara o modelo com o snapshot e gera o código.
+  - Up aplica a alteração; Down desfaz.
+  - O snapshot guarda o último estado do modelo.
+  - Rever o ficheiro gerado antes de o aplicar.
+learnMore:
+  explanation: "dotnet ef migrations add compara o modelo atual com o snapshot da última migration e gera um ficheiro C# com os métodos Up (aplicar) e Down (desfazer). Lê sempre o ficheiro gerado antes de o aplicar: é aí que vês, por exemplo, uma coluna que ia ser apagada."

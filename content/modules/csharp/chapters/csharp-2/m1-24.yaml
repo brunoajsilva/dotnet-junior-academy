@@ -1,0 +1,15 @@
+id: m1-24
+title: "Classes: Composição em vez de herança"
+type: code
+language: cs
+codeFile: code/m1-24.cs
+keyPoints:
+  - "Composição: a classe tem outra e delega-lhe trabalho."
+  - "Herança: a classe é uma especialização e fica presa à base."
+  - Trocar o objeto recebido muda o comportamento.
+  - Base da Dependency Injection.
+learnMore:
+  explanation: |-
+    Composição significa 'tem um': a classe recebe outro objeto e delega-lhe trabalho. Herança significa 'é um' e fixa a classe à sua base. Em geral compõe-se, e herda-se só quando a relação 'é um' é verdadeira em qualquer situação.
+
+    Trocar o objeto recebido muda o comportamento sem tocar na classe, e é exatamente isso que a Dependency Injection automatiza.

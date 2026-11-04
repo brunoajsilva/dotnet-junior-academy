@@ -1,0 +1,64 @@
+id: p4
+day: ""
+kind: plan
+title: Introdução ao Projeto Final
+goal: Perceber que não vais conseguir fazer tudo e decidir, com critérios, o que entra. Entregas um plano e defendes-o ao formador.
+uses:
+  - academia-how
+sections:
+  - title: O choque de realidade
+    intro: "O enunciado tem muito mais user stories do que cabem nos dias que tens. Não é engano: na vida real há sempre mais trabalho do que tempo, e escolher bem faz parte do trabalho. Antes de escreveres código, vais decidir o que entra."
+    steps:
+      - Ler todas as user stories do enunciado, até ao fim
+      - Apontar as dúvidas de negócio para perguntares ao formador
+      - Somar, de cabeça, quanto tempo achas que demora tudo. Guarda este número.
+  - title: Estimar
+    intro: "Dá a cada user story uma estimativa em horas. Inclui tudo o que a torna pronta: regra, caso de uso, migration, controller, testes e pedido no Bruno. Uma estimativa é uma aposta informada, e não uma promessa: o importante é ser honesto."
+    steps:
+      - Estimar cada user story em horas (números inteiros)
+      - "Anotar o risco: o que nunca fizeste é mais arriscado"
+      - Anotar as dependências (a US7 precisa da US5, que precisa da US4)
+      - Dar um valor de negócio, de acordo com o que está no enunciado
+    files:
+      - name: Tabela de planeamento (modelo)
+        language: txt
+        codeFile: code/tabela-de-planeamento-modelo.txt
+  - title: Calcular a capacidade
+    intro: Quantas horas tens realmente? A conta é simples, mas as pessoas esquecem-se do tempo que se gasta em dúvidas, erros e reuniões.
+    steps:
+      - Contar os dias de construção (o Dia 6 é para a entrega final, e não para construir)
+      - Descontar uma margem para imprevistos
+      - Comparar a capacidade com a soma das estimativas
+    files:
+      - name: Exemplo de cálculo
+        language: txt
+        codeFile: code/exemplo-de-calculo.txt
+  - title: Escolher e sequenciar
+    intro: "Com a capacidade à vista, escolhe. Usa quatro etiquetas: Must (sem isto, o projeto não faz sentido), Should (devia entrar), Could (se sobrar tempo), Won't (fica de fora, agora). Os Must têm de caber na capacidade."
+    steps:
+      - Marcar Must, Should, Could e Won't
+      - Verificar que os Must cabem na capacidade
+      - "Ordenar pelas dependências e pelo risco: o que é arriscado faz-se cedo"
+      - Escrever, para cada Won't, uma frase a explicar porque fica de fora
+  - title: Definir o que é «pronto»
+    intro: "Uma user story a 90 % não vale nada: ou está pronta, ou não está. Define já o critério, para não discutires a meio."
+    steps:
+      - As regras de negócio estão no código e testadas
+      - A migration está criada e revista
+      - Os erros respondem como no enunciado
+      - Há um pedido no Bruno que a demonstra
+      - Os testes todos passam
+  - title: Apresentar o plano ao formador
+    intro: Tens 15 minutos para defender o plano. O formador vai questionar as estimativas, as dependências e o que ficou de fora. Podes alterar o plano depois da conversa.
+    steps:
+      - Levar a tabela com estimativas, riscos e decisões
+      - Mostrar a capacidade e como a calculaste
+      - Explicar o que ficou de fora e porquê
+      - Rever o plano com o que ouviste e arrancar
+learnMore:
+  explanation: |-
+    Estimar mal é normal: a maioria das pessoas subestima. O objetivo não é só acertar, mas também aprender a estimar e a ajustar o plano quando a realidade o contradiz. Por isso, no dia 5 revês o plano e, no dia 6, comparas o estimado com o real.
+
+    Um plano bom diz também o que não vai ser feito. Quem promete tudo desilude no fim.
+  pitfall: Contar só o código e esquecer migrations, testes e o pedido no Bruno. É a causa mais comum de estimativas curtas.
+  tryIt: "Antes de somares as estimativas, olha para o total e pergunta: se eu tivesse de apostar dinheiro, apostava que cabia em 12 horas?"

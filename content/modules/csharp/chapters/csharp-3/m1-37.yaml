@@ -1,0 +1,16 @@
+id: m1-37
+title: "async: executar em paralelo"
+type: code
+language: cs
+codeFile: code/m1-37.cs
+keyPoints:
+  - Task.WhenAll espera por várias tarefas ao mesmo tempo.
+  - Arrancar as tarefas antes de fazer await.
+  - Parallel.ForEachAsync limita a concorrência.
+  - Só faz sentido para trabalho independente.
+learnMore:
+  explanation: |-
+    Para correr várias operações independentes ao mesmo tempo: arranca todas as tarefas primeiro, guarda as Tasks e só depois faz await Task.WhenAll(...). Se fizeres await logo na primeira, corre tudo em sequência.
+
+    Parallel.ForEachAsync permite limitar a concorrência, útil quando o serviço do outro lado só aguenta um certo número de pedidos.
+  pitfall: Fazer await dentro do ciclo e pensar que está em paralelo.

@@ -1,0 +1,16 @@
+id: logging-1-1
+title: ILogger e mensagens estruturadas
+type: code
+language: cs
+codeFile: code/logging-1-1.cs
+keyPoints:
+  - O ILogger<T> vem por Dependency Injection e o T identifica a classe que escreveu a mensagem.
+  - Os marcadores {Amount} e {AccountNumber} ficam pesquisáveis, ao contrário de texto concatenado.
+  - Nunca registes passwords, tokens ou dados pessoais completos.
+learnMore:
+  explanation: |-
+    Com marcadores nomeados, o sistema de logging guarda o valor de cada um como um campo próprio. Isso permite, mais tarde, pesquisar todas as mensagens de uma conta concreta sem fazer parsing de texto.
+
+    A concatenação com $"..." produz o mesmo texto no ecrã, mas perde essa estrutura.
+  pitfall: Registar o corpo completo de um pedido. Pode incluir passwords ou números de conta que não deviam sair da aplicação.
+  tryIt: Acrescenta um LogInformation ao teu handler de depósito e corre a API. Vê a mensagem na consola.

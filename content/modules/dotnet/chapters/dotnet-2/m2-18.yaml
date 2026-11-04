@@ -1,0 +1,32 @@
+id: m2-18
+title: Códigos de estado HTTP
+type: table
+rows:
+  - - Código
+    - Significado
+    - Quando
+  - - 200 OK
+    - Pedido bem-sucedido, com corpo
+    - GET que encontra o recurso
+  - - 201 Created
+    - Recurso criado (cabeçalho Location)
+    - POST que cria uma conta
+  - - 204 No Content
+    - Sucesso, sem corpo
+    - DELETE ou PUT bem-sucedidos
+  - - 400 Bad Request
+    - Pedido inválido
+    - Falha na validação
+  - - 404 Not Found
+    - O recurso não existe
+    - GET de uma conta inexistente
+  - - 409 Conflict
+    - Conflito com o estado atual
+    - Número de conta repetido
+  - - 500 Internal Server Error
+    - Erro no servidor
+    - Exceção não tratada
+note: ""
+learnMore:
+  explanation: "Os códigos agrupam-se por centena: 2xx sucesso, 4xx erro do cliente (corrige o pedido), 5xx erro do servidor (a culpa não é do cliente). Escolher o código certo poupa horas de depuração a quem consome a tua API."
+  tryIt: Antes de abrires a coluna «Quando», tenta adivinhar o código para cada situação.

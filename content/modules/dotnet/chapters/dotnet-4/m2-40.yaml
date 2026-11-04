@@ -1,0 +1,13 @@
+id: m2-40
+title: "Migrations: atualizar a base de dados"
+type: code
+language: cs
+codeFile: code/m2-40.cs
+keyPoints:
+  - database update cria a base de dados, se faltar, e aplica o que está pendente.
+  - A tabela __EFMigrationsHistory regista o que já foi aplicado.
+  - Cada alteração ao modelo gera uma nova migration.
+  - Em produção usa-se um script SQL revisto.
+learnMore:
+  explanation: "dotnet ef database update cria a base de dados, se não existir, e aplica as migrations pendentes. A tabela __EFMigrationsHistory regista o que já foi aplicado, por isso podes correr o comando várias vezes. Em produção não se aplica diretamente: gera-se um script SQL, revê-se e executa-se com o processo normal de Release."
+  tryIt: Acrescenta uma propriedade a Account, cria uma nova migration e abre o ficheiro gerado.

@@ -1,0 +1,12 @@
+id: m2-37
+title: DbContext e ligação
+type: code
+language: cs
+codeFile: code/m2-37.cs
+keyPoints:
+  - O DbContext agrupa as tabelas disponíveis.
+  - É registado no container, com tempo de vida Scoped.
+  - UseSqlServer escolhe o provider.
+  - A connection string vem da configuração.
+learnMore:
+  explanation: O DbContext representa uma sessão com a base de dados. Cada DbSet<T> é uma tabela. É registado no container com AddDbContext, que o torna Scoped, e recebe as opções (provider e connection string) no construtor.

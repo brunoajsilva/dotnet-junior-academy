@@ -1,0 +1,12 @@
+id: m2-17
+title: Controllers e rotas
+type: code
+language: cs
+codeFile: code/m2-17.cs
+keyPoints:
+  - "[ApiController] liga o binding e a validação automática."
+  - "[Route] define o caminho base."
+  - "Um atributo por verbo: HttpGet, HttpPost..."
+  - "{number} vem da rota; o corpo vem do JSON."
+learnMore:
+  explanation: Um controller é uma classe que agrupa endpoints. [ApiController] ativa o binding automático e a validação; [Route] define o caminho base; cada método tem um atributo de verbo. Parâmetros como {number} vêm da rota, e o corpo JSON é convertido para o tipo do parâmetro.

@@ -1,0 +1,15 @@
+id: m2-29
+title: Logging e opções também se injetam
+type: code
+language: cs
+codeFile: code/m2-29.cs
+keyPoints:
+  - ILogger<T> regista mensagens com nível e categoria.
+  - IOptions<T> dá acesso à configuração tipada.
+  - Mensagens com marcadores, como {Number}, ficam pesquisáveis.
+  - Os serviços do framework usam o mesmo mecanismo.
+learnMore:
+  explanation: |-
+    ILogger<T> regista mensagens com nível (Information, Warning, Error) e categoria (o tipo T). Usa marcadores nomeados, como {Number}, em vez de concatenar: o texto fica constante e os valores ficam pesquisáveis nos sistemas de logs.
+
+    IOptions<T> liga uma secção do appsettings a uma classe tipada.

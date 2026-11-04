@@ -1,0 +1,17 @@
+id: m1-14
+title: "Ciclos: while, do-while, break e continue"
+type: code
+language: cs
+codeFile: code/m1-14.cs
+keyPoints:
+  - while testa antes de cada volta.
+  - do-while corre pelo menos uma vez.
+  - break sai do ciclo.
+  - continue passa à volta seguinte.
+learnMore:
+  explanation: |-
+    while testa a condição antes de cada volta, por isso pode não correr nenhuma vez. do-while testa no fim e corre pelo menos uma: é a escolha natural para menus e para pedir um valor até ser válido.
+
+    break sai do ciclo; continue salta para a volta seguinte.
+  pitfall: Ciclos infinitos por esquecer de atualizar a variável da condição.
+  tryIt: Escreve um menu em do-while que só termina quando o utilizador escolhe 0.

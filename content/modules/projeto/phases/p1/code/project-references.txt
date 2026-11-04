@@ -1,0 +1,5 @@
+BankingApp.Domain          (sem referências)
+BankingApp.Application     -> BankingApp.Domain
+BankingApp.Infrastructure  -> BankingApp.Application
+BankingApp.Api             -> BankingApp.Application, BankingApp.Infrastructure
+BankingApp.Tests           -> BankingApp.Domain, BankingApp.Application

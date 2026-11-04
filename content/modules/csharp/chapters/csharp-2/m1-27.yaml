@@ -1,0 +1,28 @@
+id: m1-27
+title: Modelar o domínio
+type: domain
+entities:
+  - name: Account
+    fields: Number · Balance · Opened
+  - name: AccountHolder
+    fields: Customer · Since
+  - name: Customer
+    fields: Name · TaxId
+relations:
+  - tem um
+  - é um
+steps:
+  - keyword: ""
+    text: Modelar Customer, Account e AccountHolder
+  - keyword: ""
+    text: Calcular os juros com IInterestCalculator
+  - keyword: ""
+    text: Guardar contas numa List e numa Dictionary
+  - keyword: ""
+    text: Experimentar com três contas de exemplo
+expectedOutput: |-
+  Compila sem avisos
+  Três contas criadas e listadas
+learnMore:
+  explanation: AccountHolder (titular) é o cliente que contrata a conta. Neste modelo, AccountHolder é um Customer (herança) e a Account tem um AccountHolder (composição). Aceitam-se variações, desde que as duas relações estejam corretas.
+  tryIt: Desenha primeiro as três classes num papel com as setas «tem um» e «é um». Só depois escreve o código.

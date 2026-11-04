@@ -1,0 +1,15 @@
+id: m2-16
+title: Configuração e ambientes
+type: code
+language: cs
+codeFile: code/m2-16.cs
+keyPoints:
+  - appsettings.json guarda a configuração.
+  - O ficheiro do ambiente sobrepõe-se ao base.
+  - Variáveis de ambiente têm prioridade.
+  - Segredos nunca vão para o repositório.
+learnMore:
+  explanation: |-
+    A configuração vem de várias fontes sobrepostas: appsettings.json, appsettings.{Environment}.json, variáveis de ambiente. A última a ser lida ganha. Assim o mesmo código usa uma base de dados em DEV e outra em PROD, sem recompilar.
+
+    Segredos (passwords, chaves) nunca vão para o repositório; usam-se variáveis de ambiente, user-secrets em desenvolvimento ou um cofre.

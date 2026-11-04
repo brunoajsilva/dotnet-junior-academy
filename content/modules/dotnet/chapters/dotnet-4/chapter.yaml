@@ -1,0 +1,49 @@
+id: dotnet-4
+title: Entity Framework Core
+intro: Ligar a API a uma base de dados com classes C#, migrations e consultas LINQ.
+lessons:
+  - $ref: m2-33.yaml
+  - $ref: m2-34.yaml
+  - $ref: m2-35.yaml
+  - $ref: m2-36.yaml
+  - $ref: m2-37.yaml
+  - $ref: m2-38.yaml
+  - $ref: m2-39.yaml
+  - $ref: m2-40.yaml
+  - $ref: m2-41.yaml
+  - $ref: m2-42.yaml
+  - $ref: m2-43.yaml
+  - $ref: m2-44.yaml
+quiz:
+  - question: Em code-first, qual é a fonte de verdade do esquema?
+    options:
+      - A base de dados
+      - As classes C# e as migrations
+      - O SQL escrito à mão
+      - O Swagger
+    correctIndex: 1
+    explanation: Escreves o modelo e o EF gera o esquema.
+  - question: Porque é perigoso chamar ToList antes do Where num DbSet?
+    options:
+      - Não compila
+      - Traz a tabela toda para memória
+      - Apaga linhas
+      - Desativa o tracking
+    correctIndex: 1
+    explanation: O filtro passa a correr em memória e não na base de dados.
+  - question: Alteraste uma propriedade de uma entidade carregada. Que falta para gravar?
+    options:
+      - Chamar Update()
+      - Chamar SaveChangesAsync()
+      - Nada, grava sozinho
+      - Criar uma migration
+    correctIndex: 1
+    explanation: O EF deteta a alteração, mas só grava em SaveChangesAsync.
+  - question: O que regista a tabela __EFMigrationsHistory?
+    options:
+      - Os erros do EF
+      - As migrations já aplicadas
+      - Os dados apagados
+      - As connection strings
+    correctIndex: 1
+    explanation: É assim que o EF sabe o que ainda falta aplicar.

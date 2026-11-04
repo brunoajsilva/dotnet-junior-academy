@@ -1,0 +1,15 @@
+id: m1-13
+title: "Ciclos: foreach e for"
+type: code
+language: cs
+codeFile: code/m1-13.cs
+keyPoints:
+  - foreach percorre uma coleção, sem índice.
+  - for dá controlo do índice e do passo.
+  - Não alterar a coleção dentro de um foreach.
+learnMore:
+  explanation: |-
+    foreach percorre qualquer coleção sem expor índices, o que elimina erros de 'um a mais' ou 'um a menos'. O for é a ferramenta quando precisas do índice ou de um passo diferente de 1.
+
+    Alterar a coleção durante um foreach lança InvalidOperationException. Se precisas de remover elementos, constrói uma nova lista ou usa RemoveAll.
+  pitfall: Remover elementos de uma List dentro de um foreach sobre a própria List.

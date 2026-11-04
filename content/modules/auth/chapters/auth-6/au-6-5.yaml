@@ -1,0 +1,42 @@
+id: au-6-5
+title: Papéis e dados do dono no AuthLab
+type: exercise
+steps:
+  - keyword: Claims
+    text: configurar NameClaimType e RoleClaimType no TokenValidationParameters
+  - keyword: Gestores
+    text: criar o AdminController com GET /api/admin/customers só para o papel Manager
+  - keyword: Policy
+    text: criar a policy CanReviewLoans (papel Manager) e usá-la em POST /api/loans/{id}/approve
+  - keyword: Dono
+    text: criar uma lista de contas com CustomerId e GET /api/accounts/{number} que devolve 404 às contas de outros
+  - keyword: Testar
+    text: repetir os pedidos como ana (Customer) e como rui (Manager) e preencher a tabela de resultados
+expectedOutput: |-
+  Sem token -> 401 em todos
+  Customer num método de gestor -> 403
+  Conta de outro utilizador -> 404
+challenge: Acrescenta uma claim email_verified e uma policy VerifiedEmail.
+table:
+  - - Pedido
+    - Sem token
+    - Ana (Customer)
+    - Rui (Manager)
+  - - GET /api/admin/customers
+    - "401"
+    - "403"
+    - "200"
+  - - POST /api/loans/1/approve
+    - "401"
+    - "403"
+    - "204"
+  - - GET /api/accounts/AC-001 (conta da Ana)
+    - "401"
+    - "200"
+    - "404"
+  - - GET /api/accounts/AC-002 (conta do Rui)
+    - "401"
+    - "404"
+    - "200"
+learnMore:
+  explanation: "Se a tabela de resultados te sair diferente, é quase sempre uma de três causas: o RoleClaimType em falta (tudo 403), a ordem UseAuthentication/UseAuthorization (tudo 401) ou o id lido do sítio errado."

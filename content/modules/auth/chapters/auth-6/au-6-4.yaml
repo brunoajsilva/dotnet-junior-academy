@@ -1,0 +1,15 @@
+id: au-6-4
+title: "Refresh token: renovar sem novo login"
+type: code
+language: http
+codeFile: code/au-6-4.http
+keyPoints:
+  - Access token curto, refresh token longo.
+  - O refresh token é aleatório e guardado no servidor (com hash).
+  - Cada renovação troca o refresh token por um novo (rotation).
+  - O logout apaga-o no servidor.
+learnMore:
+  explanation: |-
+    Guardar o refresh token no servidor é o que permite revogar: apagas a linha e a sessão acaba. O access token continua válido até expirar, e é por isso que é curto.
+
+    Guarda o refresh token com hash, tal como as passwords: se alguém ler a base de dados, não consegue usá-los.

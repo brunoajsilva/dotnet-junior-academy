@@ -1,0 +1,14 @@
+context: "A BankingApp é uma Web API para um banco: clientes que se registam, fazem login e gerem as suas contas. Constróis a solução de raiz, com Clean Architecture, usando tudo o que aprendeste. No primeiro dia segues um guia. A partir do segundo, recebes um enunciado com muitas user stories e tens de planear o que consegues entregar."
+cards:
+  - title: Como está organizado
+    summary: Um dia guiado, uma introdução com o formador, quatro dias de user stories e um dia de entrega final.
+    learnMore:
+      explanation: "No dia 1 segues o guia: a solução já funcional, com base de dados e Swagger, e a autenticação JWT. A introdução ao projeto, com o planeamento, é uma sessão à parte, conduzida pelo formador, que acontece antes de começares a construir. Nos dias 2 a 5 constróis as user stories que planeaste, sem código de apoio. No dia 6 entregas o projeto e fazemos uma review em conjunto."
+  - title: Mais trabalho do que tempo
+    summary: O enunciado propõe mais user stories do que cabem em 6 dias. É de propósito.
+    learnMore:
+      explanation: "Numa equipa real, o que está no backlog é sempre mais do que a capacidade. A competência que se treina aqui é escolher: estimar, priorizar e dizer «isto fica de fora». Ninguém espera que acabes tudo. Espera-se que entregues o que escolheste, bem feito, e que saibas explicar as tuas decisões."
+  - title: Como sabes que acabaste
+    summary: As user stories do teu plano estão prontas, os testes passam e explicas o percurso de um pedido.
+    learnMore:
+      explanation: "No dia 6 tens a lista de critérios de aceitação. Marca cada um quando o conseguires demonstrar, antes de entregares. Na review comparas o plano com o que realmente aconteceu: onde estimaste bem, onde falhaste e porquê."

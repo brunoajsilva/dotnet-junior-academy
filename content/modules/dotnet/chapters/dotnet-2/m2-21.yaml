@@ -1,0 +1,16 @@
+id: m2-21
+title: REST e RPC
+type: cards
+cards:
+  - title: REST
+    lines:
+      - Recursos e verbos HTTP
+      - O URL identifica o recurso; o verbo diz o que fazer.
+    codeFile: code/m2-21.cs
+  - title: RPC
+    lines:
+      - Operações com nome
+      - O URL identifica a operação; quase tudo é POST.
+    codeFile: code/m2-21-2.cs
+learnMore:
+  explanation: "Numa API REST, o URL é um substantivo (o recurso) e o verbo HTTP é a ação: GET lê, POST cria, PUT/PATCH altera, DELETE apaga. Em RPC, o URL é um verbo (calculateInterest) e quase tudo é POST. REST é a escolha por omissão para os recursos do domínio; RPC aparece em operações que não são um recurso, como «calcular»."

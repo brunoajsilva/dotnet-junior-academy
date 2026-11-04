@@ -1,0 +1,18 @@
+- layer: api
+  title: Pedido com token
+  description: "POST /api/dashboard/retrieve com o cabeçalho Authorization: Bearer <token>. O pedido entra no pipeline do ASP.NET Core."
+- layer: api
+  title: Middleware de autenticação
+  description: UseAuthentication lê o token, valida a assinatura, o emissor, a audiência e a validade, e preenche o User com os claims. Se o token for inválido, [Authorize] responde 200 com o erro unauthorized e o pedido para aqui.
+- layer: api
+  title: Controller
+  description: O RetrieveDashboard lê o claim sub (o id do cliente), cria a RetrieveDashboardQuery e chama o handler.
+- layer: application
+  title: Handler
+  description: O RetrieveDashboardHandler pede o cliente com as contas ao repositório e calcula o saldo total. Se o cliente não existir, devolve Response.Fail com o erro not_found.
+- layer: infrastructure
+  title: Repositório
+  description: O CustomerRepository faz a consulta com Include e AsNoTracking, e o EF Core gera o SELECT com o JOIN.
+- layer: api
+  title: Resposta
+  description: O controller converte os dados do Response em DashboardResponse (Map) e devolve-o, sempre com HTTP 200. Se os dados faltarem, vão os errors. Se uma exceção subir, o ExceptionMiddleware também responde 200, com um erro validation ou unexpected.

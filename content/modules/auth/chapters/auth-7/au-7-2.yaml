@@ -1,0 +1,40 @@
+id: au-7-2
+title: Checklist de uma API protegida
+type: cards
+cards:
+  - title: Transporte
+    lines:
+      - HTTPS sempre, com redirecionamento
+      - O token só no cabeçalho Authorization, nunca no URL
+    asChecklist: true
+  - title: Segredos
+    lines:
+      - Chave do JWT em variáveis de ambiente ou num cofre
+      - Nenhum segredo em ficheiros do Git
+    asChecklist: true
+  - title: Tokens
+    lines:
+      - Access token curto (minutos)
+      - Validar emissor, audiência, validade e assinatura
+      - Poucas claims, nenhum segredo
+    asChecklist: true
+  - title: Passwords
+    lines:
+      - Só o hash, com PasswordHasher
+      - Mínimo de 8 caracteres
+      - Mesma resposta para email desconhecido e password errada
+    asChecklist: true
+  - title: Autorização
+    lines:
+      - Todos os endpoints protegidos por omissão
+      - Id do utilizador sempre do token
+      - 404 para recursos de outros utilizadores
+    asChecklist: true
+  - title: Operação
+    lines:
+      - Não registar passwords nem tokens
+      - Limitar tentativas de login
+      - Mensagens de erro sem detalhes internos
+    asChecklist: true
+learnMore:
+  explanation: "Uma boa prática é inverter a lógica: protege tudo e abre só o que é público. No ASP.NET Core faz-se com uma FallbackPolicy que exige utilizador autenticado, e [AllowAnonymous] nos endpoints públicos. Assim, um endpoint novo esquecido fica protegido e não aberto."

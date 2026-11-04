@@ -1,0 +1,35 @@
+id: dotnet-3
+title: Dependency Injection
+intro: Deixar o container criar e entregar as dependências em vez de fazer new.
+lessons:
+  - $ref: m2-26.yaml
+  - $ref: m2-27.yaml
+  - $ref: m2-28.yaml
+  - $ref: m2-29.yaml
+  - $ref: m2-30.yaml
+  - $ref: m2-31.yaml
+quiz:
+  - question: Qual o tempo de vida do DbContext por omissão?
+    options:
+      - Transient
+      - Scoped
+      - Singleton
+      - Static
+    correctIndex: 1
+    explanation: "AddDbContext regista-o como Scoped: uma instância por pedido HTTP."
+  - question: Porque é problemático um Singleton depender de um Scoped?
+    options:
+      - Não compila
+      - O Singleton vive mais e fica com um objeto já descartado
+      - É mais lento
+      - O container recusa Singletons
+    correctIndex: 1
+    explanation: O Singleton vive durante toda a aplicação e o Scoped só durante o pedido.
+  - question: Onde se escolhe a implementação de IInterestCalculator?
+    options:
+      - No construtor do controller
+      - No registo do container, no Program.cs
+      - Na própria interface
+      - No appsettings
+    correctIndex: 1
+    explanation: O registo decide; a classe só declara o que precisa.

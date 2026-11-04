@@ -1,0 +1,21 @@
+id: m2-34
+title: "Code-first: o modelo manda"
+type: cards
+flowSteps: 3
+cards:
+  - title: Classes C#
+    lines:
+      - entidades e DbContext
+  - title: Migration
+    lines:
+      - ficheiro C# gerado a partir do modelo
+  - title: Base de dados
+    lines:
+      - esquema criado e atualizado
+  - title: ""
+    lines:
+      - "Code-first: escreves as classes e o EF gera o esquema da base de dados."
+      - "Migrations: cada alteração ao modelo fica num ficheiro versionado com o código."
+      - "Database-first: parte de uma base existente e gera as classes (dotnet ef dbcontext scaffold)."
+      - "Neste módulo: code-first. O código é a fonte de verdade do esquema."
+    isNote: true

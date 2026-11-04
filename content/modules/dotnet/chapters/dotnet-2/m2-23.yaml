@@ -1,0 +1,32 @@
+id: m2-23
+title: API de contas
+type: exercise
+steps:
+  - keyword: Controller
+    text: AccountsController com uma lista de contas em memória
+  - keyword: Listar
+    text: GET /api/accounts devolve todas as contas
+  - keyword: Obter
+    text: GET /api/accounts/{number} devolve 404 se não existir
+  - keyword: Criar
+    text: POST /api/accounts valida o pedido (400) e rejeita números repetidos (409)
+  - keyword: Experimentar
+    text: testar todos os casos no Swagger UI
+expectedOutput: null
+challenge: Acrescentar DELETE /api/accounts/{number}, que devolve 204 ou 404.
+table:
+  - - Pedido
+    - Sucesso
+    - Erros
+  - - GET /api/accounts
+    - 200 com a lista
+    - —
+  - - GET /api/accounts/{number}
+    - 200 com a conta
+    - 404 se não existir
+  - - POST /api/accounts
+    - 201 com Location
+    - 400 se inválido; 409 se repetida
+learnMore:
+  explanation: "Só passas ao capítulo seguinte quando o resultado esperado aparecer no teu computador. Se algo falhar, lê a mensagem de erro de baixo para cima: a última linha costuma dizer o que correu mal."
+  tryIt: Acrescentar DELETE /api/accounts/{number}, que devolve 204 ou 404.

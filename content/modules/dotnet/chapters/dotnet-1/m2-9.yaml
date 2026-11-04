@@ -1,0 +1,31 @@
+id: m2-9
+title: Soluções e Projetos
+type: table
+rows:
+  - - Tarefa
+    - Linha de comandos
+    - Visual Studio
+  - - Criar um projeto
+    - dotnet new webapi
+    - File > New > Project
+  - - Adicionar à solução
+    - dotnet sln add
+    - Botão direito na Solution > Add > New Project
+  - - Referenciar um projeto
+    - dotnet add reference
+    - Botão direito em Dependencies > Add Project Reference
+  - - Instalar um pacote
+    - dotnet add package
+    - Botão direito no projeto > Manage NuGet Packages
+  - - Compilar
+    - dotnet build
+    - Build > Build Solution (Ctrl+Shift+B)
+  - - Executar
+    - dotnet run
+    - F5 (com debugger) ou Ctrl+F5 (sem)
+  - - Testar
+    - dotnet test
+    - Test > Run All Tests (Test Explorer)
+note: ""
+learnMore:
+  explanation: A linha de comandos e o Visual Studio fazem o mesmo. A linha de comandos é mais rápida de repetir, fica em scripts e funciona em qualquer IDE. Sabê-la é o que te permite ajudar num pipeline de Release, onde não há IDE.

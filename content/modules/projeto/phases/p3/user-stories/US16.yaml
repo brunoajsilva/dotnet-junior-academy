@@ -1,0 +1,76 @@
+id: US16
+title: Pedido de empréstimo
+story: Como cliente, quero pedir um empréstimo e acompanhar o estado.
+feature: F4
+endpoint: POST /api/loans/request  ·  POST /api/loans/list  ·  POST /api/loans/cancel
+body: '{ "amount": 10000.00, "months": 24, "accountNumber": "AC-123456" }'
+rules:
+  - Nova entidade Loan, com estados Pending e Cancelled
+  - Cada cliente só pode ter um pedido Pending
+  - O cliente só vê e cancela os seus pedidos
+  - Um pedido cancelado não volta a Pending
+  - O pedido guarda o valor, o prazo, a conta e a taxa em vigor
+responses:
+  - result: success
+    when: Pedido criado
+  - result: success
+    when: Lista dos meus pedidos
+  - result: success
+    when: Pedido cancelado
+  - result: unauthorized
+    when: Sem token válido
+  - result: not_found
+    when: Pedido inexistente ou de outro cliente
+  - result: conflict
+    when: Já há um pedido pendente ou o pedido já foi cancelado
+criteria:
+  - Há teste ao segundo pedido pendente
+  - O cliente não vê pedidos de outros
+  - Transições de estado com testes
+  - Pedidos na coleção do Bruno
+uses:
+  - dotnet-4
+  - csharp-2
+hint:
+  explanation: As transições de estado (Pending → Cancelled) devem ser métodos da entidade Loan, tal como o Close da Account. Assim o handler não consegue aprovar um pedido já rejeitado.
+businessValue: Médio
+dependsOn: US4, US15
+details:
+  persona: cliente autenticado
+  want: pedir um empréstimo e acompanhar o estado
+  purpose: financiar um projeto sem sair da aplicação
+  description: O cliente regista um pedido de empréstimo, consulta o estado e pode cancelá-lo enquanto está Pending. O pedido guarda o valor, o prazo, a conta e a taxa em vigor.
+  scenarios:
+    - title: Pedir empréstimo
+      given:
+        - não tenho nenhum pedido Pending
+      when:
+        - peço um empréstimo
+      then:
+        - recebo success
+        - o pedido fica Pending
+    - title: Segundo pedido pendente
+      given:
+        - já tenho um pedido Pending
+      when:
+        - peço outro empréstimo
+      then:
+        - recebo conflict
+    - title: Cancelar
+      given:
+        - tenho um pedido Pending
+      when:
+        - cancelo o pedido
+      then:
+        - o pedido fica Cancelled
+    - title: Pedido de outro cliente
+      given:
+        - o pedido 7 é de outro cliente
+      when:
+        - tento cancelá-lo
+      then:
+        - recebo not_found
+  outOfScope:
+    - Aprovação ou rejeição do pedido
+    - Reembolso e plano de pagamentos
+  storyPoints: 5

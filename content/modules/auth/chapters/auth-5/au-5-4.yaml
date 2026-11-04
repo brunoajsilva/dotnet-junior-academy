@@ -1,0 +1,17 @@
+id: au-5-4
+title: "AuthController: gerar o token e usá-lo"
+type: code
+language: cs
+codeFile: code/au-5-4.cs
+keyPoints:
+  - Login é anónimo e gera o token, com as claims sub, name e role.
+  - "Me tem [Authorize]: só responde com um token válido."
+  - 'A identidade vem do token: User.FindFirstValue("sub").'
+  - O Login devolve o mesmo 401 para email desconhecido e password errada.
+learnMore:
+  explanation: |-
+    Este exemplo guarda as passwords em texto dentro da lista, só para o laboratório ser pequeno. A BankingApp guarda um hash (capítulo 7), e a criação do token vive numa classe própria (JwtTokenService), em vez de estar no controller.
+
+    O [AllowAnonymous] no Login é explícito de propósito: quando mais tarde protegeres o controller inteiro com [Authorize], o Login continua a funcionar.
+  pitfall: Pôr [Authorize] no Login. Ninguém consegue obter o primeiro token.
+  tryIt: Acrescenta uma claim email ao token e devolve-a no Me.

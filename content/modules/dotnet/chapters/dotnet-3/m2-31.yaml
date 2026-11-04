@@ -1,0 +1,27 @@
+id: m2-31
+title: Juros injetados
+type: exercise
+steps:
+  - keyword: Contrato
+    text: IInterestCalculator, com as implementações StandardInterest e PromoInterest
+  - keyword: Registar
+    text: a implementação no Program.cs com AddScoped
+  - keyword: Injetar
+    text: o calculador num AccountService e usá-lo no POST para devolver os juros anuais
+  - keyword: Configurar
+    text: a taxa em appsettings.json, lida com IOptions
+  - keyword: Registar no log
+    text: o número da conta e os juros calculados com ILogger
+expectedOutput: |-
+  POST /api/accounts
+  { "balance": 1000.00 }
+
+  201 Created
+  {
+    "number": "AC-001",
+    "annualInterest": 20.00
+  }
+challenge: Escolher a implementação por configuração (Standard ou Promo) sem recompilar.
+learnMore:
+  explanation: "Só passas ao capítulo seguinte quando o resultado esperado aparecer no teu computador. Se algo falhar, lê a mensagem de erro de baixo para cima: a última linha costuma dizer o que correu mal."
+  tryIt: Escolher a implementação por configuração (Basic or Discounted) sem recompilar.

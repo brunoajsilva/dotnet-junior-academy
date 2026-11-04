@@ -1,0 +1,24 @@
+- label: Dia 1
+  title: Montar a solução e autenticação JWT
+  goal: Estrutura, EF Core, repositório e Swagger; depois Register e Login anónimos, RetrieveDashboard autenticado e a coleção do Bruno.
+  route: projeto-p1
+- label: Dia 2
+  title: User stories
+  goal: Executas o plano, começando pelas user stories mais arriscadas. Uma user story só está pronta com testes e um pedido no Bruno.
+  route: projeto-p3
+- label: Dia 3
+  title: User stories
+  goal: Continuas a executar o plano, sem código de apoio.
+  route: projeto-p3
+- label: Dia 4
+  title: User stories
+  goal: Continuas a executar o plano e a ajustá-lo quando a realidade o contradiz.
+  route: projeto-p3
+- label: Dia 5
+  title: User stories e revisão do plano
+  goal: "A meio do dia revês o plano: o que atrasou? O que cortas? Atualizas e comunicas."
+  route: projeto-p3
+- label: Dia 6
+  title: Entrega final
+  goal: Entregas o projeto e fazemos a review em conjunto, com demonstração, perguntas e plano contra realidade.
+  route: projeto-check

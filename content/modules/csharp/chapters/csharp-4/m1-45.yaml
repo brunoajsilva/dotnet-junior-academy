@@ -1,0 +1,18 @@
+id: m1-45
+title: Antes de terminar
+type: cards
+cards:
+  - title: Critérios de conclusão
+    lines:
+      - Compila sem avisos
+      - Cumpre todos os requisitos do enunciado
+      - Trata entradas inválidas sem rebentar
+      - O formando explica uma classe e uma consulta LINQ do seu código
+    asChecklist: true
+  - title: Perguntas de «porquê»
+    lines:
+      - Porque usámos decimal e não double?
+      - Porque é que Account é um record?
+      - O que acontece se o e-mail for null?
+learnMore:
+  explanation: "O critério de explicar uma classe e uma consulta LINQ do teu código é o mais importante: mostra que percebes o que escreveste."

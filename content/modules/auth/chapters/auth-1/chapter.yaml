@@ -1,0 +1,41 @@
+id: auth-1
+title: Autenticação e autorização
+intro: "Duas perguntas diferentes que se confundem: quem és? E o que podes fazer?"
+lessons:
+  - $ref: au-1-1.yaml
+  - $ref: au-1-2.yaml
+  - $ref: au-1-3.yaml
+  - $ref: au-1-4.yaml
+quiz:
+  - question: Um pedido chega sem token a um endpoint protegido. Que código devolve a API?
+    options:
+      - "200"
+      - "401"
+      - "403"
+      - "404"
+    correctIndex: 1
+    explanation: "Sem token não sabemos quem é: é um problema de autenticação, 401."
+  - question: Um cliente autenticado chama um endpoint só para gestores. Que código?
+    options:
+      - "401"
+      - "403"
+      - "404"
+      - "500"
+    correctIndex: 1
+    explanation: "Sabemos quem é, mas o papel não chega: 403 Forbidden."
+  - question: Qual é a ordem correta no Program.cs?
+    options:
+      - UseAuthorization, UseAuthentication
+      - UseAuthentication, UseAuthorization
+      - Tanto faz
+      - Só é preciso UseAuthorization
+    correctIndex: 1
+    explanation: Primeiro identificas (autenticação), depois decides (autorização).
+  - question: Porque devolve o sistema 404 para a conta de outro cliente?
+    options:
+      - Para poupar um pedido
+      - Para não revelar que a conta existe
+      - Porque o 403 não existe
+      - Porque a base de dados falhou
+    correctIndex: 1
+    explanation: Um 403 confirmaria que o recurso existe. O 404 trata-o como se não existisse.

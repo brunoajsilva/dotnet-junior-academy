@@ -1,0 +1,21 @@
+id: m2-33
+title: O que é o Entity Framework Core
+type: cards
+flowSteps: 3
+cards:
+  - title: Classes C#
+    lines:
+      - Account, Customer
+  - title: EF Core
+    lines:
+      - traduz e acompanha as alterações
+  - title: Base de dados
+    lines:
+      - tabelas e linhas SQL
+  - title: ""
+    lines:
+      - "DbContext: a sessão com a base de dados."
+      - "DbSet<T>: uma tabela, vista como coleção."
+      - "Provider: o pacote que fala com cada base de dados (por exemplo, SQL Server)."
+      - "Migrations: o histórico versionado do esquema da base de dados."
+    isNote: true

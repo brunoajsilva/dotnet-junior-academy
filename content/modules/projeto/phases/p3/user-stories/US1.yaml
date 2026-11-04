@@ -1,0 +1,74 @@
+id: US1
+title: Abrir conta adicional
+story: Como cliente autenticado, quero abrir uma conta nova para separar o meu dinheiro.
+feature: F1
+endpoint: POST /api/accounts/open
+body: '{ "initialDeposit": 100.00 }'
+rules:
+  - O número da conta é gerado pelo sistema e é único
+  - O depósito inicial não pode ser negativo
+  - Um cliente tem no máximo 5 contas ativas
+  - O cliente vem do token, nunca do corpo do pedido
+responses:
+  - result: success
+    when: Conta criada, com o número da conta nova em data
+  - result: validation
+    when: Depósito inicial negativo
+  - result: unauthorized
+    when: Sem token válido
+  - result: conflict
+    when: Já tem 5 contas ativas
+criteria:
+  - A regra das 5 contas está no Domain ou no handler, e sei explicar porquê
+  - A resposta traz o número da conta criada
+  - Há testes ao limite (4, 5 e 6 contas)
+  - O pedido está na coleção do Bruno
+uses:
+  - dotnet-6
+  - csharp-2
+hint:
+  explanation: Pensa onde vive a regra «máximo de 5 contas». Se está no Customer (por exemplo, um método OpenAccount), o Domain protege-se a si próprio. Se está no handler, tens de repetir a verificação em todos os sítios que abram contas.
+  tryIt: Escreve primeiro o teste que falha com a sexta conta e só depois a implementação.
+businessValue: Alto
+dependsOn: ""
+details:
+  persona: cliente autenticado
+  want: abrir uma conta adicional
+  purpose: separar o meu dinheiro por objetivos
+  description: O cliente pode ter várias contas no mesmo banco, por exemplo uma para despesas correntes e outra para poupança. O número da conta é gerado pelo sistema e o titular é sempre o cliente do token.
+  scenarios:
+    - title: Abrir conta com depósito inicial
+      given:
+        - tenho 2 contas ativas
+      when:
+        - peço uma nova conta com depósito inicial de 100,00
+      then:
+        - recebo success com o número da nova conta
+        - a conta fica com saldo 100,00 e estado Active
+    - title: Depósito inicial negativo
+      given:
+        - tenho sessão iniciada
+      when:
+        - peço uma conta com depósito inicial de -1
+      then:
+        - recebo validation com o erro no campo do valor
+        - nenhuma conta é criada
+    - title: Limite de contas atingido
+      given:
+        - tenho 5 contas ativas
+      when:
+        - peço uma nova conta
+      then:
+        - recebo conflict
+        - continuo com 5 contas
+    - title: Pedido sem token
+      given:
+        - não enviei o token JWT
+      when:
+        - peço uma nova conta
+      then:
+        - recebo unauthorized
+  outOfScope:
+    - Tipos de conta (ordem, poupança, a prazo)
+    - Contas com mais do que um titular
+  storyPoints: 3

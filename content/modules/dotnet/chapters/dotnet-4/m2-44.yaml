@@ -1,0 +1,27 @@
+id: m2-44
+title: Persistir as contas
+type: exercise
+steps:
+  - keyword: Modelo
+    text: entidades Customer e Account e o BankingAppContext
+  - keyword: Configurar
+    text: índice único em Number e precisão do Balance
+  - keyword: Migration
+    text: criar a migration Initial e aplicá-la à base de dados
+  - keyword: Substituir
+    text: a lista em memória pelo DbContext nos três endpoints
+  - keyword: Devolver
+    text: o nome do cliente na resposta, com Include
+expectedOutput: |-
+  Accounts
+  Id Number  Balance CustomerId
+   1 AC-001  320.00 1
+   2 AC-002  150.00 1
+
+  Customers
+  Id Name
+   1 Ana Pereira
+challenge: Criar uma consulta que devolve o total de saldos por cliente, calculado na base de dados.
+learnMore:
+  explanation: "Só passas ao capítulo seguinte quando o resultado esperado aparecer no teu computador. Se algo falhar, lê a mensagem de erro de baixo para cima: a última linha costuma dizer o que correu mal."
+  tryIt: Criar uma consulta que devolve o total de saldos por cliente, calculado na base de dados.

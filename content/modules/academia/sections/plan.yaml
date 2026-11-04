@@ -1,0 +1,6 @@
+id: plan
+title: Plano
+blocks:
+  - type: paragraph
+    text: Cinco módulos, por esta ordem. Carrega num capítulo para saltar diretamente para ele.
+  - type: plan

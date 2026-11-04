@@ -1,0 +1,22 @@
+id: m1-40
+title: Saldos das contas
+type: exercise
+steps:
+  - keyword: Exceção própria
+    text: BalanceUnavailableException, com o número da conta.
+  - keyword: Saldo assíncrono
+    text: GetBalanceAsync demora 200 ms e lança a exceção se o número terminar em 9.
+  - keyword: Em paralelo
+    text: Pedir o saldo de todas as contas com Task.WhenAll.
+  - keyword: Falhas isoladas
+    text: Uma conta sem resposta não pode deitar abaixo as outras.
+  - keyword: LINQ
+    text: Somar os saldos obtidos e listar as contas sem resposta.
+expectedOutput: |-
+  AC-001: 332,28
+  AC-002: 332,28
+  AC-009: indisponível
+
+  Total: 664,56
+  Sem resposta: AC-009
+challenge: Cancelar tudo ao fim de 150 ms com um CancellationToken e mostrar «Cancelado».

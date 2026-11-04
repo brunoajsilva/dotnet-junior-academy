@@ -1,0 +1,73 @@
+/* Page headers: eyebrow, title, intro and progress bar. */
+
+.crumb {
+  font-size: 0.82rem;
+  color: var(--faint);
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+.crumb a {
+  color: var(--faint);
+  text-decoration: none;
+}
+
+.crumb a:hover {
+  color: var(--fg);
+}
+
+.eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--mc, var(--accent));
+  margin-bottom: 14px;
+}
+
+.ph h1 {
+  font-family: var(--f-serif);
+  font-weight: 400;
+  font-size: clamp(2.3rem, 5vw, 3.4rem);
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+}
+
+.ph .lead {
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: 1.18rem;
+  line-height: 1.6;
+  max-width: 60ch;
+}
+
+.bar {
+  height: 3px;
+  border-radius: 99px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.bar i {
+  display: block;
+  height: 100%;
+  background: var(--mc, var(--accent));
+  border-radius: 99px;
+  transition: width 0.3s;
+}
+
+.ph .barrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 26px;
+  max-width: 340px;
+  font-size: 0.8rem;
+  color: var(--faint);
+}
+
+.ph .barrow .bar {
+  flex: 1;
+}

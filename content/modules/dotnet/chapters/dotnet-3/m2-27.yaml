@@ -1,0 +1,16 @@
+id: m2-27
+title: O container de DI
+type: code
+language: cs
+codeFile: code/m2-27.cs
+keyPoints:
+  - O container cria os objetos e entrega-os a quem os pede.
+  - AddScoped<TInterface, TImpl> diz qual implementar.
+  - O construtor declara o que a classe precisa.
+  - Nunca se faz new de um serviço.
+learnMore:
+  explanation: |-
+    O container de DI é uma fábrica configurável. No Program.cs dizes 'quando alguém pedir IInterestCalculator, entrega PromoInterest'. O ASP.NET Core cria o controller por cada pedido, olha para o construtor e resolve cada parâmetro recursivamente.
+
+    Trocar de implementação é mudar uma linha de registo. O resto do código não se altera.
+  pitfall: Registar a classe mas esquecer-se de registar uma das suas dependências. O erro surge em execução, no primeiro pedido.

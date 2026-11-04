@@ -1,0 +1,16 @@
+id: m1-32
+title: "Exceptions: try, catch e finally"
+type: code
+language: cs
+codeFile: code/m1-32.cs
+keyPoints:
+  - try envolve o código que pode falhar.
+  - catch apanha por tipo, do mais específico para o mais genérico.
+  - "finally corre sempre: serve para libertar recursos."
+  - Só apanhar o que se sabe tratar.
+learnMore:
+  explanation: |-
+    Uma exceção interrompe o fluxo normal e sobe a pilha de chamadas até encontrar um catch compatível. Apanha do tipo mais específico para o mais genérico. finally corre sempre, com ou sem erro, e serve para libertar recursos.
+
+    Só apanhes o que sabes tratar. Um catch (Exception) que engole o erro esconde problemas reais.
+  pitfall: catch vazio. O programa continua, mas ninguém sabe que algo correu mal.

@@ -1,0 +1,45 @@
+id: dotnet-6
+title: Organização do código
+intro: Separar responsabilidades em camadas para o código poder crescer sem se complicar.
+lessons:
+  - $ref: m2-54.yaml
+  - $ref: m2-55.yaml
+  - $ref: m2-56.yaml
+  - $ref: m2-57.yaml
+  - $ref: m2-58.yaml
+  - $ref: m2-59.yaml
+  - $ref: m2-60.yaml
+  - $ref: m2-61.yaml
+quiz:
+  - question: Que projeto não referencia nenhum outro numa Clean Architecture?
+    options:
+      - Api
+      - Infrastructure
+      - Application
+      - Domain
+    correctIndex: 3
+    explanation: As dependências apontam para dentro, e o Domain está no centro.
+  - question: Onde fica a interface IAccountRepository e onde a sua implementação?
+    options:
+      - Ambas no Domain
+      - Interface na Application, implementação na Infrastructure
+      - Ambas na Api
+      - Interface na Infrastructure, implementação na Application
+    correctIndex: 1
+    explanation: Quem usa o contrato define-o; quem fala com o EF Core implementa-o.
+  - question: Qual a regra simples do CQRS?
+    options:
+      - Tudo é um comando
+      - Se altera o estado é comando; se só lê é consulta
+      - Comandos são sempre assíncronos
+      - Consultas usam sempre cache
+    correctIndex: 1
+    explanation: Comandos pedem alterações; consultas só leem.
+  - question: Qual o papel do controller no percurso de um pedido?
+    options:
+      - Aplicar as regras de negócio
+      - Converter HTTP em comandos e consultas
+      - Gerar SQL
+      - Guardar dados
+    correctIndex: 1
+    explanation: O handler decide, o repositório guarda e o controller traduz HTTP.

@@ -1,0 +1,16 @@
+id: m1-33
+title: "Exceptions: lançar e propagar"
+type: code
+language: cs
+codeFile: code/m1-33.cs
+keyPoints:
+  - throw com o tipo certo e uma mensagem útil.
+  - ThrowIfNull valida argumentos à entrada.
+  - throw; propaga e mantém o rasto; throw ex; apaga-o.
+  - TryParse em vez de exceções no fluxo normal.
+learnMore:
+  explanation: |-
+    Lança exceções com o tipo certo (ArgumentException, InvalidOperationException) e uma mensagem que diz o que falhou e com que valor. ArgumentNullException.ThrowIfNull valida argumentos em uma linha.
+
+    Dentro de um catch, throw; preserva a stack trace original. throw ex; reescreve-a e perde a origem do erro. Para entradas inválidas do utilizador, TryParse evita exceções no fluxo normal.
+  pitfall: throw ex; dentro de um catch.

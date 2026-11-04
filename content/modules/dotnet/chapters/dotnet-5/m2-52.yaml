@@ -1,0 +1,23 @@
+id: m2-52
+title: Testar o saldo
+type: exercise
+steps:
+  - keyword: Três testes
+    text: "[Fact] para PromoInterest: taxa 0%, 2% e 5%"
+  - keyword: Um Theory
+    text: com [InlineData] para os mesmos cálculos
+  - keyword: Uma exceção
+    text: InvalidAccountException para um saldo negativo
+  - keyword: Um mock
+    text: do repositório para testar o AccountService
+expectedOutput: |-
+  dotnet test
+
+  Passed!  - Failed:     0,
+             Passed:     8,
+             Skipped:    0,
+             Total:      8
+challenge: "Gerar o relatório de cobertura de testes e identificar uma classe sem testes. Dica: nuget dotnet-reportgenerator"
+learnMore:
+  explanation: "Só passas ao capítulo seguinte quando o resultado esperado aparecer no teu computador. Se algo falhar, lê a mensagem de erro de baixo para cima: a última linha costuma dizer o que correu mal."
+  tryIt: "Gerar o relatório de cobertura de testes e identificar uma classe sem testes. Dica: nuget dotnet-reportgenerator"

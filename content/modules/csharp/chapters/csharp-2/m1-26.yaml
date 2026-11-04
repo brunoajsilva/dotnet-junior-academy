@@ -1,0 +1,13 @@
+id: m1-26
+title: Genéricos
+type: code
+language: cs
+codeFile: code/m1-26.cs
+keyPoints:
+  - T é um tipo que se escolhe ao usar.
+  - List<T> e Dictionary<K,V> já são genéricos.
+  - where limita os tipos aceites.
+  - Um só código serve vários tipos, com verificação do compilador.
+learnMore:
+  explanation: Um genérico é código escrito uma vez para vários tipos. List<T> funciona para List<int> e List<Account> com verificação do compilador. Com where podes exigir que T implemente uma interface ou tenha construtor sem parâmetros.
+  tryIt: "Escreve um método genérico Largest<T>(List<T> items) where T : IComparable<T>."

@@ -1,0 +1,19 @@
+id: m2-22
+title: Documentar com OpenAPI e Swagger UI
+type: code
+language: cs
+codeFile: code/m2-22.cs
+keyPoints:
+  - "OpenAPI é o documento que descreve o contrato da API: endpoints, parâmetros e respostas."
+  - Desde o .NET 9, o ASP.NET Core gera esse documento sozinho (Microsoft.AspNetCore.OpenApi).
+  - O template deixou de incluir o Swashbuckle e, no .NET 10, o documento é OpenAPI 3.1.
+  - "A página para experimentar é uma peça à parte: o pacote Swashbuckle.AspNetCore.SwaggerUI."
+learnMore:
+  explanation: |-
+    São duas peças diferentes. O documento OpenAPI (o JSON em /openapi/v1.json) é gerado pelo próprio ASP.NET Core com AddOpenApi e MapOpenApi. A página interativa (o Swagger UI) só desenha esse documento: não o gera.
+
+    Antes do .NET 9, o template incluía o Swashbuckle, que fazia as duas coisas. Agora o documento é nativo e, se quiseres a página do Swagger UI, acrescentas o pacote Swashbuckle.AspNetCore.SwaggerUI e apontas-o para o documento. Existem outras interfaces que leem o mesmo documento (Scalar, ReDoc), por isso trocar de UI não mexe na API.
+
+    O .NET 10 passou o documento para OpenAPI 3.1 por omissão. Se algum cliente ou ferramenta não o suportar, podes fixar a versão 3.0 nas opções do AddOpenApi.
+  pitfall: Abrir /swagger e receber 404. Sem o pacote SwaggerUI, ou fora do ambiente Development, a página não existe, mas o documento /openapi/v1.json continua a funcionar.
+  tryIt: Abre primeiro /openapi/v1.json e depois /swagger. Executa um POST e vê o 201 com o cabeçalho Location.

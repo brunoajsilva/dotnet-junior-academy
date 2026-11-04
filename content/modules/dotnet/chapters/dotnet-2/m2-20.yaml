@@ -1,0 +1,16 @@
+id: m2-20
+title: DTOs e validação
+type: code
+language: cs
+codeFile: code/m2-20.cs
+keyPoints:
+  - DTO é o formato do pedido ou da resposta, não da base de dados.
+  - Entrada e saída ficam separadas.
+  - Os atributos validam o pedido.
+  - Com [ApiController], um pedido inválido devolve 400 sozinho.
+learnMore:
+  explanation: |-
+    Um DTO descreve o formato do pedido ou da resposta, e não o da tabela. Separar entrada de saída (NewAccount vs AccountResponse) permite alterar a base de dados sem partir os clientes da API, e impede que o cliente defina campos que não deve (como o Id).
+
+    Os atributos de validação ([Required], [Range], [StringLength]) são verificados antes de o controller correr; com [ApiController], um pedido inválido devolve 400 sozinho.
+  pitfall: Devolver a entidade da base de dados diretamente. Qualquer alteração à tabela passa a alterar o contrato público.

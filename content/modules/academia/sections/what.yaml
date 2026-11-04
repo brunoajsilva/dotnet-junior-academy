@@ -1,0 +1,22 @@
+id: what
+title: O que é
+blocks:
+  - type: paragraph
+    text: "A .NET Backend Academy é o programa de integração técnica para quem chega à equipa de backend. Em vez de leres teoria durante semanas, escreves código desde o primeiro dia, num domínio que conheces do trabalho real: um banco, com clientes, contas e saldos."
+  - type: paragraph
+    text: Começas por C#, passas para a plataforma .NET, aprendes a proteger uma API e terminas com um projeto completo, construída de raiz com Clean Architecture. Cada módulo usa o que aprendeste no anterior, por isso nada fica a flutuar.
+  - type: cards
+    cards:
+      - title: Prática primeiro
+        summary: Cada tema tem uma explicação curta e um exercício. A maior parte do tempo estás a escrever código.
+        learnMore:
+          explanation: "Os exemplos são pequenos de propósito: cabem num ecrã e podes correr tudo no teu computador. Quando um tema tem mais profundidade, encontras um botão «Saber mais» com a explicação completa, os erros mais comuns e uma experiência para fazeres."
+          tryIt: Abre o primeiro tema de C# e carrega em «Saber mais» para veres como funciona.
+      - title: Um domínio só
+        summary: Clientes, contas e saldos aparecem em todos os módulos, do primeiro exercício ao projeto final.
+        learnMore:
+          explanation: "Usar sempre o mesmo domínio tira-te o esforço de perceber um problema novo em cada exercício. O foco fica na tecnologia: como se modela um Customer em C#, como se guarda com o EF Core, como se expõe numa API, como se testa."
+      - title: Explicar o que fizeste
+        summary: No fim de cada bloco explicas o teu código e respondes a perguntas de «porquê».
+        learnMore:
+          explanation: Saber escrever código é metade do trabalho. A outra metade é explicá-lo a um colega numa revisão. As perguntas de «porquê» (por exemplo, porque usámos decimal e não double?) treinam essa segunda metade.

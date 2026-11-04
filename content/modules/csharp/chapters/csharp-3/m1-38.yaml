@@ -1,0 +1,15 @@
+id: m1-38
+title: "async: gestão de erros"
+type: code
+language: cs
+codeFile: code/m1-38.cs
+keyPoints:
+  - Um erro num método async é lançado no await.
+  - O try/catch à volta do await trata-o como qualquer exceção.
+  - Sem await, a exceção fica guardada na Task e passa despercebida.
+  - Com Task.WhenAll, o await lança a primeira exceção.
+learnMore:
+  explanation: |-
+    Uma exceção dentro de um método async fica guardada na Task e é lançada no await. Por isso o try/catch tem de rodear o await, e não a chamada. Se nunca esperares pela Task, o erro passa despercebido.
+
+    Com Task.WhenAll, o await lança a primeira exceção; as restantes ficam disponíveis em task.Exception.

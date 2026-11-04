@@ -1,0 +1,25 @@
+id: au-4-4
+title: O que a API valida
+type: cards
+cards:
+  - title: Assinatura
+    lines:
+      - O token foi emitido por quem tem a chave?
+      - Foi alterado?
+  - title: Emissor (iss)
+    lines:
+      - Foi emitido por quem esperamos?
+  - title: Audiência (aud)
+    lines:
+      - É um token para esta API?
+  - title: Validade (exp)
+    lines:
+      - Ainda não expirou?
+  - title: ""
+    lines:
+      - No ASP.NET Core, estas quatro verificações configuram-se no TokenValidationParameters.
+      - Se alguma falhar, a resposta é 401.
+    isNote: true
+learnMore:
+  explanation: A audiência evita que um token emitido para a API A seja aceite pela API B. O ClockSkew é a tolerância entre relógios, por omissão cinco minutos; no AuthLab pomos zero para veres a expiração a acontecer à hora certa.
+  pitfall: "Desligar ValidateIssuer, ValidateAudience ou ValidateLifetime para «fazer funcionar». O erro não desaparece: passa a ser uma falha de segurança."

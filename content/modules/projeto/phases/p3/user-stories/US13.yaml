@@ -1,0 +1,73 @@
+id: US13
+title: Pagamento de serviços
+story: Como cliente, quero pagar uma fatura com a entidade e a referência.
+feature: F3
+endpoint: POST /api/payments/pay
+body: '{ "accountNumber": "AC-123456", "entity": "21312", "reference": "123456789", "amount": 45.20 }'
+rules:
+  - A entidade tem 5 dígitos e a referência 9
+  - A mesma entidade e referência não podem ser pagas duas vezes
+  - Segue as regras do levantamento (saldo, conta ativa e limite diário)
+  - Cria um movimento do tipo Payment com a entidade e a referência
+responses:
+  - result: success
+    when: Pagamento feito
+  - result: validation
+    when: Entidade ou referência inválidas
+  - result: unauthorized
+    when: Sem token válido
+  - result: not_found
+    when: Conta inexistente ou de outro cliente
+  - result: conflict
+    when: Já pago, saldo insuficiente ou limite diário
+criteria:
+  - Há índice único (entidade, referência)
+  - As regras de levantamento não foram duplicadas
+  - Testes às validações
+  - Pedido na coleção do Bruno
+uses:
+  - dotnet-2
+  - csharp-3
+hint:
+  explanation: "Antes de copiares as regras do levantamento, pensa se as consegues partilhar: um método da conta que ambos os casos de uso usam evita ter a mesma regra em dois sítios."
+businessValue: Médio
+dependsOn: US5
+details:
+  persona: cliente autenticado
+  want: pagar uma fatura com a entidade e a referência
+  purpose: pagar serviços sem sair da aplicação
+  description: O pagamento segue as regras do levantamento (saldo, conta ativa, limite diário) e regista a entidade e a referência no movimento Payment.
+  scenarios:
+    - title: Pagamento válido
+      given:
+        - a conta A tem saldo suficiente
+      when:
+        - pago a entidade de 5 dígitos com a referência de 9 dígitos
+      then:
+        - recebo success
+        - fica uma Transaction do tipo Payment com a entidade e a referência
+    - title: Formato inválido
+      given:
+        - tenho sessão iniciada
+      when:
+        - envio uma entidade com 4 dígitos
+      then:
+        - recebo validation
+    - title: Fatura já paga
+      given:
+        - já paguei esta entidade e referência
+      when:
+        - pago de novo
+      then:
+        - recebo conflict
+    - title: Saldo insuficiente
+      given:
+        - a conta A não tem saldo
+      when:
+        - pago uma fatura
+      then:
+        - recebo conflict e o saldo não muda
+  outOfScope:
+    - Validar a referência com a entidade
+    - Pagamentos agendados
+  storyPoints: 5

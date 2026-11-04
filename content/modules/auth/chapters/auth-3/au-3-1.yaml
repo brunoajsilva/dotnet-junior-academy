@@ -1,0 +1,19 @@
+id: au-3-1
+title: "A ideia: delegar sem partilhar a password"
+type: cards
+cards:
+  - title: Sem OAuth
+    lines:
+      - Uma aplicação de gestão de despesas pede o teu email e a password do banco.
+      - Fica com acesso a tudo, para sempre.
+  - title: Com OAuth
+    lines:
+      - A aplicação envia-te ao banco para te autenticares lá.
+      - Recebe um token com acesso só às contas, durante 15 minutos.
+      - Podes revogá-lo sem mudar a password.
+  - title: ""
+    lines:
+      - OAuth 2.0 é um protocolo de autorização (delegação de acesso). Não define como o utilizador se autentica.
+    isNote: true
+learnMore:
+  explanation: "A comparação clássica é a chave de manobrista: abre a porta e liga o carro, mas não abre a mala nem o porta-luvas, e podes recuperá-la a qualquer momento. O token OAuth é isso, para uma API."

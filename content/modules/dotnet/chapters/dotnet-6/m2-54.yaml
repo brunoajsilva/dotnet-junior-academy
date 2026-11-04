@@ -1,0 +1,19 @@
+id: m2-54
+title: Porque organizar em camadas
+type: cards
+cards:
+  - title: O problema
+    lines:
+      - Controllers que validam, calculam e falam com a base de dados são difíceis de testar e de alterar.
+  - title: A ideia
+    lines:
+      - "Cada parte tem uma responsabilidade: receber pedidos, aplicar regras, guardar dados."
+  - title: O ganho
+    lines:
+      - Mudar a base de dados ou a API não obriga a reescrever as regras de negócio.
+  - title: ""
+    lines:
+      - Neste capítulo, a API dos exercícios anteriores é reorganizada em camadas.
+    isNote: true
+learnMore:
+  explanation: Um controller que valida, calcula os juros e fala com a base de dados faz três trabalhos. Para o testar tens de ter base de dados; para trocar a base de dados mexes no controller. Dividir em camadas dá a cada parte um motivo único para mudar.

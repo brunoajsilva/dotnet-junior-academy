@@ -1,0 +1,14 @@
+---
+import Base from "../layouts/Base.astro";
+import { loadSite } from "../lib/load-site";
+import { createRenderContext } from "../lib/render/context";
+import { emptyProgress } from "../lib/progress";
+import { setBaseUrl } from "../lib/html";
+import { pageTitle, renderPage } from "../lib/render/page";
+
+setBaseUrl(import.meta.env.BASE_URL);
+const site = await loadSite();
+const context = createRenderContext(site, emptyProgress(), "");
+---
+
+<Base routeId="" site={site} title={pageTitle(context)} mainHtml={renderPage(context)} />

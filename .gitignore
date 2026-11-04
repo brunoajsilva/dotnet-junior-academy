@@ -1,5 +1,5 @@
-.DS_Store
-*.bak*
-__pycache__/
 node_modules/
-data.json
+dist/
+.astro/
+.DS_Store
+*.log

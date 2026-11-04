@@ -1,0 +1,26 @@
+id: au-5-5
+title: "Bruno: o cabeçalho Authorization"
+type: cards
+cards:
+  - title: O ambiente
+    lines:
+      - Cria o ambiente Local com a variável baseUrl.
+      - Usa o endereço https que o dotnet run escreve.
+      - Seleciona o ambiente no canto superior direito.
+  - title: Pedido de login
+    lines:
+      - Novo pedido POST para {{baseUrl}}/api/auth/login.
+      - Body em JSON com email e password.
+      - "Separador Vars, Post Response: token = res.body.accessToken."
+  - title: Pedido autenticado
+    lines:
+      - GET {{baseUrl}}/api/auth/me.
+      - No separador Auth escolhe «Bearer Token» e escreve {{token}}.
+      - "O Bruno envia o cabeçalho Authorization: Bearer <token>."
+  - title: Pedido sem token
+    lines:
+      - Duplica o pedido anterior e põe o separador Auth em «No Auth».
+      - "A resposta é 401: prova que o [Authorize] está a funcionar."
+learnMore:
+  explanation: O Bruno guarda as coleções em ficheiros de texto (.bru), que podes pôr no repositório e rever em Pull Requests. A variável token é preenchida automaticamente a cada Login, por isso não copias o token à mão.
+  pitfall: Deixar o separador Auth em «No Auth» no pedido protegido. A API responde 401 e parece um erro do servidor.

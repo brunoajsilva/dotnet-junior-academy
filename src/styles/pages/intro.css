@@ -1,0 +1,353 @@
+/* Academy introduction page blocks. */
+
+.blk {
+  margin-top: 44px;
+}
+
+.blk > h3 {
+  font-size: 1.3rem;
+  margin-bottom: 6px;
+}
+
+.prose {
+  max-width: 64ch;
+  font-size: 1.08rem;
+  line-height: 1.75;
+}
+
+.prose + .prose {
+  margin-top: 16px;
+}
+
+.cardbtn {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+  padding: 18px 0 20px;
+  border: 0;
+  border-top: 1px solid var(--line);
+  background: transparent;
+  min-width: 0;
+}
+
+.cardbtn h4 {
+  font-size: 1.05rem;
+}
+
+.cardbtn p {
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.cardbtn .go {
+  margin-top: auto;
+  padding-top: 6px;
+  color: var(--accent);
+  font-weight: 550;
+  font-size: 0.85rem;
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.cardbtn:hover h4 {
+  color: var(--accent);
+}
+
+.outc {
+  display: grid;
+  grid-template-columns: 2.6rem minmax(0, 1fr);
+  gap: 16px;
+  padding: 24px 0;
+  border-top: 1px solid var(--line);
+  align-items: start;
+}
+
+.outc .n {
+  font-family: var(--f-mono);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--mc);
+  padding-top: 0.3em;
+}
+
+.outc h4 {
+  font-size: 1.2rem;
+}
+
+.outc p {
+  color: var(--muted);
+  font-size: 0.97rem;
+  margin-top: 4px;
+  max-width: 58ch;
+  line-height: 1.6;
+}
+
+.outc .more {
+  margin-top: 12px;
+  min-height: 34px;
+  font-size: 0.82rem;
+}
+
+.plan {
+  display: grid;
+  gap: 0;
+  border-top: 1px solid var(--line);
+}
+
+.pm {
+  padding: 22px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.pm h4 {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+}
+
+.pm h4 .n {
+  font-family: var(--f-mono);
+  font-size: 0.84rem;
+  color: var(--mc);
+}
+
+.pm ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pm li a {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 99px;
+  border: 1px solid var(--line);
+  text-decoration: none;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.pm li a:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.sw {
+  display: grid;
+  gap: 0;
+  border-top: 1px solid var(--line);
+}
+
+.swi {
+  border-bottom: 1px solid var(--line);
+  padding: 20px 0;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.swi h4 {
+  font-size: 1.05rem;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.swi p {
+  color: var(--muted);
+  font-size: 0.94rem;
+  line-height: 1.6;
+}
+
+.swi .cmd {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  font-size: 0.84rem;
+}
+
+.swi .cmd code {
+  background: var(--code-bg);
+  border: 1px solid var(--line);
+  padding: 3px 9px;
+  border-radius: 6px;
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.swi .exp {
+  color: var(--muted);
+}
+
+.swi .acts {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  display: inline-block;
+  font-size: 0.66rem;
+  font-weight: 650;
+  padding: 1px 8px;
+  border-radius: 99px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border: 1px solid var(--line2);
+  color: var(--muted);
+}
+
+.chip.required {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.chk {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  border: 1.5px solid var(--line2);
+  background: var(--surface);
+  display: grid;
+  place-items: center;
+  color: transparent;
+  padding: 0;
+  margin-top: 2px;
+}
+
+.chk[aria-pressed="true"] {
+  background: var(--ok);
+  border-color: var(--ok);
+  color: #fff;
+}
+
+.chk:hover {
+  border-color: var(--ok);
+}
+
+.minibtn {
+  min-height: 30px;
+  padding: 0 12px;
+  border-radius: 99px;
+  border: 1px solid var(--line2);
+  background: var(--surface);
+  font-size: 0.78rem;
+  font-weight: 550;
+  color: var(--muted);
+}
+
+.minibtn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Schedule: weeks of working days, each day with the modules taught that day. */
+.schedule {
+  display: grid;
+  gap: 36px;
+}
+
+.sweek h3 {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+  font-size: 1.15rem;
+}
+
+.sweek h3 span {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--faint);
+}
+
+.sday {
+  display: grid;
+  grid-template-columns: 3.6rem minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line2);
+}
+
+.sd {
+  display: grid;
+  place-items: center;
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: 16px;
+  background: var(--md-surface-low);
+  font-size: 1.15rem;
+  font-weight: 650;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.sd small {
+  font-size: 0.56rem;
+  font-weight: 650;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: -6px;
+}
+
+.sday ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+  padding-top: 4px;
+}
+
+.sday li {
+  display: grid;
+  grid-template-columns: 10px minmax(0, 1fr);
+  gap: 12px;
+  align-items: baseline;
+}
+
+.sday .dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--mc);
+}
+
+.sday li b {
+  font-weight: 600;
+}
+
+.sday li a {
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.sday li a:hover {
+  color: var(--accent);
+}
+
+.sday li p {
+  margin: 2px 0 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.55;
+}

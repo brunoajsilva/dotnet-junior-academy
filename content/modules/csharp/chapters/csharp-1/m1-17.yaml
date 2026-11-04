@@ -1,0 +1,13 @@
+id: m1-17
+title: "Strings: formatação"
+type: code
+language: cs
+codeFile: code/m1-17.cs
+keyPoints:
+  - N2 duas casas; C moeda.
+  - P0 percentagem; D5 cinco dígitos.
+  - dd/MM/yyyy formata datas.
+  - A cultura define separadores e símbolo.
+learnMore:
+  explanation: "Dentro da interpolação, o formato vem depois de dois pontos: {balance:N2}. A cultura em uso decide o separador decimal e o símbolo de moeda. Em pt-PT, 1234.5 com N2 dá 1 234,50. Em servidores configurados com outra cultura o resultado muda, por isso em APIs convém fixar a cultura."
+  pitfall: Formatar valores para o utilizador e para ficheiros/JSON com a mesma cultura. Dados máquina-a-máquina devem usar CultureInfo.InvariantCulture.

@@ -1,0 +1,61 @@
+id: US10
+title: Dashboard completo
+story: Como cliente, quero ver no dashboard o que se passou no último mês.
+feature: F2
+endpoint: POST /api/dashboard/retrieve
+body: null
+rules:
+  - Acrescenta os últimos 5 movimentos de todas as contas, do mais recente para o mais antigo
+  - Acrescenta o total depositado e o total levantado no mês corrente
+  - As transferências contam como depósito e levantamento
+  - O número de consultas à base de dados é fixo e não cresce com o número de contas
+responses:
+  - result: success
+    when: Dashboard completo
+  - result: unauthorized
+    when: Sem token válido
+criteria:
+  - Não há consulta dentro de um ciclo (sem N+1)
+  - Os totais são calculados na base de dados
+  - A resposta antiga continua válida (campos novos, nenhum removido)
+  - O pedido está na coleção do Bruno
+uses:
+  - csharp-3
+  - dotnet-4
+hint:
+  explanation: Pede ao repositório os movimentos já filtrados (clientes, mês) e agrega com GroupBy e Sum. Se tiveres de fazer uma consulta por conta, estás a cair no N+1.
+businessValue: Médio
+dependsOn: US4, US9
+details:
+  persona: cliente autenticado
+  want: ver no dashboard o que se passou no último mês
+  purpose: ter uma visão rápida das minhas finanças
+  description: O dashboard passa a incluir os últimos 5 movimentos e os totais depositado e levantado no mês corrente. O número de consultas à base de dados é fixo, independentemente do número de contas.
+  scenarios:
+    - title: Dashboard completo
+      given:
+        - tenho 3 contas com movimentos este mês
+      when:
+        - abro o dashboard
+      then:
+        - vejo as contas e os saldos
+        - vejo os 5 movimentos mais recentes de todas as contas
+        - vejo o total depositado e o total levantado no mês
+    - title: Transferências nos totais
+      given:
+        - fiz uma transferência este mês
+      when:
+        - abro o dashboard
+      then:
+        - a saída conta como levantamento e a entrada como depósito
+    - title: Compatibilidade
+      given:
+        - o cliente da API usa os campos antigos
+      when:
+        - abro o dashboard
+      then:
+        - os campos antigos continuam presentes e inalterados
+  outOfScope:
+    - Gráficos
+    - Comparação com meses anteriores
+  storyPoints: 5

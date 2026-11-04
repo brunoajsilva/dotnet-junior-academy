@@ -1,0 +1,293 @@
+/* Side navigation: module list, chapter list and project days. */
+
+.side .ctx {
+  padding-right: 4px;
+}
+
+.side .ctx .eyebrow {
+  color: var(--mc, var(--faint));
+  margin: 0 0 6px 10px;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 650;
+}
+
+.side .ctitle {
+  font-family: var(--f-serif);
+  font-weight: 400;
+  font-size: 1.9rem;
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  text-transform: none;
+  color: var(--md-on-surface);
+  margin: 0 0 16px 10px;
+}
+
+.side .ctitle a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.side .cbar {
+  height: 6px;
+  background: var(--md-surface-highest);
+  border-radius: 6px;
+  margin: 0 10px;
+  overflow: hidden;
+}
+
+.side .cbar i {
+  display: block;
+  height: 100%;
+  background: var(--mc);
+  border-radius: 6px;
+}
+
+.side .cmeta {
+  margin: 8px 10px 0;
+  font-size: 0.76rem;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.ctx .sub {
+  margin: 20px 0 0;
+  padding: 0;
+  border-left: 0;
+}
+
+.ctx .sub a {
+  padding: 8px 10px;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  gap: 11px;
+}
+
+.ctx .sub a:hover {
+  background: var(--surface2);
+}
+
+.ctx .sub a.cur {
+  background: var(--md-secondary-container);
+  box-shadow: none;
+  font-weight: 600;
+  color: var(--md-on-secondary-container);
+}
+
+.ctx .sub a .d {
+  width: 9px;
+  height: 9px;
+  transform: translateY(1px);
+}
+
+.ctx .sub a .d.full {
+  background: var(--mc);
+  border-color: var(--mc);
+}
+
+.ctx .sub a .d.part {
+  border-color: var(--mc);
+  background: linear-gradient(90deg, var(--mc) 50%, transparent 50%);
+}
+
+.mlist {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+}
+
+.mlist a {
+  display: grid;
+  grid-template-columns: 1.6rem 1fr auto;
+  align-items: baseline;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.mlist a:hover {
+  background: var(--surface2);
+  color: var(--fg);
+}
+
+.mlist .n {
+  font-family: var(--f-mono);
+  font-size: 0.78rem;
+  color: var(--mc);
+  font-weight: 600;
+}
+
+.mlist .pc {
+  font-size: 0.72rem;
+  color: var(--faint);
+}
+
+.side-all {
+  display: none;
+}
+
+.sub .gh {
+  margin: 0 10px 6px;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--faint);
+  font-weight: 650;
+  margin-left: 16px;
+}
+
+.sub .gsep {
+  margin: 14px 10px 12px;
+  border-top: 1px solid var(--line);
+  height: 0;
+}
+
+.scrim {
+  display: none;
+}
+
+.nav-head {
+  display: grid;
+  gap: 14px;
+  margin: 0 0 20px 6px;
+}
+
+.nav-head .brand {
+  margin-left: 0;
+  justify-self: start;
+}
+
+.nav-prog {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.nav-prog .bar {
+  flex: 1;
+  height: 6px;
+  background: var(--md-surface-highest);
+}
+
+.nav-prog .bar i {
+  background: var(--accent);
+}
+
+.mod .sub {
+  margin: 6px 0 12px 30px;
+  padding: 0 0 0 12px;
+  border-left: 2px solid color-mix(in srgb, var(--mc) 35%, transparent);
+}
+
+.mod .sub a {
+  min-height: 40px;
+  padding: 8px 14px;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  align-items: center;
+  transition: background-color 0.15s var(--e-in);
+}
+
+.mod .sub a:hover {
+  background: color-mix(in srgb, var(--md-on-surface) 8%, transparent);
+  color: var(--fg);
+}
+
+.mod .sub a.cur {
+  background: var(--md-secondary-container);
+  color: var(--md-on-secondary-container);
+  font-weight: 600;
+}
+
+.mod .sub .nest a {
+  margin-left: 8px;
+  min-height: 38px;
+}
+
+.mod .sub .dgh {
+  margin: 16px 14px 4px;
+}
+
+.ctx .sub a,
+.mlist a {
+  min-height: 40px;
+  padding: 8px 14px;
+  margin-block: 2px;
+  border-radius: 12px;
+  transition: background-color 0.15s var(--e-in);
+}
+
+/* keep the highlighted pill off the vertical rail and the sidebar edge */
+.ctx .sub {
+  padding-inline: 8px 4px;
+}
+
+.ctx .sub a:hover,
+.mlist a:hover {
+  background: color-mix(in srgb, var(--md-on-surface) 8%, transparent);
+}
+
+.sub .dgh {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 20px 16px 4px;
+  font-size: 0.72rem;
+  font-weight: 650;
+  line-height: 1.2;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* a small dot in the module colour, like the days on the project page */
+.sub .dgh::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--mc, var(--accent));
+  flex: none;
+}
+
+.sub .dgh:first-child {
+  margin-top: 6px;
+}
+
+/* the heading that opens a group needs air between it and the rail above */
+.sub .gh:first-child {
+  margin-top: 12px;
+}
+
+.sub .nest a {
+  margin-left: 6px;
+  min-height: 38px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+/* Link to the search page, below the overall progress. */
+.side-search {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 10px;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid var(--md-outline);
+  border-radius: 50px;
+  font-size: 0.86rem;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.side-search:hover {
+  color: var(--fg);
+  background: color-mix(in srgb, var(--md-on-surface) 8%, transparent);
+}

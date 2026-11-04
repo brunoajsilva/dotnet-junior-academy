@@ -1,0 +1,13 @@
+id: m2-36
+title: "Configurar o EF Core: pacotes e ligação"
+type: code
+language: cs
+codeFile: code/m2-36.cs
+keyPoints:
+  - "SqlServer é o provider: traduz o C# para SQL Server."
+  - Design dá ao dotnet ef o que precisa para gerar migrations.
+  - dotnet-ef é a ferramenta de linha de comandos.
+  - A connection string vive na configuração, nunca no código.
+learnMore:
+  explanation: "São precisos três elementos: o pacote do provider (Microsoft.EntityFrameworkCore.SqlServer), o pacote Design (para gerar migrations) e a ferramenta global dotnet-ef. A connection string fica no appsettings, e não no código."
+  pitfall: Instalar o pacote Design só no projeto errado. Os comandos dotnet ef precisam de o encontrar no projeto de arranque.

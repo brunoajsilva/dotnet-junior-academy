@@ -1,0 +1,29 @@
+id: au-5-6
+title: Experimentar o AuthLab
+type: exercise
+steps:
+  - keyword: Arrancar
+    text: correr dotnet run e anotar o endereço https
+  - keyword: Sem token
+    text: GET /api/auth/me devolve 401
+  - keyword: Login
+    text: POST /api/auth/login com ana@example.com e Passw0rd! devolve o accessToken
+  - keyword: Com token
+    text: GET /api/auth/me com o Bearer Token devolve 200 com o id, nome e papel
+  - keyword: Descodificar
+    text: colar o token em jwt.io e identificar sub, name, role, iss, aud e exp
+  - keyword: Adulterar
+    text: alterar um carácter do token e confirmar que o Me responde 401
+  - keyword: Expirar
+    text: mudar ExpiresMinutes para 1, fazer login, esperar 61 segundos e confirmar o 401
+expectedOutput: |-
+  GET  /api/auth/me (sem token)      -> 401
+  POST /api/auth/login               -> 200 { accessToken, expiresAtUtc }
+  GET  /api/auth/me (com token)      -> 200 { id: "1", name: "Ana Pereira", role: "Customer" }
+  GET  /api/auth/me (token alterado) -> 401
+  GET  /api/auth/me (token expirado) -> 401
+hint: Se o Me responde sempre 401, confirma a ordem do UseAuthentication e do UseAuthorization e se a chave do appsettings.json não mudou entre arranques.
+challenge: Troca o ClockSkew por 5 minutos e vê o token continuar válido depois de expirar.
+learnMore:
+  explanation: "O passo «Adulterar» é o mais importante: mostra que a API não confia no conteúdo do token, confia na assinatura. Sem a chave, ninguém fabrica um token válido."
+  tryIt: Troca uma letra no meio do payload (a segunda parte) e volta a chamar o Me.

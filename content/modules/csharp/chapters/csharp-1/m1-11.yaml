@@ -1,0 +1,14 @@
+id: m1-11
+title: "Condições: switch"
+type: code
+language: cs
+codeFile: code/m1-11.cs
+keyPoints:
+  - case seguidos partilham o resultado.
+  - default apanha o resto.
+  - Cada case termina com return ou break.
+  - or agrupa valores.
+learnMore:
+  explanation: O switch clássico compara uma variável com vários valores. Cada case tem de terminar com break ou return; o C# não permite o 'fall through' acidental de outras linguagens. Cases seguidos sem código partilham o mesmo resultado.
+  pitfall: Esquecer o default. Se aparecer um valor inesperado, o programa segue em frente sem fazer nada.
+  tryIt: Mapeia o código de um estado (1, 2, 3) para o texto 'Ativa', 'Cancelada', 'Suspensa' e testa com um valor fora do intervalo.

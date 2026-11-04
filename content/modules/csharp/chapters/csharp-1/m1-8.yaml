@@ -1,0 +1,17 @@
+id: m1-8
+title: "Operadores de null: ?, ?. , ?? e ??="
+type: code
+language: cs
+codeFile: code/m1-8.cs
+keyPoints:
+  - T? aceita null (string?, int?).
+  - ?. para se o valor for null.
+  - ?? atribui um valor por omissão.
+  - ??= atribui só se for null.
+learnMore:
+  explanation: |-
+    Desde o C# 8, o compilador distingue string (nunca null) de string? (pode ser null) quando o projeto tem Nullable ativo. Os operadores de null existem para lidar com isto sem encher o código de ifs.
+
+    ?. devolve null em vez de lançar NullReferenceException. ?? dá um valor alternativo. ??= atribui só quando a variável ainda é null, o que é prático para valores por omissão.
+  pitfall: Usar ! (null-forgiving) para calar um aviso. O aviso estava a proteger-te de um erro em execução.
+  tryIt: Declara string? email = null; e escreve email?.ToUpper() ?? "n/a". Troca o valor para "a@b.pt" e vê a diferença.

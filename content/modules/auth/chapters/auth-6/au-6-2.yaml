@@ -1,0 +1,12 @@
+id: au-6-2
+title: Políticas (policies)
+type: code
+language: cs
+codeFile: code/au-6-2.cs
+keyPoints:
+  - Uma policy tem nome e agrupa regras.
+  - RequireRole e RequireClaim combinam-se.
+  - Reutiliza-se em vários métodos.
+  - Muda-se num sítio só.
+learnMore:
+  explanation: As policies também aceitam requisitos próprios (IAuthorizationRequirement e AuthorizationHandler), para regras que não são «tem esta claim», por exemplo «só entre as 9h e as 18h». Para as regras deste curso, RequireRole e RequireClaim chegam.

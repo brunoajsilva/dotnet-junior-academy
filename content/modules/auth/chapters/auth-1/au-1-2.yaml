@@ -1,0 +1,25 @@
+id: au-1-2
+title: 401 ou 403?
+type: table
+rows:
+  - - Situação
+    - Código
+    - Porquê
+  - - Pedido sem token
+    - "401"
+    - Não sabemos quem é.
+  - - Token expirado ou com a assinatura alterada
+    - "401"
+    - A identidade não foi provada.
+  - - Cliente a chamar um endpoint só de gestores
+    - "403"
+    - Sabemos quem é, e o papel não chega.
+  - - Cliente a pedir a conta de outro cliente
+    - "404"
+    - Responder 404 em vez de 403 não revela que a conta existe.
+  - - Email ou password errados no login
+    - "401"
+    - A mesma resposta para os dois casos, para não revelar que emails existem.
+note: O 401 pede que te voltes a autenticar. O 403 não adianta voltar a tentar com as mesmas credenciais.
+learnMore:
+  explanation: "O 404 para recursos de outros utilizadores é uma decisão de segurança: com o 403 estás a confirmar que o recurso existe. Num banco, confirmar que um número de conta existe já é informação a mais."

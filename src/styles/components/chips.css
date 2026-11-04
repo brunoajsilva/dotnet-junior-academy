@@ -1,0 +1,7 @@
+/* Chips and badges. */
+
+.tag,
+.val,
+.ttag {
+  border-radius: 8px;
+}

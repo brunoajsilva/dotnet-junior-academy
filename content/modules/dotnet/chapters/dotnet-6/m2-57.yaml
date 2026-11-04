@@ -1,0 +1,12 @@
+id: m2-57
+title: O repositório
+type: code
+language: cs
+codeFile: code/m2-57.cs
+keyPoints:
+  - O contrato fica na Aplicação.
+  - A implementação com EF Core fica na Infrastructure.
+  - O resto do código só conhece a interface.
+  - Trocar a base de dados é trocar a implementação.
+learnMore:
+  explanation: O repositório é um contrato definido na Application (IAccountRepository) e implementado na Infrastructure com o EF Core. Os handlers só conhecem a interface. Para trocar de base de dados escreves outra implementação e mudas o registo no container.

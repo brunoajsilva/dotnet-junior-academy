@@ -1,0 +1,14 @@
+id: m1-36
+title: "async/await: Task e Task<T>"
+type: code
+language: cs
+codeFile: code/m1-36.cs
+keyPoints:
+  - async marca o método; await espera pelo resultado.
+  - Task (sem valor) e Task<T> (com valor).
+  - Nome termina em Async.
+  - Evitar async void, exceto em eventos.
+learnMore:
+  explanation: Um método async devolve Task (sem valor) ou Task<T> (com valor). Por convenção, termina em Async. Chamar o método sem await devolve a Task por terminar, não o resultado.
+  pitfall: async void. Quem chama não consegue esperar nem apanhar exceções; só se usa em event handlers.
+  tryIt: Escreve GetBalanceAsync que espera 200 ms com Task.Delay e devolve 1.04m.

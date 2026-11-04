@@ -1,0 +1,51 @@
+id: auth-3
+title: OAuth 2.0 e OpenID Connect
+intro: "Delegar acesso sem partilhar a password: os papéis, os fluxos e os tipos de token."
+lessons:
+  - $ref: au-3-1.yaml
+  - $ref: au-3-2.yaml
+  - $ref: au-3-3.yaml
+  - $ref: au-3-4.yaml
+  - $ref: au-3-5.yaml
+  - $ref: au-3-6.yaml
+quiz:
+  - question: O OAuth 2.0 é, sobretudo, um protocolo de...
+    options:
+      - Autenticação
+      - Autorização (delegação de acesso)
+      - Encriptação
+      - Compressão
+    correctIndex: 1
+    explanation: Define como uma aplicação obtém acesso limitado em nome do utilizador. A identidade vem do OpenID Connect.
+  - question: Que fluxo se usa por omissão numa aplicação com utilizador?
+    options:
+      - Password
+      - Implicit
+      - Authorization Code com PKCE
+      - Basic
+    correctIndex: 2
+    explanation: Authorization Code com PKCE é o recomendado para web, móvel e SPA.
+  - question: Que fluxo usa um serviço a chamar outro, sem utilizador?
+    options:
+      - Client Credentials
+      - Authorization Code
+      - Device Code
+      - Implicit
+    correctIndex: 0
+    explanation: O cliente autentica-se com o seu próprio id e segredo.
+  - question: Para que serve o refresh token?
+    options:
+      - Chamar a API
+      - Obter um novo access token sem novo login
+      - Encriptar a password
+      - Identificar o utilizador à API
+    correctIndex: 1
+    explanation: Permite que o access token seja curto sem obrigar a um novo login.
+  - question: O que acrescenta o OpenID Connect ao OAuth 2.0?
+    options:
+      - Mais velocidade
+      - O ID token, para saber quem fez login
+      - Encriptação do tráfego
+      - Nada
+    correctIndex: 1
+    explanation: É a camada de identidade sobre o OAuth 2.0.

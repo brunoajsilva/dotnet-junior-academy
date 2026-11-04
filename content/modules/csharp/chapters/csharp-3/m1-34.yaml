@@ -1,0 +1,16 @@
+id: m1-34
+title: "Exceptions: excepções personalizadas"
+type: code
+language: cs
+codeFile: code/m1-34.cs
+keyPoints:
+  - Herdar de Exception e dar um nome terminado em Exception.
+  - Acrescentar propriedades com o contexto do erro.
+  - base(msg) passa o texto à classe base.
+  - catch do tipo específico, antes do genérico.
+learnMore:
+  explanation: |-
+    Uma exceção própria dá nome a uma regra de negócio: AccountNotFoundException diz mais do que InvalidOperationException. Herda de Exception, termina o nome em Exception e acrescenta as propriedades com o contexto (por exemplo, o número da conta).
+
+    Mais à frente, na API, é por este tipo que o middleware decide o código HTTP a devolver.
+  tryIt: Cria InvalidAccountException com a propriedade Number e lança-a quando o saldo for negativo.

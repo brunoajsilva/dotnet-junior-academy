@@ -1,0 +1,13 @@
+id: m2-59
+title: Handlers
+type: code
+language: cs
+codeFile: code/m2-59.cs
+keyPoints:
+  - O comando é um objeto só com dados.
+  - O handler contém a lógica do caso de uso.
+  - O controller só chama o handler.
+  - Cada handler é testável sozinho.
+learnMore:
+  explanation: O comando é um objeto só com dados (por exemplo, um record OpenAccountCommand). O handler tem um método HandleAsync com a lógica do caso de uso. O controller só converte o DTO em comando e chama o handler. Como o handler depende de interfaces, testa-se sozinho com mocks.
+  tryIt: Escreve um teste ao OpenAccountHandler com um IAccountRepository falso que diz que o número já existe.

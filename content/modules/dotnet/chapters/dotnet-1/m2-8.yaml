@@ -1,0 +1,23 @@
+id: m2-8
+title: SDK, runtime e versões
+type: cards
+cards:
+  - title: SDK
+    lines:
+      - "Para desenvolver: compilador, linha de comandos dotnet e templates de projetos."
+  - title: Runtime
+    lines:
+      - "Para executar: é o que tem de existir no servidor onde a aplicação corre."
+  - title: Versões LTS
+    lines:
+      - As versões pares, como o .NET 10, têm suporte de longa duração (3 anos).
+  - title: .NET Framework
+    lines:
+      - "A plataforma antiga (4.x): só Windows e sem novas funcionalidades. Em projetos novos usa-se o .NET."
+learnMore:
+  explanation: |-
+    O SDK é o que instalas no teu computador para desenvolver: compilador, comando dotnet e templates. O runtime é o mínimo necessário para executar uma aplicação já compilada, e é o que o servidor precisa.
+
+    As versões pares (8, 10) são LTS. Em projetos novos escolhe sempre uma LTS ou superior, e nunca o .NET Framework 4.x.
+  tryIt: No terminal, corre dotnet --list-sdks e dotnet --list-runtimes e vê o que tens instalado.
+tryItCommand: dotnet --list-sdks

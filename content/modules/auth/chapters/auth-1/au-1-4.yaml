@@ -1,0 +1,25 @@
+id: au-1-4
+title: Identidade, claims e papéis
+type: cards
+cards:
+  - title: Claim
+    lines:
+      - Uma afirmação sobre o utilizador.
+      - "Par nome-valor: name = Ana Pereira."
+  - title: ClaimsPrincipal
+    lines:
+      - O User no ASP.NET Core.
+      - Agrupa as claims de uma identidade.
+  - title: Role (papel)
+    lines:
+      - "Um grupo de permissões: Customer, Manager."
+      - É só uma claim especial.
+  - title: Policy
+    lines:
+      - Uma regra com nome.
+      - "Combina papéis e claims: «gestor do departamento de crédito»."
+learnMore:
+  explanation: |-
+    Depois de a autenticação correr, o ASP.NET Core constrói um ClaimsPrincipal com as claims do token. Tudo o que se segue (papéis, políticas, o id do cliente) lê desse objeto.
+
+    Um papel é uma claim com um tipo reconhecido como «role». Uma policy é uma regra com nome que podes reutilizar em vários endpoints.

@@ -1,0 +1,135 @@
+/* Exercise steps (checklists). */
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.step {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 9px 10px;
+  margin: 0 -10px;
+  border-radius: 8px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  width: calc(100% + 20px);
+}
+
+.step:hover {
+  background: var(--surface2);
+}
+
+.step .bx {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  border: 1.5px solid var(--line2);
+  display: grid;
+  place-items: center;
+  margin-top: 3px;
+  color: transparent;
+  background: var(--surface);
+}
+
+.step[aria-checked="true"] .bx {
+  background: var(--ok);
+  border-color: var(--ok);
+  color: #fff;
+}
+
+.step[aria-checked="true"] .tx {
+  color: var(--faint);
+  text-decoration: line-through;
+  text-decoration-color: var(--line2);
+}
+
+.step .tx {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: 1rem;
+}
+
+.step .tx b {
+  font-weight: 600;
+}
+
+.reveal {
+  margin-top: 18px;
+}
+
+.reveal > button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid var(--line2);
+  border-radius: 99px;
+  background: var(--surface);
+  color: var(--fg);
+  font-size: 0.86rem;
+  font-weight: 550;
+}
+
+.reveal > button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.reveal .panel {
+  margin-top: 10px;
+}
+
+.extra {
+  margin-top: 18px;
+  padding-left: 16px;
+  border-left: 2px solid var(--accent);
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.extra b {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.ents {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.ent {
+  padding: 9px 14px;
+  border-radius: var(--r);
+  border: 1px solid var(--line2);
+  background: var(--surface);
+  text-align: center;
+}
+
+.ent b {
+  display: block;
+  font-family: var(--f-mono);
+  font-size: 0.86rem;
+}
+
+.ent span {
+  font-size: 0.76rem;
+  color: var(--muted);
+}
+
+.rel {
+  font-size: 0.76rem;
+  color: var(--faint);
+}

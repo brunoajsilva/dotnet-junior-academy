@@ -1,0 +1,16 @@
+id: au-5-3
+title: "Program.cs: configurar a autenticação"
+type: code
+language: cs
+codeFile: code/au-5-3.cs
+keyPoints:
+  - A secção Jwt passa a um objeto JwtSettings, registado no container.
+  - AddJwtBearer configura as quatro validações.
+  - UseAuthentication e UseAuthorization na ordem certa.
+  - MapControllers expõe os controllers.
+learnMore:
+  explanation: |-
+    O MapInboundClaims = false evita que o ASP.NET Core renomeie as claims do token (por exemplo, sub passaria a ser um nome comprido da Microsoft). Assim, o que vês no jwt.io é o que lês no código.
+
+    Registar o JwtSettings no container (AddSingleton) permite ao controller recebê-lo no construtor, tal como qualquer outro serviço. É a mesma Dependency Injection que já usaste.
+  pitfall: Trocar a ordem do UseAuthentication e do UseAuthorization. Todos os métodos protegidos passam a responder 401.

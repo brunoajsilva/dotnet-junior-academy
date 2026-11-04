@@ -1,0 +1,17 @@
+id: m1-43
+title: "Enunciado: regras e estrutura"
+type: cards
+cards:
+  - title: Regras de validação
+    lines:
+      - O número da conta não pode estar vazio nem repetido.
+      - O NIF tem 9 dígitos.
+      - O saldo inicial é um número maior ou igual a zero.
+      - Uma opção inválida mostra uma mensagem e volta ao menu.
+      - Uma entrada inválida nunca faz o programa terminar.
+  - title: Estrutura obrigatória
+    lines:
+      - Uma class Customer e um record Account.
+      - As contas guardadas numa List<Account>.
+      - LINQ nas opções 2 e 3.
+      - Um método para cada opção do menu.

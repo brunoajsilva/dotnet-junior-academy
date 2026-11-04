@@ -1,0 +1,13 @@
+id: m2-38
+title: Configurar o modelo
+type: code
+language: cs
+codeFile: code/m2-38.cs
+keyPoints:
+  - As convenções resolvem o simples; a Fluent API resolve o resto.
+  - Tamanhos, índices e precisão decimal.
+  - A relação entre entidades.
+  - Fica no DbContext, fora das entidades.
+learnMore:
+  explanation: "As convenções cobrem o caso simples. Para o resto usa a Fluent API no OnModelCreating: tamanhos máximos, índices únicos (por exemplo, no número da conta), precisão de decimais e relações. Fica no DbContext, e as entidades continuam livres de detalhes de base de dados."
+  pitfall: Esquecer a precisão do decimal. O EF avisa, e o valor pode ser truncado na base de dados.
