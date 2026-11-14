@@ -10,10 +10,14 @@ A linguagem de base: tipos, objetos, coleções, LINQ, erros e async/await, até
 
 ## Capítulos
 
-- [Fundamentos da linguagem](fundamentos-da-linguagem/): As peças básicas da linguagem: tipos, operadores, decisões, repetições, texto e métodos.
-- [Objetos e coleções](objetos-e-colecoes/): Como representar o domínio de um banco com classes, records, interfaces e coleções.
-- [LINQ, exceções e async/await](linq-excecoes-e-async-await/): Consultar coleções com LINQ, tratar erros e esperar por operações lentas sem bloquear.
-- [Mini-aplicação de consola](mini-aplicacao-de-consola/): O enunciado de uma aplicação de consola completa, para juntar tudo o que aprendeste.
+- [Fundamentos da linguagem](fundamentos-da-linguagem/)
+  As peças básicas da linguagem: tipos, operadores, decisões, repetições, texto e métodos.
+- [Objetos e coleções](objetos-e-colecoes/)
+  Como representar o domínio de um banco com classes, records, interfaces e coleções.
+- [LINQ, exceções e async/await](linq-excecoes-e-async-await/)
+  Consultar coleções com LINQ, tratar erros e esperar por operações lentas sem bloquear.
+- [Mini-aplicação de consola](mini-aplicacao-de-consola/)
+  O enunciado de uma aplicação de consola completa, para juntar tudo o que aprendeste.
 
 ## O que vais aprender
 

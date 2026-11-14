@@ -10,12 +10,18 @@ A plataforma, a Web API, Dependency Injection, base de dados, testes e organiza�
 
 ## Capítulos
 
-- [A plataforma .NET](a-plataforma-net/): O que acontece entre escrever C# e ver o programa a correr, e como se organiza uma solução.
-- [ASP.NET Core e Web API](asp-net-core-e-web-api/): Construir uma Web API: pipeline, controllers, códigos HTTP, DTOs, validação e documentação.
-- [Dependency Injection](dependency-injection/): Deixar o container criar e entregar as dependências em vez de fazer new.
-- [Entity Framework Core](entity-framework-core/): Ligar a API a uma base de dados com classes C#, migrations e consultas LINQ.
-- [Testes unitários](testes-unitarios/): Provar que o código funciona com testes rápidos e isolados.
-- [Organização do código](organizacao-do-codigo/): Separar responsabilidades em camadas para o código poder crescer sem se complicar.
+- [A plataforma .NET](a-plataforma-net/)
+  O que acontece entre escrever C# e ver o programa a correr, e como se organiza uma solução.
+- [ASP.NET Core e Web API](asp-net-core-e-web-api/)
+  Construir uma Web API: pipeline, controllers, códigos HTTP, DTOs, validação e documentação.
+- [Dependency Injection](dependency-injection/)
+  Deixar o container criar e entregar as dependências em vez de fazer new.
+- [Entity Framework Core](entity-framework-core/)
+  Ligar a API a uma base de dados com classes C#, migrations e consultas LINQ.
+- [Testes unitários](testes-unitarios/)
+  Provar que o código funciona com testes rápidos e isolados.
+- [Organização do código](organizacao-do-codigo/)
+  Separar responsabilidades em camadas para o código poder crescer sem se complicar.
 
 ## O que vais aprender
 

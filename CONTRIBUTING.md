@@ -88,10 +88,10 @@ Dentro de um módulo, a ordem é o número `sidebar.order` no cabeçalho de cada
 ## Acrescentar um módulo
 
 1. Cria a pasta `site/src/content/docs/<módulo>/` com um `index.md` (`sidebar.order: 0`, `sidebar.label: "Visão geral"`) e as páginas.
-2. Em `site/src/modules.ts`, acrescenta uma linha à lista, na posição onde o módulo deve aparecer. A posição define o número e a cor do módulo (até 8):
+2. Em `site/src/modules.ts`, acrescenta uma linha à lista, na posição onde o módulo deve aparecer. A posição define o número e a cor do módulo (até 8). `short` é o nome curto no cabeçalho e `start` a primeira página do módulo:
 
 ```ts
-{ dir: "logging", label: "Logging" },
+{ dir: "logging", label: "Logging", short: "Logging", start: "logging/" },
 ```
 
 ## Avisos

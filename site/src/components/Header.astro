@@ -1,0 +1,26 @@
+---
+// Cabeçalho: nome da academia e navegação por módulos (vem de src/modules.ts).
+import SiteTitle from "virtual:starlight/components/SiteTitle";
+import { modules } from "../modules";
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const current = Astro.locals.starlightRoute.entry.id.split("/")[0];
+---
+
+<div class="top">
+  <div class="top__title"><SiteTitle /></div>
+  <nav class="top__nav" aria-label="Módulos">
+    <ol>
+      {
+        modules.map((module, index) => (
+          <li style={`--m: var(--module-${index + 1})`}>
+            <a href={`${base}/${module.start}`} aria-current={module.dir === current ? "page" : undefined} data-n={index + 1}>
+              <span>{index + 1}</span>
+              {module.short}
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </nav>
+</div>
