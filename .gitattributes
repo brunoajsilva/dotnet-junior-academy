@@ -1,0 +1,2 @@
+# Os ficheiros .sln usam CRLF, como o Visual Studio escreve
+*.sln text eol=crlf
