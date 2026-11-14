@@ -1,0 +1,19 @@
+{
+  "name": "dotnet-backend-academy-site",
+  "private": true,
+  "type": "module",
+  "version": "3.0.0",
+  "description": ".NET Backend Academy: site de ensino feito com Starlight. O conteúdo está em src/content/docs.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "0.43.1",
+    "astro": "7.4.5"
+  },
+  "engines": {
+    "node": ">=22.23.4"
+  }
+}

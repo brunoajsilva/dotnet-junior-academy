@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40" role="img" aria-label="Academy">
+  <rect width="40" height="40" rx="11" fill="#4a47c2"/>
+  <rect x="9.5" y="21" width="5.5" height="9" rx="2.75" fill="#fff" fill-opacity=".5"/>
+  <rect x="17.25" y="15" width="5.5" height="15" rx="2.75" fill="#fff" fill-opacity=".78"/>
+  <rect x="25" y="9" width="5.5" height="21" rx="2.75" fill="#fff"/>
+</svg>

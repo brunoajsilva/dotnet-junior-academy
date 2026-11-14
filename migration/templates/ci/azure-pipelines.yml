@@ -1,0 +1,72 @@
+# Pipeline da academia (Azure DevOps). Modelo: a fase 4 do PLAN.md completa o deploy.
+# Em cada push para main: compila o site e as soluções de referência, corre os testes e publica o site.
+trigger:
+  branches:
+    include: [main]
+pr:
+  branches:
+    include: [main]
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  # Caminho base onde o site é servido (PARAMETRO BASE_PATH do PLAN.md).
+  BASE: /
+  # Endereço público do site (PARAMETRO SITE_URL do PLAN.md).
+  SITE: ""
+
+stages:
+  - stage: Build
+    jobs:
+      - job: Site
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: "24.x"
+          # Registry npm interno (PARAMETRO NPM_REGISTRY). Com Azure Artifacts, autentica o site/.npmrc:
+          # - task: npmAuthenticate@0
+          #   inputs:
+          #     workingFile: site/.npmrc
+          - script: npm ci
+            workingDirectory: site
+          - script: npm run build
+            workingDirectory: site
+            env:
+              BASE: $(BASE)
+              SITE: $(SITE)
+          - publish: site/dist
+            artifact: site
+
+      - job: Reference
+        steps:
+          - task: UseDotNet@2
+            inputs:
+              packageType: sdk
+              version: "10.0.x"
+          - script: |
+              set -e
+              for solution in reference/*/; do
+                dotnet build "$solution" --configuration Release
+                dotnet test "$solution" --configuration Release --no-build
+              done
+            displayName: Compilar e testar as soluções de referência
+
+  - stage: Deploy
+    dependsOn: Build
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    jobs:
+      - job: Publish
+        steps:
+          - download: current
+            artifact: site
+          # O destino depende do PARAMETRO PUBLICACAO. Exemplos (confirmar com a equipa de infraestrutura):
+          # Azure Static Web Apps:
+          # - task: AzureStaticWebApp@0
+          #   inputs:
+          #     app_location: $(Pipeline.Workspace)/site
+          #     skip_app_build: true
+          #     azure_static_web_apps_api_token: $(STATIC_WEB_APPS_TOKEN)
+          # Servidor interno (IIS ou nginx): copiar $(Pipeline.Workspace)/site para a pasta do site.
+          - script: echo "Configurar o destino da publicação (PLAN.md, fase 4)" && exit 1
+            displayName: Publicar (por configurar)

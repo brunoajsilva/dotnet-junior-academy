@@ -1,0 +1,11 @@
+/* Cor de destaque da academia. É o único CSS próprio do site. */
+:root {
+  --sl-color-accent-low: #1c1a4d;
+  --sl-color-accent: #6f6ce0;
+  --sl-color-accent-high: #e3e0ff;
+}
+:root[data-theme="light"] {
+  --sl-color-accent-low: #e3e0ff;
+  --sl-color-accent: #4a47c2;
+  --sl-color-accent-high: #0e0a68;
+}
