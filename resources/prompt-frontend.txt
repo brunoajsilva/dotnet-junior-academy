@@ -1,0 +1,39 @@
+Quero um front-end para ver a minha API .NET a funcionar. Segue este briefing à letra.
+
+## Contexto
+- A API chama-se [NOME DA API, por exemplo BankingApp.Api] e corre em [URL, por exemplo https://localhost:7128].
+- Anexo o ficheiro OpenAPI (swagger.json) da API. Em caso de dúvida, o OpenAPI é a fonte da verdade, mesmo que o enunciado diga outra coisa (por exemplo, nomes de campos).
+- User stories que implementei: [LISTA, por exemplo US1, US2, US4, US5, US7, US9]. Cria ecrãs só para estas e para os endpoints de autenticação e resumo que existirem no OpenAPI.
+
+## Contrato da API (confirma no OpenAPI)
+- Todos os endpoints são POST com corpo JSON.
+- Todas as respostas vêm com HTTP 200 e o envelope { success, data, errors: [{ code, message }] }. Os erros de negócio chegam com success = false e um code: validation, unauthorized, not_found ou conflict.
+- Autenticação com JWT no cabeçalho Authorization: Bearer. Só o registo e o login são anónimos.
+- Os montantes são números (double). Aceita vírgula ou ponto no campo e envia number. As datas vão no formato yyyy-MM-dd.
+
+## Stack e organização
+- React + TypeScript (strict) + Vite + Tailwind CSS. Sem router nem biblioteca de estado, a menos que sejam mesmo necessários.
+- Código legível: nomes completos (nada de abreviaturas), uma responsabilidade por ficheiro, sem código morto.
+- Estrutura: src/api (cliente, endpoints, tipos), src/auth (sessão), src/pages, src/components e src/components/ui (design system).
+- Um único cliente HTTP tipado que desembrulha o envelope: devolve data quando success = true e lança um ApiError com a lista de errors caso contrário.
+- Usa o proxy do Vite (/api para o URL da API, secure: false, configurável por API_TARGET) para não precisares de CORS nem de aceitar o certificado de desenvolvimento no browser.
+
+## Comportamento
+- Registo e login. O token fica em sessionStorage. Um erro unauthorized ou um token expirado leva de volta ao login.
+- NÃO repitas no front-end as regras de negócio (limites, saldo, formatos). Envia o que o utilizador escreveu e mostra o erro da API, com o code visível. O objetivo é ver a API a responder.
+- Painel «Pedidos à API»: lista cada pedido e resposta (método, caminho, estado, duração, JSON). Esconde as palavras-passe e encurta o token.
+- Depois de cada alteração (criar, depositar, levantar, transferir) os dados mostrados atualizam-se sozinhos.
+- Estados de carregamento, vazio e erro em todos os ecrãs. Botões desativados enquanto o pedido está a correr.
+- Listas paginadas usam os campos de paginação que a API devolver (total, página, tamanho).
+
+## Design
+- Design system moderno ao estilo do Tailwind: tokens semânticos (background, surface, primary, success, danger, muted) como variáveis CSS, tema claro e escuro, componentes base reutilizáveis (Button, Input, Select, Card, Badge, Dialog, Toast).
+- Responsivo (telemóvel e desktop), acessível (labels, foco visível, aria nos tabs e nos diálogos).
+- Textos da interface em português de Portugal. Mantém em inglês os termos técnicos e os códigos de erro da API.
+
+## Como trabalhar
+1. Lê o OpenAPI e mostra-me, em poucas linhas, a tabela user story, ecrã e endpoint. Depois constrói sem esperar.
+2. Cria também tools/mock-api.mjs (Node, sem dependências) que simula a API com as regras das user stories, para ensaiar o front-end sem a API real.
+3. Verifica o resultado: tsc sem erros, npm run build a passar e o fluxo completo a funcionar num browser (registar, entrar, e cada user story com um caso de sucesso e um de erro).
+4. Escreve um README curto: como instalar, como correr (com a API e com o mock), a estrutura e as decisões que tomaste.
+5. No fim, diz-me o que ficou de fora e que diferenças encontraste entre o enunciado e o OpenAPI.

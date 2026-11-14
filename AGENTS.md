@@ -1,64 +1,63 @@
-# .NET Backend Academy: guia para agentes de IA
+# .NET Academy: guia para agentes de IA
 
-Este ficheiro é o ponto de entrada para qualquer IA (ou pessoa) que vá evoluir a academia.
-Se leres só uma coisa, lê este ficheiro: tem o suficiente para acrescentar ou corrigir conteúdo sem conhecer a aplicação.
+Site de ensino de .NET para programadores de backend de uma consultora de software. Feito com Starlight: cada capítulo é uma página Markdown em `site/src/content/docs/`.
 
-## O que é
+Como acrescentar ou corrigir conteúdo: [CONTRIBUTING.md](CONTRIBUTING.md). Regras de escrita completas: [docs/style-guide.md](docs/style-guide.md). Porque o site é assim: [docs/decisions/0001-starlight.md](docs/decisions/0001-starlight.md).
 
-Um site de ensino de .NET para programadores de backend de uma consultora de software para a banca.
-É um site **Astro** gerado em build e publicado no GitHub Pages. O conteúdo vive em `content/` (YAML e ficheiros de código) e é validado por schemas (Zod) no build.
-Idioma: **PT-PT**. Termos técnicos mantêm-se em inglês (Dependency Injection, middleware, controller, claim...).
-Código e comentários de código: **inglês**. Domínio dos exemplos: um banco (clientes, contas, saldos, NIF).
+## Módulos
 
-## Como acrescentar uma lição ou um módulo (resumo)
+| Pasta em `site/src/content/docs/` | Módulo |
+| --- | --- |
+| `academia/` | Introdução à Academia (o que é, objetivos, plano, cronograma, software) |
+| `csharp/` | Introdução ao C# |
+| `dotnet/` | Introdução ao .NET |
+| `auth/` | Autenticação e Autorização |
+| `projeto/` | Projeto final: BankingApp |
 
-1. Lê `docs/AUTHORING.md` (o passo a passo) e `docs/STYLE-GUIDE.md` (tom e regras de escrita).
-2. Lição nova: `npm run new:lesson -- <módulo> <capítulo> <id> "Título" [code|cards|table|exercise]` e substitui o texto de exemplo.
-   Módulo novo: `npm run new:module -- <id> "Título" "Nome curto"` cria `content/_drafts/<id>/`. Completa-o seguindo `docs/CONTENT-SCHEMA.md`, move-o para `content/modules/<id>/` e acrescenta `modules/<id>/module.yaml` ao `content/manifest.yaml`, antes do projeto final.
-3. Valida: `npm run check` (diz exatamente o ficheiro e o campo com problema).
-4. Testa: `npm test` (precisa de `npm install` e `npx playwright install chromium` uma vez).
-5. Quando as lições estiverem publicadas: `npm run check -- --update-ids` regista os ids em `content/ids.lock`.
-6. Resume ao utilizador o que criaste (capítulos, lições, perguntas) e o que não conseguiste verificar.
+O código do projeto final (BankingApp) está dentro das páginas de `projeto/`, em blocos de código com o caminho do ficheiro no título. Não há soluções .NET no repositório.
 
-Há um prompt pronto a usar em `prompts/novo-modulo.md`.
+## Regras de escrita
 
-## O que podes e não podes fazer
-
-| Podes | Não podes (sem o utilizador pedir) |
-|---|---|
-| Criar e editar ficheiros em `content/` | Alterar `src/`, `tools/`, `astro.config.mjs` ou os workflows |
-| Corrigir texto e código de módulos existentes | Mudar ids de lições já publicadas (o `ids.lock` falha o check) |
-| Acrescentar lições, perguntas e links | Criar CSS, HTML ou cores novas para conteúdo |
-| Propor um novo tipo de lição (descreve-o, não o implementes) | Mexer no módulo "Projeto final" fora do que foi pedido |
-
-Se o pedido for de **código da aplicação** (`src/`), lê `docs/ARCHITECTURE.md` e `docs/DESIGN-RULES.md`, e corre `npm test` no fim.
-
-## Regras inegociáveis
-
-- Texto simples: sem Markdown, sem HTML, sem emojis. Parágrafos separam-se com uma linha em branco; em YAML usa um bloco `|-`.
-- Código de exemplo em ficheiros próprios (`code/`), referenciados com `codeFile`. Nunca em strings YAML.
+- Idioma: PT-PT. Termos técnicos mantêm-se em inglês (Dependency Injection, middleware, controller, claim...).
+- Código e comentários de código: inglês. Domínio dos exemplos: um banco (clientes, contas, saldos, NIF).
+- Texto simples e direto, sem emojis. Evita travessões longos.
 - Nunca copiar credenciais, chaves ou dados reais de clientes. Exemplos usam dados inventados (ana@example.com).
 - Sem logótipos, nomes de empresas ou marcas como identidade. Pedidos HTTP: usa o **Bruno**, nunca o Postman.
 - Dinheiro é `decimal`, nunca `double`. Datas em UTC.
-- Não inventes APIs: se não tens a certeza de que um método existe na versão alvo (.NET 10, C# 14), escolhe outro exemplo ou assinala a dúvida no resumo final.
-- Uma lição ensina **uma** ideia. Exemplos de código com no máximo 24 linhas.
-- Cada capítulo termina com um quiz de 3 a 6 perguntas, com explicação do porquê.
-- Os exemplos C# das lições são excertos e **não são compilados** no build. Diz sempre ao utilizador se o código não foi compilado.
+- Não inventes APIs: se não tens a certeza de que um método existe na versão alvo (.NET 10, C# 14), escolhe outro exemplo ou assinala a dúvida.
+- Uma lição ensina uma ideia. Exemplos de código curtos (cabem num ecrã).
 
-## Mapa do repositório
+## Onde está cada coisa
 
+```text
+site/src/content/docs/   as páginas (editar aqui)
+site/src/modules.ts      os módulos, pela ordem do menu lateral (a posição define número e cor)
+site/astro.config.mjs    configuração do Starlight (sem pesquisa e só com tema claro)
+site/src/styles/         o estilo da academia (academy.css) e as cores dos módulos
+site/src/components/     título da página com a etiqueta do módulo
+resources/               ficheiros para os formandos (prompt do front-end)
+docs/                    guia de estilo e decisões
+.github/workflows/       CI: compila o site em cada push e pull request
 ```
-content/              manifest.yaml, ids.lock e modules/<id>/ (YAML e ficheiros de código)
-src/                  pages/ (rotas), layouts/, lib/ (renderização), client/ (progresso e interação), styles/
-tools/                check, new, smoke (Node)
-docs/                 ARCHITECTURE, DEVELOPMENT, AUTHORING, CONTENT-SCHEMA, STYLE-GUIDE, DESIGN-RULES
-prompts/              prompts prontos a copiar
-design/               fundações de design (tokens W3C e CSS)
+
+## Correr o site
+
+Requer Node.js 22.23.4 ou superior (`.nvmrc` indica a versão recomendada).
+
+```bash
+cd site
+npm install
+npm run dev      # http://localhost:4321
+npm run build    # gera site/dist e o índice de pesquisa
 ```
 
-## Se algo falhar
+## Limites
 
-- `npm run check` dá a lista de erros, com o módulo, o capítulo e a lição. Corrige e volta a correr.
-- `npm run build` falha com `does not match collection schema` quando um campo está em falta ou fora dos limites: a mensagem indica o caminho (por exemplo `chapters.0.lessons.2.points`).
-- Se o `smoke` indicar `expected one h1`, `did not hydrate` ou `horizontal overflow`, o conteúdo tem um problema de estrutura ou uma linha sem quebras
-  (por exemplo, uma URL ou um comando muito longo fora de um bloco de código). Parte-o ou move-o para um ficheiro `code/`.
+- Edita as páginas à vontade. Só mexes em `site/astro.config.mjs`, `site/package.json` ou no CI se o utilizador pedir.
+- Não atualizes as versões do Astro e do Starlight sem pedido: estão fixas de propósito.
+- Não acrescentes componentes, CSS ou cores novas para o conteúdo. O site é só claro e não tem pesquisa, de propósito.
+
+## Antes de entregar
+
+- `cd site && npm run build` termina com `Complete!`.
+- O código C# das páginas não é compilado pelo repositório. Diz sempre o que não conseguiste verificar (por exemplo, código C# que não compilaste).

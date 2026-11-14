@@ -1,0 +1,1223 @@
+---
+title: "Autenticação JWT"
+description: "Configurar o token JWT, um método anónimo (Register e Login), um método autenticado (RetrieveDashboard) e a coleção do Bruno com o cabeçalho Authorize."
+sidebar:
+  order: 3
+---
+
+import { FileTree } from "@astrojs/starlight/components";
+
+**Dia 1.** Configurar o token JWT, um método anónimo (Register e Login), um método autenticado (RetrieveDashboard) e a coleção do Bruno com o cabeçalho Authorize.
+
+Usa o que aprendeste em: [JWT por dentro](../../auth/jwt-por-dentro/), [Hands-on I: gerar e validar um JWT](../../auth/hands-on-i-gerar-e-validar-um-jwt/), [Dependency Injection](../../dotnet/dependency-injection/), [Entity Framework Core](../../dotnet/entity-framework-core/).
+
+## O que muda na estrutura
+
+Cada ficheiro tem uma etiqueta: novo, alterado ou apagar.
+
+<FileTree>
+
+- BankingApp/ Só aparecem as pastas e ficheiros que mudam neste passo.
+  - src/ Código.
+    - BankingApp.Domain/ Ganha a entidade Account e as credenciais no Customer.
+      - Accounts/ Contas bancárias.
+        - **Account.cs** (novo) Entidade Account e Account.Open.
+        - **AccountStatus.cs** (novo) O estado da conta: Active ou Closed.
+      - Customers/ Clientes.
+        - **Customer.cs** (alterado) Passa a ter Email, PasswordHash e a lista de contas.
+    - BankingApp.Application/ Casos de uso de autenticação e dashboard.
+      - Abstractions/ Contratos.
+        - **ICustomerRepository.cs** (alterado) Ganha os métodos de email e de leitura com contas.
+        - **IPasswordHasher.cs** (novo) Contrato do hash das passwords.
+        - **ITokenService.cs** (novo) Contrato que cria o token.
+        - **TokenResult.cs** (novo) O token e a data de expiração.
+      - Handlers/ Os casos de uso, separados em comandos e consultas.
+        - CommandHandlers/ Um caso de uso por pasta. Entram o Register e o Login; sai o CreateCustomer.
+          - Register/ Caso de uso anónimo.
+            - **RegisterCommand.cs** (novo) Os dados de entrada do Register.
+            - **RegisterResult.cs** (novo) O resultado: id do cliente e número da conta.
+            - **RegisterHandler.cs** (novo) Cria o cliente e a primeira conta.
+          - Login/ Caso de uso anónimo.
+            - **LoginCommand.cs** (novo) Os dados de entrada do Login.
+            - **LoginResult.cs** (novo) O resultado: o token.
+            - **LoginHandler.cs** (novo) Valida as credenciais e devolve o token.
+          - CreateCustomer/ Apaga esta pasta: serviu só para validar o Passo 1.
+            - **(apagar)** (a apagar) CreateCustomerCommand, CustomerResult e CreateCustomerHandler.
+        - QueryHandlers/ Entra o RetrieveDashboard; sai o ListCustomers.
+          - RetrieveDashboard/ Caso de uso autenticado.
+            - **RetrieveDashboardQuery.cs** (novo) A consulta: o id do cliente.
+            - **DashboardAccount.cs** (novo) Uma conta no resumo.
+            - **DashboardResult.cs** (novo) O resumo: cliente, saldo total e contas.
+            - **RetrieveDashboardHandler.cs** (novo) Calcula o resumo das contas ativas.
+          - ListCustomers/ Apaga esta pasta: serviu só para validar o Passo 1.
+            - **(apagar)** (a apagar) ListCustomersQuery e ListCustomersHandler.
+    - BankingApp.Infrastructure/ Implementa o token, o hash e as novas tabelas.
+      - Authentication/ Tudo o que é segurança.
+        - **JwtOptions.cs** (novo) As opções lidas da secção "Jwt".
+        - **JwtTokenService.cs** (novo) Cria e assina o token.
+        - **PasswordHasherService.cs** (novo) Faz o hash e a verificação das passwords.
+      - Persistence/ EF Core.
+        - **BankingAppContext.cs** (alterado) Ganha DbSet\<Account\>.
+        - Configurations/ Fluent API.
+          - **CustomerConfiguration.cs** (alterado) Email e PasswordHash.
+          - **AccountConfiguration.cs** (novo) Número único, precisão e relação.
+      - Repositories/ Implementações.
+        - **CustomerRepository.cs** (alterado) Novos métodos de leitura.
+      - **DependencyInjection.cs** (alterado) Regista JwtOptions, hasher e token service.
+    - BankingApp.Api/ Autenticação e novos controllers.
+      - Contracts/ DTOs.
+        - Auth/ Register e Login.
+          - **RegisterRequest.cs** (novo) O pedido de Register, com validação.
+          - **RegisterResponse.cs** (novo) A resposta de Register.
+          - **LoginRequest.cs** (novo) O pedido de Login.
+          - **LoginResponse.cs** (novo) A resposta de Login, com o token.
+        - Dashboard/ RetrieveDashboard.
+          - **DashboardAccountResponse.cs** (novo) Uma conta na resposta.
+          - **DashboardResponse.cs** (novo) A resposta do dashboard.
+      - Controllers/ Controllers.
+        - **AuthController.cs** (novo) Register e Login (anónimos).
+        - **DashboardController.cs** (novo) RetrieveDashboard (autenticado).
+        - **CustomersController.cs** (a apagar) Apaga: foi só para validar o Passo 1.
+      - Authentication/ Respostas de autenticação.
+        - **RpcJwtBearerEvents.cs** (novo) Sem token ou sem permissão: 200 com o erro unauthorized ou forbidden.
+      - **appsettings.json** (alterado) Ganha a secção "Jwt", com a chave de desenvolvimento.
+      - **Program.cs** (alterado) Autenticação JWT (com os eventos RPC) e UseAuthentication/UseAuthorization.
+  - tests/ Testes.
+    - BankingApp.Tests/ xUnit.
+      - Application/ Testes aos handlers.
+        - **LoginHandlerTests.cs** (novo) Dois testes com mocks.
+
+</FileTree>
+
+## Como funciona o token JWT
+
+No login, a API devolve um token assinado. O cliente envia-o em cada pedido, no cabeçalho Authorization. A API valida a assinatura e a validade, e fica a saber quem fez o pedido sem ir à base de dados.
+
+```bash title="Um JWT descodificado"
+# header
+{ "alg": "HS256", "typ": "JWT" }
+
+# payload (the claims)
+{
+  "sub": "1",
+  "email": "ana@example.com",
+  "name": "Ana Pereira",
+  "exp": 1793700000,
+  "iss": "BankingApp",
+  "aud": "BankingApp.Clients"
+}
+
+# signature = HMACSHA256(header + "." + payload, Jwt:Key)
+# anyone can READ the payload (base64): never put secrets in it
+```
+
+## Pacotes e configuração do JWT
+
+O token é assinado com uma chave que fica no appsettings.json, na secção Jwt. Para a formação, é a forma mais simples: uma chave de desenvolvimento, que muda de cada vez que quiseres. Num projeto real, esta chave seria um segredo fora do repositório (variável de ambiente ou cofre), mas isso fica para outro dia.
+
+1. Instalar os pacotes do JWT e do hash de passwords
+2. Acrescentar a secção Jwt ao appsettings.json, com a Key (pelo menos 32 caracteres)
+
+```bash title="Instalar dependências"
+dotnet add src/BankingApp.Api            package Microsoft.AspNetCore.Authentication.JwtBearer
+dotnet add src/BankingApp.Infrastructure package System.IdentityModel.Tokens.Jwt
+dotnet add src/BankingApp.Infrastructure package Microsoft.Extensions.Identity.Core
+dotnet add src/BankingApp.Infrastructure package Microsoft.Extensions.Options.ConfigurationExtensions
+```
+
+```json title="BankingApp.Api/appsettings.json"
+{
+  "ConnectionStrings": {
+    "BankingApp": "Server=(localdb)\\MSSQLLocalDB;Database=BankingApp;Trusted_Connection=True;TrustServerCertificate=True"
+  },
+  "Jwt": {
+    "Issuer": "BankingApp",
+    "Audience": "BankingApp.Clients",
+    "Key": "replace-with-a-random-text-of-at-least-32-characters",
+    "ExpiresMinutes": 60
+  },
+  "Logging": {
+    "LogLevel": { "Default": "Information", "Microsoft.AspNetCore": "Warning" }
+  },
+  "AllowedHosts": "*"
+}
+```
+
+## Domain: credenciais no cliente e a entidade Account
+
+O Customer passa a ter email e hash da password (nunca a password). Cada cliente começa com uma conta, por isso nasce a entidade Account.
+
+```csharp title="BankingApp.Domain/Customers/Customer.cs"
+using BankingApp.Domain.Accounts;
+using BankingApp.Domain.Common;
+
+namespace BankingApp.Domain.Customers;
+
+public class Customer
+{
+    private Customer() { }   // required by EF Core
+
+    public Customer(string name, string taxId, string email, string passwordHash)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            throw new DomainException("Name is required.");
+        if (taxId.Length != 9 || !taxId.All(char.IsDigit))
+            throw new DomainException($"Invalid tax id: {taxId}");
+        if (!email.Contains('@'))
+            throw new DomainException("Invalid email.");
+        if (string.IsNullOrWhiteSpace(passwordHash))
+            throw new DomainException("Password hash is required.");
+
+        Name = name.Trim();
+        TaxId = taxId;
+        Email = email.Trim().ToLowerInvariant();
+        PasswordHash = passwordHash;
+    }
+
+    public int Id { get; private set; }
+    public string Name { get; private set; } = "";
+    public string TaxId { get; private set; } = "";
+    public string Email { get; private set; } = "";
+    public string PasswordHash { get; private set; } = "";
+    public List<Account> Accounts { get; private set; } = [];
+}
+```
+
+```csharp title="BankingApp.Domain/Accounts/Account.cs"
+using BankingApp.Domain.Common;
+using BankingApp.Domain.Customers;
+
+namespace BankingApp.Domain.Accounts;
+
+public class Account
+{
+    private Account() { }   // required by EF Core
+
+    public static Account Open(string number, Customer customer, decimal initialDeposit, DateOnly opened)
+    {
+        if (string.IsNullOrWhiteSpace(number))
+            throw new DomainException("Number is required.");
+        if (initialDeposit < 0)
+            throw new DomainException("Initial deposit cannot be negative.");
+
+        return new Account
+        {
+            Number = number,
+            Customer = customer,
+            Balance = initialDeposit,
+            Opened = opened,
+            Status = AccountStatus.Active
+        };
+    }
+
+    public int Id { get; private set; }
+    public string Number { get; private set; } = "";
+    public int CustomerId { get; private set; }
+    public Customer Customer { get; private set; } = null!;
+    public decimal Balance { get; private set; }
+    public DateOnly Opened { get; private set; }
+    public AccountStatus Status { get; private set; }
+}
+```
+
+```csharp title="BankingApp.Domain/Accounts/AccountStatus.cs"
+namespace BankingApp.Domain.Accounts;
+
+public enum AccountStatus
+{
+    Active,
+    Closed
+}
+```
+
+## Application: Register, Login e RetrieveDashboard
+
+Dois casos de uso anónimos e um autenticado, todos com Request e Response. O Login devolve sempre o mesmo erro (unauthorized) para email desconhecido e password errada, para não revelar que emails existem. O Register junta todos os problemas numa lista de erros.
+
+1. Acrescentar ao Abstractions o IPasswordHasher, o ITokenService e o TokenResult (um ficheiro cada)
+2. Criar uma pasta por caso de uso: Handlers/CommandHandlers/Register, Handlers/CommandHandlers/Login e Handlers/QueryHandlers/RetrieveDashboard, com o comando (ou consulta), o resultado e o handler lado a lado
+3. Registar os handlers no AddApplication()
+4. Apagar as pastas Handlers/CommandHandlers/CreateCustomer e Handlers/QueryHandlers/ListCustomers, que já não são precisas
+
+```csharp title="BankingApp.Application/Abstractions/ICustomerRepository.cs"
+using BankingApp.Domain.Customers;
+
+namespace BankingApp.Application.Abstractions;
+
+public interface ICustomerRepository
+{
+    Task<bool> ExistsByEmailAsync(string email, CancellationToken ct);
+    Task<bool> ExistsByTaxIdAsync(string taxId, CancellationToken ct);
+    Task<Customer?> GetByEmailAsync(string email, CancellationToken ct);
+    Task<Customer?> GetByIdWithAccountsAsync(int id, CancellationToken ct);
+    Task AddAsync(Customer customer, CancellationToken ct);
+    Task SaveChangesAsync(CancellationToken ct);
+}
+```
+
+```csharp title="BankingApp.Application/Abstractions/IPasswordHasher.cs"
+namespace BankingApp.Application.Abstractions;
+
+public interface IPasswordHasher
+{
+    string Hash(string password);
+    bool Verify(string hash, string password);
+}
+```
+
+```csharp title="BankingApp.Application/Abstractions/TokenResult.cs"
+namespace BankingApp.Application.Abstractions;
+
+public class TokenResult
+{
+    public string AccessToken { get; init; } = "";
+    public DateTime ExpiresAtUtc { get; init; }
+}
+```
+
+```csharp title="BankingApp.Application/Abstractions/ITokenService.cs"
+using BankingApp.Domain.Customers;
+
+namespace BankingApp.Application.Abstractions;
+
+public interface ITokenService
+{
+    TokenResult Create(Customer customer);
+}
+```
+
+```csharp title="BankingApp.Application/Handlers/CommandHandlers/Register/RegisterCommand.cs"
+using BankingApp.Application.Common;
+
+namespace BankingApp.Application.Handlers.CommandHandlers.Register;
+
+public class RegisterCommand : Request
+{
+    public string Name { get; init; } = "";
+    public string TaxId { get; init; } = "";
+    public string Email { get; init; } = "";
+    public string Password { get; init; } = "";
+}
+```
+
+```csharp title="BankingApp.Application/Handlers/CommandHandlers/Register/RegisterResult.cs"
+
+namespace BankingApp.Application.Handlers.CommandHandlers.Register;
+
+public class RegisterResult
+{
+    public int CustomerId { get; init; }
+    public string AccountNumber { get; init; } = "";
+}
+```
+
+```csharp title="BankingApp.Application/Handlers/CommandHandlers/Register/RegisterHandler.cs"
+using BankingApp.Application.Abstractions;
+using BankingApp.Application.Common;
+using BankingApp.Domain.Accounts;
+using BankingApp.Domain.Customers;
+
+namespace BankingApp.Application.Handlers.CommandHandlers.Register;
+
+public class RegisterHandler : IHandler<RegisterCommand, RegisterResult>
+{
+    private readonly ICustomerRepository _customers;
+    private readonly IPasswordHasher _hasher;
+
+    public RegisterHandler(ICustomerRepository customers, IPasswordHasher hasher)
+    {
+        _customers = customers;
+        _hasher = hasher;
+    }
+
+    public async Task<Response<RegisterResult>> HandleAsync(RegisterCommand request, CancellationToken ct)
+    {
+        // collect ALL the problems, so the client can fix them in one go
+        var errors = new List<Error>();
+
+        if (request.Password.Length < 8)
+            errors.Add(Error.Validation("Password must have at least 8 characters."));
+        if (await _customers.ExistsByEmailAsync(request.Email.Trim().ToLowerInvariant(), ct))
+            errors.Add(Error.Conflict("Email already registered."));
+        if (await _customers.ExistsByTaxIdAsync(request.TaxId, ct))
+            errors.Add(Error.Conflict($"A customer with tax id {request.TaxId} already exists."));
+
+        if (errors.Count > 0)
+            return Response<RegisterResult>.Fail(errors);
+
+        var customer = new Customer(request.Name, request.TaxId, request.Email, _hasher.Hash(request.Password));
+
+        // every customer starts with a first account
+        var number = $"AC-{Random.Shared.Next(100000, 999999)}";
+        customer.Accounts.Add(Account.Open(number, customer, 0m, DateOnly.FromDateTime(DateTime.Today)));
+
+        await _customers.AddAsync(customer, ct);
+        await _customers.SaveChangesAsync(ct);
+
+        return Response<RegisterResult>.Ok(new RegisterResult { CustomerId = customer.Id, AccountNumber = number });
+    }
+}
+```
+
+```csharp title="BankingApp.Application/Handlers/CommandHandlers/Login/LoginCommand.cs"
+using BankingApp.Application.Common;
+
+namespace BankingApp.Application.Handlers.CommandHandlers.Login;
+
+public class LoginCommand : Request
+{
+    public string Email { get; init; } = "";
+    public string Password { get; init; } = "";
+}
+```
+
+```csharp title="BankingApp.Application/Handlers/CommandHandlers/Login/LoginResult.cs"
+
+namespace BankingApp.Application.Handlers.CommandHandlers.Login;
+
+public class LoginResult
+{
+    public string AccessToken { get; init; } = "";
+    public DateTime ExpiresAtUtc { get; init; }
+}
+```
+
+```csharp title="BankingApp.Application/Handlers/CommandHandlers/Login/LoginHandler.cs"
+using BankingApp.Application.Abstractions;
+using BankingApp.Application.Common;
+
+namespace BankingApp.Application.Handlers.CommandHandlers.Login;
+
+public class LoginHandler : IHandler<LoginCommand, LoginResult>
+{
+    private readonly ICustomerRepository _customers;
+    private readonly IPasswordHasher _hasher;
+    private readonly ITokenService _tokens;
+
+    public LoginHandler(ICustomerRepository customers, IPasswordHasher hasher, ITokenService tokens)
+    {
+        _customers = customers;
+        _hasher = hasher;
+        _tokens = tokens;
+    }
+
+    public async Task<Response<LoginResult>> HandleAsync(LoginCommand request, CancellationToken ct)
+    {
+        var customer = await _customers.GetByEmailAsync(request.Email.Trim().ToLowerInvariant(), ct);
+
+        // same error for "unknown email" and "wrong password": do not reveal which one failed
+        if (customer is null || !_hasher.Verify(customer.PasswordHash, request.Password))
+            return Response<LoginResult>.Fail(Error.Unauthorized("Invalid email or password."));
+
+        var token = _tokens.Create(customer);
+        return Response<LoginResult>.Ok(new LoginResult { AccessToken = token.AccessToken, ExpiresAtUtc = token.ExpiresAtUtc });
+    }
+}
+```
+
+```csharp title="BankingApp.Application/Handlers/QueryHandlers/RetrieveDashboard/RetrieveDashboardQuery.cs"
+using BankingApp.Application.Common;
+
+namespace BankingApp.Application.Handlers.QueryHandlers.RetrieveDashboard;
+
+public class RetrieveDashboardQuery : Request
+{
+    public int CustomerId { get; init; }
+}
+```
+
+```csharp title="BankingApp.Application/Handlers/QueryHandlers/RetrieveDashboard/DashboardAccount.cs"
+
+namespace BankingApp.Application.Handlers.QueryHandlers.RetrieveDashboard;
+
+public class DashboardAccount
+{
+    public string Number { get; init; } = "";
+    public decimal Balance { get; init; }
+    public string Status { get; init; } = "";
+    public DateOnly Opened { get; init; }
+}
+```
+
+```csharp title="BankingApp.Application/Handlers/QueryHandlers/RetrieveDashboard/DashboardResult.cs"
+
+namespace BankingApp.Application.Handlers.QueryHandlers.RetrieveDashboard;
+
+public class DashboardResult
+{
+    public string CustomerName { get; init; } = "";
+    public string Email { get; init; } = "";
+    public decimal TotalBalance { get; init; }
+    public IReadOnlyList<DashboardAccount> Accounts { get; init; } = [];
+}
+```
+
+```csharp title="BankingApp.Application/Handlers/QueryHandlers/RetrieveDashboard/RetrieveDashboardHandler.cs"
+using BankingApp.Application.Abstractions;
+using BankingApp.Application.Common;
+using BankingApp.Domain.Accounts;
+
+namespace BankingApp.Application.Handlers.QueryHandlers.RetrieveDashboard;
+
+public class RetrieveDashboardHandler : IHandler<RetrieveDashboardQuery, DashboardResult>
+{
+    private readonly ICustomerRepository _customers;
+
+    public RetrieveDashboardHandler(ICustomerRepository customers) => _customers = customers;
+
+    public async Task<Response<DashboardResult>> HandleAsync(RetrieveDashboardQuery request, CancellationToken ct)
+    {
+        var customer = await _customers.GetByIdWithAccountsAsync(request.CustomerId, ct);
+        if (customer is null)
+            return Response<DashboardResult>.Fail(Error.NotFound("Customer not found."));
+
+        var accounts = customer.Accounts
+            .Where(a => a.Status == AccountStatus.Active)
+            .OrderBy(a => a.Number)
+            .Select(a => new DashboardAccount
+            {
+                Number = a.Number,
+                Balance = a.Balance,
+                Status = a.Status.ToString(),
+                Opened = a.Opened
+            })
+            .ToList();
+
+        return Response<DashboardResult>.Ok(new DashboardResult
+        {
+            CustomerName = customer.Name,
+            Email = customer.Email,
+            TotalBalance = accounts.Sum(a => a.Balance),
+            Accounts = accounts
+        });
+    }
+}
+```
+
+```csharp title="BankingApp.Application/DependencyInjection.cs"
+using BankingApp.Application.Abstractions;
+using BankingApp.Application.Handlers.CommandHandlers.Login;
+using BankingApp.Application.Handlers.CommandHandlers.Register;
+using BankingApp.Application.Handlers.QueryHandlers.RetrieveDashboard;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace BankingApp.Application;
+
+public static class DependencyInjection
+{
+    public static IServiceCollection AddApplication(this IServiceCollection services)
+    {
+        services.AddScoped<IHandler<RegisterCommand, RegisterResult>, RegisterHandler>();
+        services.AddScoped<IHandler<LoginCommand, LoginResult>, LoginHandler>();
+        services.AddScoped<IHandler<RetrieveDashboardQuery, DashboardResult>, RetrieveDashboardHandler>();
+        return services;
+    }
+}
+```
+
+## Infrastructure: token, hash, tabelas e migration
+
+As implementações dos contratos novos, a configuração da tabela Accounts e a migration que acrescenta as colunas e a tabela.
+
+```csharp title="BankingApp.Infrastructure/Authentication/JwtOptions.cs"
+namespace BankingApp.Infrastructure.Authentication;
+
+public class JwtOptions
+{
+    public string Issuer { get; set; } = "";
+    public string Audience { get; set; } = "";
+    public string Key { get; set; } = "";          // comes from appsettings.json
+    public int ExpiresMinutes { get; set; } = 60;
+}
+```
+
+```csharp title="BankingApp.Infrastructure/Authentication/JwtTokenService.cs"
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using BankingApp.Application.Abstractions;
+using BankingApp.Domain.Customers;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+
+namespace BankingApp.Infrastructure.Authentication;
+
+public class JwtTokenService : ITokenService
+{
+    private readonly JwtOptions _options;
+
+    public JwtTokenService(IOptions<JwtOptions> options) => _options = options.Value;
+
+    public TokenResult Create(Customer customer)
+    {
+        var claims = new[]
+        {
+            new Claim(JwtRegisteredClaimNames.Sub, customer.Id.ToString()),
+            new Claim(JwtRegisteredClaimNames.Email, customer.Email),
+            new Claim("name", customer.Name)
+        };
+
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Key));
+        var expires = DateTime.UtcNow.AddMinutes(_options.ExpiresMinutes);
+
+        var token = new JwtSecurityToken(
+            issuer: _options.Issuer,
+            audience: _options.Audience,
+            claims: claims,
+            expires: expires,
+            signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256));
+
+        return new TokenResult
+        {
+            AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
+            ExpiresAtUtc = expires
+        };
+    }
+}
+```
+
+```csharp title="BankingApp.Infrastructure/Authentication/PasswordHasherService.cs"
+using BankingApp.Application.Abstractions;
+using Microsoft.AspNetCore.Identity;
+
+namespace BankingApp.Infrastructure.Authentication;
+
+// uses the hasher from ASP.NET Core Identity (salted, slow on purpose), without the rest of Identity
+public class PasswordHasherService : IPasswordHasher
+{
+    private readonly PasswordHasher<object> _hasher = new();
+
+    public string Hash(string password)
+        => _hasher.HashPassword(null!, password);
+
+    public bool Verify(string hash, string password)
+        => _hasher.VerifyHashedPassword(null!, hash, password) != PasswordVerificationResult.Failed;
+}
+```
+
+```csharp title="BankingApp.Infrastructure/Persistence/Configurations/CustomerConfiguration.cs"
+using BankingApp.Domain.Customers;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace BankingApp.Infrastructure.Persistence.Configurations;
+
+public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
+{
+    public void Configure(EntityTypeBuilder<Customer> builder)
+    {
+        builder.Property(c => c.Name).HasMaxLength(100).IsRequired();
+        builder.Property(c => c.TaxId).HasMaxLength(9).IsRequired();
+        builder.Property(c => c.Email).HasMaxLength(200).IsRequired();
+        builder.Property(c => c.PasswordHash).HasMaxLength(500).IsRequired();
+        builder.HasIndex(c => c.TaxId).IsUnique();
+        builder.HasIndex(c => c.Email).IsUnique();
+    }
+}
+```
+
+```csharp title="BankingApp.Infrastructure/Persistence/Configurations/AccountConfiguration.cs"
+using BankingApp.Domain.Accounts;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace BankingApp.Infrastructure.Persistence.Configurations;
+
+public class AccountConfiguration : IEntityTypeConfiguration<Account>
+{
+    public void Configure(EntityTypeBuilder<Account> builder)
+    {
+        builder.Property(a => a.Number).HasMaxLength(20).IsRequired();
+        builder.HasIndex(a => a.Number).IsUnique();
+        builder.Property(a => a.Balance).HasPrecision(18, 2);
+        builder.Property(a => a.Status).HasConversion<string>().HasMaxLength(20);
+
+        builder.HasOne(a => a.Customer)
+               .WithMany(c => c.Accounts)
+               .HasForeignKey(a => a.CustomerId);
+    }
+}
+```
+
+```csharp title="BankingApp.Infrastructure/Persistence/BankingAppContext.cs"
+using BankingApp.Domain.Accounts;
+using BankingApp.Domain.Customers;
+using Microsoft.EntityFrameworkCore;
+
+namespace BankingApp.Infrastructure.Persistence;
+
+public class BankingAppContext : DbContext
+{
+    public BankingAppContext(DbContextOptions<BankingAppContext> options) : base(options) { }
+
+    public DbSet<Customer> Customers => Set<Customer>();
+    public DbSet<Account> Accounts => Set<Account>();
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+        => modelBuilder.ApplyConfigurationsFromAssembly(typeof(BankingAppContext).Assembly);
+}
+```
+
+```csharp title="BankingApp.Infrastructure/Repositories/CustomerRepository.cs"
+using BankingApp.Application.Abstractions;
+using BankingApp.Domain.Customers;
+using BankingApp.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
+
+namespace BankingApp.Infrastructure.Repositories;
+
+public class CustomerRepository : ICustomerRepository
+{
+    private readonly BankingAppContext _db;
+
+    public CustomerRepository(BankingAppContext db) => _db = db;
+
+    public Task<bool> ExistsByEmailAsync(string email, CancellationToken ct)
+        => _db.Customers.AnyAsync(c => c.Email == email, ct);
+
+    public Task<bool> ExistsByTaxIdAsync(string taxId, CancellationToken ct)
+        => _db.Customers.AnyAsync(c => c.TaxId == taxId, ct);
+
+    public Task<Customer?> GetByEmailAsync(string email, CancellationToken ct)
+        => _db.Customers.FirstOrDefaultAsync(c => c.Email == email, ct);
+
+    public Task<Customer?> GetByIdWithAccountsAsync(int id, CancellationToken ct)
+        => _db.Customers.Include(c => c.Accounts)
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync(c => c.Id == id, ct);
+
+    public async Task AddAsync(Customer customer, CancellationToken ct)
+        => await _db.Customers.AddAsync(customer, ct);
+
+    public Task SaveChangesAsync(CancellationToken ct)
+        => _db.SaveChangesAsync(ct);
+}
+```
+
+```csharp title="BankingApp.Infrastructure/DependencyInjection.cs"
+using BankingApp.Application.Abstractions;
+using BankingApp.Infrastructure.Authentication;
+using BankingApp.Infrastructure.Persistence;
+using BankingApp.Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace BankingApp.Infrastructure;
+
+public static class DependencyInjection
+{
+    public static IServiceCollection AddInfrastructure(
+        this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddDbContext<BankingAppContext>(options =>
+            options.UseSqlServer(configuration.GetConnectionString("BankingApp")));
+
+        services.Configure<JwtOptions>(configuration.GetSection("Jwt"));
+
+        services.AddScoped<ICustomerRepository, CustomerRepository>();
+        services.AddSingleton<IPasswordHasher, PasswordHasherService>();
+        services.AddScoped<ITokenService, JwtTokenService>();
+        return services;
+    }
+}
+```
+
+```bash title="Terminal (migrations)"
+# if you created test customers in step 1, start clean (they have no email):
+dotnet ef database drop -f -p src/BankingApp.Infrastructure -s src/BankingApp.Api
+
+dotnet ef migrations add AddCredentialsAndAccounts -p src/BankingApp.Infrastructure -s src/BankingApp.Api -o Persistence/Migrations
+dotnet ef database update                          -p src/BankingApp.Infrastructure -s src/BankingApp.Api
+```
+
+:::tip[Resultado esperado]
+Applying migration '20261104100000\_AddCredentialsAndAccounts'.
+Done.
+:::
+
+## Api: métodos anónimos e método autenticado
+
+Register e Login têm \[AllowAnonymous\]. O RetrieveDashboard está num controller com \[Authorize\]: sem token válido, a API continua a responder 200, mas com success false e o erro unauthorized (é para isso que serve o RpcJwtBearerEvents). O id do cliente vem do token.
+
+1. Criar os DTOs de Register, Login e Dashboard
+2. Criar o AuthController com Register e Login anónimos
+3. Criar o DashboardController com RetrieveDashboard autenticado
+4. Criar o RpcJwtBearerEvents e atualizar o Program.cs
+5. Apagar o CustomersController
+
+```csharp title="BankingApp.Api/Contracts/Auth/RegisterRequest.cs"
+using System.ComponentModel.DataAnnotations;
+
+namespace BankingApp.Api.Contracts.Auth;
+
+public class RegisterRequest
+{
+    [Required, StringLength(100)]
+    public string Name { get; set; } = "";
+
+    [Required, RegularExpression(@"^\d{9}$")]
+    public string TaxId { get; set; } = "";
+
+    [Required, EmailAddress]
+    public string Email { get; set; } = "";
+
+    [Required, MinLength(8)]
+    public string Password { get; set; } = "";
+}
+```
+
+```csharp title="BankingApp.Api/Contracts/Auth/RegisterResponse.cs"
+using BankingApp.Application.Handlers.CommandHandlers.Register;
+
+namespace BankingApp.Api.Contracts.Auth;
+
+public class RegisterResponse
+{
+    public int CustomerId { get; init; }
+    public string AccountNumber { get; init; } = "";
+
+    public static RegisterResponse From(RegisterResult result) => new()
+    {
+        CustomerId = result.CustomerId,
+        AccountNumber = result.AccountNumber
+    };
+}
+```
+
+```csharp title="BankingApp.Api/Contracts/Auth/LoginRequest.cs"
+using System.ComponentModel.DataAnnotations;
+
+namespace BankingApp.Api.Contracts.Auth;
+
+public class LoginRequest
+{
+    [Required, EmailAddress]
+    public string Email { get; set; } = "";
+
+    [Required]
+    public string Password { get; set; } = "";
+}
+```
+
+```csharp title="BankingApp.Api/Contracts/Auth/LoginResponse.cs"
+using BankingApp.Application.Handlers.CommandHandlers.Login;
+
+namespace BankingApp.Api.Contracts.Auth;
+
+public class LoginResponse
+{
+    public string AccessToken { get; init; } = "";
+    public DateTime ExpiresAtUtc { get; init; }
+
+    public static LoginResponse From(LoginResult result) => new()
+    {
+        AccessToken = result.AccessToken,
+        ExpiresAtUtc = result.ExpiresAtUtc
+    };
+}
+```
+
+```csharp title="BankingApp.Api/Contracts/Dashboard/DashboardAccountResponse.cs"
+using BankingApp.Application.Handlers.QueryHandlers.RetrieveDashboard;
+
+namespace BankingApp.Api.Contracts.Dashboard;
+
+public class DashboardAccountResponse
+{
+    public string Number { get; init; } = "";
+    public decimal Balance { get; init; }
+    public string Status { get; init; } = "";
+    public DateOnly Opened { get; init; }
+
+    public static DashboardAccountResponse From(DashboardAccount account) => new()
+    {
+        Number = account.Number,
+        Balance = account.Balance,
+        Status = account.Status,
+        Opened = account.Opened
+    };
+}
+```
+
+```csharp title="BankingApp.Api/Contracts/Dashboard/DashboardResponse.cs"
+using BankingApp.Application.Handlers.QueryHandlers.RetrieveDashboard;
+
+namespace BankingApp.Api.Contracts.Dashboard;
+
+public class DashboardResponse
+{
+    public string CustomerName { get; init; } = "";
+    public string Email { get; init; } = "";
+    public decimal TotalBalance { get; init; }
+    public IReadOnlyList<DashboardAccountResponse> Accounts { get; init; } = [];
+
+    public static DashboardResponse From(DashboardResult result) => new()
+    {
+        CustomerName = result.CustomerName,
+        Email = result.Email,
+        TotalBalance = result.TotalBalance,
+        Accounts = result.Accounts.Select(DashboardAccountResponse.From).ToList()
+    };
+}
+```
+
+```csharp title="BankingApp.Api/Controllers/AuthController.cs"
+using BankingApp.Api.Contracts.Auth;
+using BankingApp.Application.Abstractions;
+using BankingApp.Application.Common;
+using BankingApp.Application.Handlers.CommandHandlers.Login;
+using BankingApp.Application.Handlers.CommandHandlers.Register;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace BankingApp.Api.Controllers;
+
+[ApiController]
+[Route("api/auth")]
+public class AuthController : ControllerBase
+{
+    private readonly IHandler<RegisterCommand, RegisterResult> _register;
+    private readonly IHandler<LoginCommand, LoginResult> _login;
+
+    public AuthController(
+        IHandler<RegisterCommand, RegisterResult> register,
+        IHandler<LoginCommand, LoginResult> login)
+    {
+        _register = register;
+        _login = login;
+    }
+
+    [AllowAnonymous]
+    [HttpPost("register")]
+    public async Task<Response<RegisterResponse>> Register(RegisterRequest body, CancellationToken ct)
+    {
+        var result = await _register.HandleAsync(
+            new RegisterCommand { Name = body.Name, TaxId = body.TaxId, Email = body.Email, Password = body.Password }, ct);
+
+        return result.Map(RegisterResponse.From);
+    }
+
+    [AllowAnonymous]
+    [HttpPost("login")]
+    public async Task<Response<LoginResponse>> Login(LoginRequest body, CancellationToken ct)
+    {
+        var result = await _login.HandleAsync(new LoginCommand { Email = body.Email, Password = body.Password }, ct);
+        return result.Map(LoginResponse.From);
+    }
+}
+```
+
+```csharp title="BankingApp.Api/Controllers/DashboardController.cs"
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using BankingApp.Api.Contracts.Dashboard;
+using BankingApp.Application.Abstractions;
+using BankingApp.Application.Common;
+using BankingApp.Application.Handlers.QueryHandlers.RetrieveDashboard;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace BankingApp.Api.Controllers;
+
+[ApiController]
+[Route("api/dashboard")]
+[Authorize]                                   // every method here requires a valid token
+public class DashboardController : ControllerBase
+{
+    private readonly IHandler<RetrieveDashboardQuery, DashboardResult> _handler;
+
+    public DashboardController(IHandler<RetrieveDashboardQuery, DashboardResult> handler) => _handler = handler;
+
+    [HttpPost("retrieve")]
+    public async Task<Response<DashboardResponse>> RetrieveDashboard(CancellationToken ct)
+    {
+        // the customer id comes from the token, never from the request
+        var customerId = int.Parse(User.FindFirstValue(JwtRegisteredClaimNames.Sub)!);
+
+        var result = await _handler.HandleAsync(new RetrieveDashboardQuery { CustomerId = customerId }, ct);
+        return result.Map(DashboardResponse.From);
+    }
+}
+```
+
+```csharp title="BankingApp.Api/Authentication/RpcJwtBearerEvents.cs"
+using BankingApp.Application.Common;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+
+namespace BankingApp.Api.Authentication;
+
+// RPC: even "no token" and "no permission" answer 200, with the error in the body
+public class RpcJwtBearerEvents : JwtBearerEvents
+{
+    public RpcJwtBearerEvents()
+    {
+        OnChallenge = context =>
+        {
+            context.HandleResponse();               // skip the default 401
+            return Write(context.HttpContext, Error.Unauthorized("Missing or invalid token."));
+        };
+
+        OnForbidden = context =>
+            Write(context.HttpContext, Error.Forbidden("You do not have permission for this operation."));
+    }
+
+    private static Task Write(HttpContext http, Error error)
+    {
+        http.Response.StatusCode = StatusCodes.Status200OK;
+        return http.Response.WriteAsJsonAsync(Response<object>.Fail(error));
+    }
+}
+```
+
+```csharp title="BankingApp.Api/Program.cs"
+using System.Text;
+using BankingApp.Api.Authentication;
+using BankingApp.Api.Middleware;
+using BankingApp.Api.Responses;
+using BankingApp.Application;
+using BankingApp.Infrastructure;
+using BankingApp.Infrastructure.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers()
+    .ConfigureApiBehaviorOptions(o =>
+        o.InvalidModelStateResponseFactory = ValidationResponse.Create);
+builder.Services.AddOpenApi();
+builder.Services.AddApplication();
+builder.Services.AddInfrastructure(builder.Configuration);
+
+// JWT bearer: the API validates the token that the client sends in the Authorization header
+var jwt = builder.Configuration.GetSection("Jwt").Get<JwtOptions>()
+          ?? throw new InvalidOperationException("Missing Jwt configuration.");
+
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Events = new RpcJwtBearerEvents();   // 401/403 become 200 + error
+        options.MapInboundClaims = false;    // keep the claim called "sub" as "sub"
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = jwt.Issuer,
+            ValidateAudience = true,
+            ValidAudience = jwt.Audience,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Key)),
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero
+        };
+    });
+builder.Services.AddAuthorization();
+
+var app = builder.Build();
+
+app.UseMiddleware<ExceptionMiddleware>();
+
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
+    app.UseSwaggerUI(o => o.SwaggerEndpoint("/openapi/v1.json", "v1"));
+}
+
+app.UseHttpsRedirection();
+app.UseAuthentication();                     // 1. who are you? (reads the token)
+app.UseAuthorization();                      // 2. can you do this? ([Authorize])
+app.MapControllers();
+
+app.Run();
+```
+
+## Bruno: configurar o Authorize passo a passo
+
+O Bruno guarda a coleção em ficheiros de texto (.bru), que podes pôr no repositório, em docs/bruno. O fluxo é fazer Login, guardar o token numa variável e usá-lo como Bearer Token.
+
+- **Instalar e criar a coleção**: Instala o Bruno (usebruno.com). Em Collections escolhe Create Collection, dá-lhe o nome BankingApp e guarda-a numa pasta do repositório, por exemplo docs/bruno.
+- **Criar o ambiente Local**: No canto superior direito, abre o seletor de ambientes e escolhe Configure. Cria o ambiente Local com a variável baseUrl, com o endereço https com que a Api arranca (está no launchSettings.json). Depois seleciona o ambiente Local.
+- **Pedido Register (anónimo)**: New Request, método POST, URL \{\{baseUrl\}\}/api/auth/register. No separador Body escolhe JSON e escreve o corpo. O separador Auth fica em No Auth. Envia: esperas HTTP 200 com success true.
+- **Pedido Login e guardar o token**: Novo pedido POST \{\{baseUrl\}\}/api/auth/login com email e password. No separador Vars, secção Post Response, acrescenta a variável token com o valor res.body.data.accessToken (o token vem dentro de data). Cada vez que fizeres Login, o token novo fica guardado.
+- **Pedido RetrieveDashboard (autenticado)**: Novo pedido POST \{\{baseUrl\}\}/api/dashboard/retrieve, com o corpo JSON \{\}. No separador Auth escolhe Bearer Token e escreve \{\{token\}\} no campo Token. O Bruno envia o cabeçalho Authorization: Bearer \<token\>.
+- **Experimentar os dois resultados**: Corre o Login e depois o RetrieveDashboard: esperas success true com as contas em data. Muda o Auth do RetrieveDashboard para No Auth e envia outra vez: continua a ser HTTP 200, mas com success false e o erro unauthorized. Isso prova que o \[Authorize\] está a funcionar.
+- **Se der erro de certificado**: Em desenvolvimento, o certificado HTTPS é local. Na primeira execução o IDE pergunta se queres confiar nele: aceita. Se o Bruno continuar a recusar, desativa a verificação do certificado SSL nas preferências (só em desenvolvimento).
+- **Opcional: autenticação ao nível da coleção**: Nas definições da coleção, separador Auth, escolhe Bearer Token com \{\{token\}\}. Nos pedidos que precisam de token, põe o modo Inherit. Evita repetir a configuração em cada pedido.
+
+```text title="docs/bruno/BankingApp/bruno.json"
+{
+  "version": "1",
+  "name": "BankingApp",
+  "type": "collection"
+}
+```
+
+```text title="docs/bruno/BankingApp/environments/Local.bru"
+vars {
+  baseUrl: https://localhost:5001
+}
+```
+
+```text title="docs/bruno/BankingApp/Register.bru"
+meta {
+  name: Register
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/auth/register
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Ana Pereira",
+    "taxId": "123456789",
+    "email": "ana@example.com",
+    "password": "Passw0rd!"
+  }
+}
+```
+
+```text title="docs/bruno/BankingApp/Login.bru"
+meta {
+  name: Login
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/auth/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "ana@example.com",
+    "password": "Passw0rd!"
+  }
+}
+
+vars:post-response {
+  token: res.body.data.accessToken
+}
+```
+
+```text title="docs/bruno/BankingApp/RetrieveDashboard.bru"
+meta {
+  name: RetrieveDashboard
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/dashboard/retrieve
+  body: json
+  auth: bearer
+}
+
+body:json {
+  {}
+}
+
+auth:bearer {
+  token: {{token}}
+}
+```
+
+## Testes aos handlers de autenticação
+
+Os handlers dependem de interfaces, por isso testam-se com mocks: sem base de dados e sem gerar tokens reais.
+
+```csharp title="BankingApp.Tests/Application/LoginHandlerTests.cs"
+using BankingApp.Application.Abstractions;
+using BankingApp.Application.Handlers.CommandHandlers.Login;
+using BankingApp.Domain.Customers;
+using NSubstitute;
+
+namespace BankingApp.Tests.Application;
+
+public class LoginHandlerTests
+{
+    private readonly ICustomerRepository _customers = Substitute.For<ICustomerRepository>();
+    private readonly IPasswordHasher _hasher = Substitute.For<IPasswordHasher>();
+    private readonly ITokenService _tokens = Substitute.For<ITokenService>();
+    private readonly LoginHandler _handler;
+
+    public LoginHandlerTests()
+        => _handler = new LoginHandler(_customers, _hasher, _tokens);
+
+    [Fact]
+    public async Task HandleAsync_WrongPassword_ReturnsUnauthorizedError()
+    {
+        var customer = new Customer("Ana Pereira", "123456789", "ana@example.com", "hash");
+        _customers.GetByEmailAsync("ana@example.com", Arg.Any<CancellationToken>()).Returns(customer);
+        _hasher.Verify("hash", "wrong").Returns(false);
+
+        var response = await _handler.HandleAsync(new LoginCommand { Email = "ana@example.com", Password = "wrong" }, CancellationToken.None);
+
+        Assert.False(response.Success);
+        Assert.Equal("unauthorized", Assert.Single(response.Errors).Code);
+        _tokens.DidNotReceive().Create(Arg.Any<Customer>());
+    }
+
+    [Fact]
+    public async Task HandleAsync_ValidCredentials_ReturnsToken()
+    {
+        var customer = new Customer("Ana Pereira", "123456789", "ana@example.com", "hash");
+        _customers.GetByEmailAsync("ana@example.com", Arg.Any<CancellationToken>()).Returns(customer);
+        _hasher.Verify("hash", "Passw0rd!").Returns(true);
+        _tokens.Create(customer).Returns(new TokenResult { AccessToken = "token-value", ExpiresAtUtc = DateTime.UtcNow.AddHours(1) });
+
+        var response = await _handler.HandleAsync(new LoginCommand { Email = "ana@example.com", Password = "Passw0rd!" }, CancellationToken.None);
+
+        Assert.True(response.Success);
+        Assert.Equal("token-value", response.Data!.AccessToken);
+    }
+}
+```
+
+:::tip[Resultado esperado]
+Test Explorer
+9 passed, 0 failed, 0 skipped
+:::
+
+## Verificar
+
+Confirma os cinco casos antes de avançares.
+
+1. POST /api/auth/register válido: success true com o número da primeira conta
+2. Repetir o Register com o mesmo email e NIF: success false com dois erros conflict
+3. POST /api/auth/login com password errada: success false, erro unauthorized
+4. POST /api/dashboard/retrieve sem token: success false, erro unauthorized (e HTTP 200)
+5. POST /api/dashboard/retrieve com o token do Login: success true com uma conta e saldo 0
+
+:::tip[Resultado esperado]
+register         -\> success: true
+register repetido -\> success: false  \[conflict, conflict\]
+login errado     -\> success: false  \[unauthorized\]
+dashboard s/ token -\> success: false \[unauthorized\]
+dashboard c/ token -\> success: true
+(todos com HTTP 200)
+:::
+
+<details>
+<summary>Saber mais</summary>
+
+Este passo aplica, na BankingApp, o que fizeste no AuthLab. O JWT (JSON Web Token) é o formato do token; o esquema Bearer, usado no cabeçalho Authorization, é a forma de o enviar. A própria API emite o token, em vez de um servidor de identidade externo. Num banco real usar-se-ia um servidor de identidade; aqui aprendes a base.
+
+A password nunca é guardada: guarda-se o hash. O token só prova quem és até expirar (ExpiresMinutes), por isso é curto.
+
+:::caution[Armadilha]
+Usar a chave de formação num projeto real. Quem tiver a chave consegue fabricar tokens válidos para qualquer cliente, por isso em produção ela vem de um cofre ou de uma variável de ambiente.
+:::
+
+:::tip[Experimenta]
+Copia o token do Login para jwt.io e vê os claims. Percebe porque nunca se põem segredos no payload.
+:::
+
+</details>

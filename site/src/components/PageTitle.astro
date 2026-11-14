@@ -1,0 +1,19 @@
+---
+// Título da página, com a etiqueta do módulo (número e nome) por cima, para saberes onde estás no percurso.
+import { modules } from "../modules";
+
+const { entry } = Astro.locals.starlightRoute;
+const folder = entry.id.split("/")[0];
+const index = modules.findIndex((module) => module.dir === folder);
+const current = index >= 0 ? modules[index] : undefined;
+---
+
+{
+  current && (
+    <p class="module-tag" style={`--m: var(--module-${index + 1})`}>
+      <span class="module-tag__number">{index + 1}</span>
+      {current.label}
+    </p>
+  )
+}
+<h1 id="_top">{entry.data.title}</h1>
