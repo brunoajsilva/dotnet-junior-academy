@@ -100,11 +100,30 @@ header.header {
   border-bottom: 1px solid var(--line);
   background: var(--sheet);
 }
-.site-title {
-  font-size: 1.1rem;
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  text-decoration: none;
+}
+.brand__mark {
+  display: grid;
+  place-items: center;
+  height: 2.1rem;
+  padding-inline: 0.65rem;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #6a5df0, #3a2fb3 55%, #1f6fe5);
+  color: #fff;
+  font-size: 1.02rem;
   font-weight: 700;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
+  box-shadow: 0 2px 8px rgb(74 71 194 / 0.3);
+}
+.brand__name {
   color: var(--ink);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
 }
 
 /* ---------- Menu lateral: o percurso ---------- */

@@ -15,7 +15,6 @@ export default defineConfig({
     starlight({
       title: ".NET Academy",
       description: "Academia de .NET para programadores de backend: C#, .NET, autenticação e um projeto final com Clean Architecture.",
-      logo: { src: "./src/assets/logo.svg", replacesTitle: false },
       favicon: "/favicon.svg",
       defaultLocale: "root",
       locales: { root: { label: "Português", lang: "pt-PT" } },
@@ -24,6 +23,7 @@ export default defineConfig({
       tableOfContents: false,
       components: {
         Footer: "./src/components/Footer.astro",
+        SiteTitle: "./src/components/SiteTitle.astro",
         PageTitle: "./src/components/PageTitle.astro",
         ThemeProvider: "./src/components/ThemeProvider.astro",
         ThemeSelect: "./src/components/Empty.astro",
