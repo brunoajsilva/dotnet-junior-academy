@@ -80,6 +80,8 @@ Dentro de um módulo, a ordem é o número `sidebar.order` no cabeçalho de cada
 
 Usa os blocos de Starlight: `:::note[Título]`, `:::tip[Título]`, `:::caution[Título]` e `:::danger[Título]`, fechados com `:::`. Dentro de um bloco «Saber mais», deixa uma linha em branco antes e depois de cada bloco.
 
+O bloco «Saber mais» abre numa gaveta à direita (`site/src/components/Footer.astro`). Escreve-o sempre como `<details><summary>Saber mais</summary>`: o texto do `summary` tem de ser exatamente «Saber mais». Dentro cabe qualquer Markdown: texto, avisos, tabelas e código.
+
 ## Código no projeto final
 
 Os exemplos do projeto final estão dentro das páginas `projeto/*`, em blocos de código com o caminho do ficheiro no título:

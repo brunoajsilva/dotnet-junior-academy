@@ -1,0 +1,68 @@
+---
+// Rodapé normal do Starlight, mais a gaveta onde abrem os blocos «Saber mais».
+import Default from "@astrojs/starlight/components/Footer.astro";
+---
+
+<Default><slot /></Default>
+
+<dialog class="drawer" aria-labelledby="drawer-title">
+  <header class="drawer__head">
+    <div>
+      <p class="drawer__context"></p>
+      <h2 id="drawer-title" class="drawer__title">Saber mais</h2>
+    </div>
+    <button type="button" class="drawer__close" aria-label="Fechar">
+      <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+    </button>
+  </header>
+  <div class="drawer__body sl-markdown-content"></div>
+</dialog>
+
+<script>
+  // Cada <details><summary>Saber mais</summary>…</details> das páginas abre nesta gaveta.
+  // Sem JavaScript continua a ser um bloco que abre por baixo do texto.
+  const dialog = document.querySelector<HTMLDialogElement>("dialog.drawer");
+  const body = dialog?.querySelector<HTMLElement>(".drawer__body");
+  const context = dialog?.querySelector<HTMLElement>(".drawer__context");
+  const headings = [...document.querySelectorAll<HTMLElement>(".sl-markdown-content :is(h2, h3)")];
+
+  let source: HTMLDetailsElement | null = null;
+  let moved: ChildNode[] = [];
+
+  const triggers = [...document.querySelectorAll<HTMLDetailsElement>(".sl-markdown-content details")].filter(
+    (details) =>
+      !details.closest("starlight-file-tree") && details.querySelector(":scope > summary")?.textContent?.trim() === "Saber mais",
+  );
+
+  function open(details: HTMLDetailsElement) {
+    if (!dialog || !body || !context) return;
+    const summary = details.querySelector(":scope > summary");
+    source = details;
+    // O conteúdo muda de sítio (não é copiado), para o botão «Copiar» do código continuar a funcionar.
+    moved = [...details.childNodes].filter((node) => node !== summary);
+    body.replaceChildren(...moved);
+    const before = headings.filter((h) => h.compareDocumentPosition(details) & Node.DOCUMENT_POSITION_FOLLOWING);
+    context.textContent = before.at(-1)?.textContent ?? "";
+    context.hidden = !context.textContent;
+    body.scrollTop = 0;
+    dialog.showModal();
+  }
+
+  for (const details of triggers) {
+    details.dataset.drawer = "";
+    details.querySelector(":scope > summary")?.addEventListener("click", (event) => {
+      event.preventDefault();
+      open(details);
+    });
+  }
+
+  dialog?.addEventListener("close", () => {
+    source?.append(...moved);
+    source = null;
+    moved = [];
+  });
+  dialog?.querySelector(".drawer__close")?.addEventListener("click", () => dialog.close());
+  dialog?.addEventListener("click", (event) => {
+    if (event.target === dialog) dialog.close();
+  });
+</script>
