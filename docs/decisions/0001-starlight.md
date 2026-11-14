@@ -1,0 +1,34 @@
+# 0001. Site feito com Starlight
+
+Data: 2026-11-14. Estado: aceite.
+
+## Contexto
+
+A academia foi primeiro um site Astro com motor próprio: o conteúdo estava em YAML (com ficheiros de código ao lado), validado por schemas, e renderizado por código à medida, com um cliente que guardava o progresso no browser. Para passar a academia para um repositório interno da empresa, o projeto tinha de ser o mais simples possível e fácil de manter à mão. O motor próprio tinha cerca de 3.000 linhas de TypeScript e 3.700 de CSS, que alguém teria de conhecer para mexer no conteúdo.
+
+## Decisão
+
+- O site passa a Starlight, com uma página Markdown por capítulo. Pesquisa, blocos de código com botão de copiar e avisos vêm de origem.
+- O código do projeto final vive em `reference/` como duas soluções .NET (`BankingApp.sln`), e as páginas importam-no.
+- As versões do Astro (7.4.5) e do Starlight (0.43.1) estão fixas no `package.json`. Atualizam-se de propósito, num ramo próprio.
+- O pipeline compila o site e as soluções de referência.
+
+## Consequências
+
+Ganhou-se:
+
+- Qualquer pessoa edita uma lição num ficheiro de texto, sem schemas nem passos de geração.
+- Não há motor próprio para manter. Atualizar o Starlight traz melhorias de graça.
+- O código do projeto final passa a ser compilável e testável.
+
+Perdeu-se:
+
+- O progresso do aluno guardado no browser (marcar lições como vistas).
+- O quiz com pontuação: as perguntas ficam com a resposta escondida num bloco «Ver resposta».
+- O plano pessoal do aluno e a árvore de ficheiros clicável com painel lateral. A árvore passou a ser a do Starlight, com a descrição de cada ficheiro.
+- Os ids estáveis e o ficheiro `ids.lock`, que só serviam para o progresso.
+- Os URLs mudaram. A correspondência entre os antigos e os novos está em [0001-routes.json](0001-routes.json).
+
+## Alternativas avaliadas
+
+Manter o motor próprio e simplificá-lo; usar apenas Markdown sem framework (por exemplo, uma wiki do repositório); outros geradores de documentação. O Starlight foi o que dava mais com menos código a manter.

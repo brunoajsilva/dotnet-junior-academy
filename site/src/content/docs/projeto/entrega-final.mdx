@@ -5,6 +5,9 @@ sidebar:
   order: 5
 ---
 
+import { Code } from "@astrojs/starlight/components";
+import promptFrontend from "../../../../../resources/prompt-frontend.txt?raw";
+
 Último dia: entregas o projeto e fazemos uma review em conjunto. Não há tarefas novas. O que se revê é o que construíste até ao fim do dia 5.
 
 ## O que entregas
@@ -41,3 +44,15 @@ Um pedido por endpoint que implementaste, para que o projeto possa ser experimen
 3. O que acontece se a gravação da transferência falhar a meio?
 4. Porque devolve o sistema not\_found e não forbidden para a conta de outro cliente?
 5. Que parte do teu código mudarias se trocasses SQL Server por outra base de dados?
+
+## Mostra o projeto a funcionar
+
+Se quiseres, podes acrescentar uma interface à demonstração. Não é obrigatório, não conta para a avaliação e não substitui a coleção do Bruno. Serve para veres e mostrares a API a funcionar com os teus olhos. Pede-a a um assistente de IA com o prompt abaixo e revê o resultado: o código é teu, por isso tens de o perceber.
+
+1. Exporta o OpenAPI da tua API (o ficheiro swagger.json, a partir do Swagger) e guarda-o.
+2. Copia o prompt, preenche os campos entre parênteses retos (nome, endereço e as tuas user stories) e anexa o OpenAPI.
+3. Corre o resultado e experimenta cada user story, com um caso de sucesso e um de erro.
+4. Compara o painel «Pedidos à API» com a tua coleção do Bruno.
+5. Se algo falhar, pergunta-te primeiro se o erro está na interface ou na tua API.
+
+<Code code={promptFrontend} lang="txt" title="Prompt para gerar o front-end" wrap />

@@ -27,3 +27,7 @@ O pipeline faz o mesmo em cada push.
 - O site mostra estes ficheiros tal como estão. Corrigir aqui corrige a página, sem tocar nela.
 - Os pacotes NuGet estão com versões flutuantes (por exemplo `10.0.*`). Depois do primeiro build verde, fixa as versões que ficaram instaladas.
 - Não há migrations do EF Core: dependem da base de dados do formando.
+
+## Estado
+
+Os ficheiros `.csproj` e `.sln` foram escritos sem acesso ao .NET SDK, por isso o primeiro build pode pedir correções mínimas. Apaga esta secção quando `dotnet build` e `dotnet test` passarem nas duas pastas.
