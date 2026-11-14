@@ -38,7 +38,7 @@
   --sl-text-h2: 1.7rem;
   --sl-text-h3: 1.3rem;
   --sl-text-h4: 1.1rem;
-  --sl-line-height: 1.72;
+  --sl-line-height: 1.65;
   --sl-line-height-headings: 1.2;
 
   --sl-color-accent-low: #e6e5fa;
@@ -229,7 +229,7 @@ h1#_top {
 
 /* ---------- Conteúdo ---------- */
 .sl-markdown-content {
-  --sl-content-gap-y: 1.15rem;
+  --sl-content-gap-y: 0.9rem;
 }
 .sl-markdown-content :is(h2, h3, h4) {
   color: var(--ink);
@@ -242,8 +242,8 @@ h1#_top {
 }
 .sl-markdown-content .sl-heading-wrapper.level-h2 {
   position: relative;
-  margin-top: 5.5rem;
-  padding-top: 2.4rem;
+  margin-top: 3.25rem;
+  padding-top: 1.75rem;
   border-top: 1px solid var(--line);
 }
 .sl-markdown-content .sl-heading-wrapper.level-h2::before {
@@ -257,7 +257,7 @@ h1#_top {
   background: var(--m);
 }
 .sl-markdown-content .sl-heading-wrapper.level-h3 {
-  margin-top: 2.5rem;
+  margin-top: 1.75rem;
 }
 .sl-markdown-content a:not(.sl-anchor-link):not([class]) {
   text-decoration-thickness: 1px;
@@ -336,6 +336,20 @@ h1#_top {
   border-radius: 10px;
   border: 1px solid color-mix(in srgb, var(--sl-color-asides-text-accent) 30%, white);
   padding: 0.9rem 1.1rem;
+}
+.sl-markdown-content .starlight-aside__content,
+.sl-markdown-content .starlight-aside__content > * {
+  --sl-content-gap-y: 0.55rem;
+}
+.sl-markdown-content .starlight-aside__content > * + * {
+  margin-top: 0.55rem;
+}
+.sl-markdown-content :is(ul, ol) {
+  --sl-content-gap-y: 0.3rem;
+}
+.sl-markdown-content li + li,
+.sl-markdown-content li > :is(ul, ol) {
+  margin-top: 0.3rem;
 }
 .sl-markdown-content .starlight-aside__title {
   font-weight: 650;
