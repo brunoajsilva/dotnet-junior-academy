@@ -927,3 +927,309 @@ html[data-has-sidebar] {
 .sl-markdown-content details[data-drawer] > summary::after {
   content: none;
 }
+
+/* ---------- Árvore de ficheiros do projeto (src/scripts/project-tree.ts) ---------- */
+starlight-file-tree.ptree-source {
+  display: none;
+}
+.ptree {
+  --ptree-new: #0e8f84;
+  --ptree-new-bg: #e2f4f1;
+  --ptree-changed: #b8670f;
+  --ptree-changed-bg: #fdf0dc;
+  --ptree-del: #c2353d;
+  --ptree-del-bg: #fdeaeb;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 19rem;
+  grid-template-rows: auto minmax(0, 1fr);
+  margin: 1.5rem 0;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--sheet);
+  overflow: clip;
+}
+.ptree__bar {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--tint);
+}
+.ptree__title {
+  margin-inline-end: auto;
+  color: var(--ink);
+  font-size: 0.9rem;
+  font-weight: 650;
+}
+.ptree__tree {
+  max-height: 34rem;
+  overflow: auto;
+  padding: 0.6rem;
+}
+.ptree ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.ptree__list:not(.ptree__list--top) {
+  margin-inline-start: 0.8rem;
+  padding-inline-start: 0.2rem;
+  border-inline-start: 1px solid var(--line);
+}
+.ptree__item {
+  margin: 0;
+}
+.ptree__row {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  width: 100%;
+  padding: 0.3rem 0.5rem;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.9rem;
+  text-align: start;
+  cursor: pointer;
+}
+.ptree__row:hover {
+  background: var(--tint);
+}
+.ptree__row[aria-current="true"] {
+  background: color-mix(in srgb, var(--m) 12%, white);
+  color: var(--ink);
+  box-shadow: inset 3px 0 0 var(--m);
+}
+.ptree__row:focus-visible {
+  outline: 2px solid var(--m);
+  outline-offset: -2px;
+}
+.ptree__chevron {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 0.9rem;
+  color: var(--muted);
+  transition: transform 0.15s ease;
+}
+.ptree__chevron--empty {
+  visibility: hidden;
+}
+.ptree__row[aria-expanded="true"] > .ptree__chevron {
+  transform: rotate(90deg);
+}
+.ptree__glyph {
+  flex: none;
+  display: grid;
+  place-items: center;
+  min-width: 1.7rem;
+  height: 1.35rem;
+  padding-inline: 0.2rem;
+  border-radius: 5px;
+  background: #ecedf5;
+  color: #4a5575;
+  font-family: var(--sl-font-mono);
+  font-size: 0.6rem;
+  font-weight: 600;
+}
+.ptree__glyph--dir {
+  background: none;
+  color: #d19a2a;
+}
+.ptree__row[aria-expanded] > .ptree__label {
+  font-weight: 600;
+  color: var(--ink);
+}
+.ptree__label {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: break-word;
+  font-family: var(--sl-font-mono);
+  font-size: 0.8rem;
+}
+.ptree__row--novo > .ptree__label,
+.ptree__row--alterado > .ptree__label {
+  color: var(--ink);
+  font-weight: 600;
+}
+.ptree__row--apagar > .ptree__label {
+  color: var(--muted);
+  text-decoration: line-through;
+}
+.ptree__row--novo > .ptree__glyph {
+  background: var(--ptree-new-bg);
+  color: var(--ptree-new);
+}
+.ptree__row--alterado > .ptree__glyph {
+  background: var(--ptree-changed-bg);
+  color: var(--ptree-changed);
+}
+.ptree__row--apagar > .ptree__glyph {
+  background: var(--ptree-del-bg);
+  color: var(--ptree-del);
+}
+.ptree__tag {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.1rem 0.55rem 0.1rem 0.4rem;
+  border-radius: 999px;
+  font-family: var(--sl-font);
+  font-size: 0.72rem;
+  font-weight: 650;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+.ptree__tag b {
+  display: grid;
+  place-items: center;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 0.75rem;
+  line-height: 1;
+}
+.ptree__tag--novo {
+  background: var(--ptree-new-bg);
+  color: #0a5c54;
+}
+.ptree__tag--novo b {
+  background: var(--ptree-new);
+}
+.ptree__tag--alterado {
+  background: var(--ptree-changed-bg);
+  color: #7d4508;
+}
+.ptree__tag--alterado b {
+  background: var(--ptree-changed);
+}
+.ptree__tag--apagar {
+  background: var(--ptree-del-bg);
+  color: #8d2229;
+}
+.ptree__tag--apagar b {
+  background: var(--ptree-del);
+}
+
+.ptree__detail {
+  align-self: start;
+  position: sticky;
+  top: calc(var(--sl-nav-height) + 1rem);
+  margin: 0.6rem 0.6rem 0.6rem 0;
+  padding: 1.1rem 1.2rem 1.3rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--m) 4%, white);
+}
+.ptree__path {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin: 0 0 0.7rem;
+  color: var(--muted);
+  font-family: var(--sl-font-mono);
+  font-size: 0.74rem;
+}
+.ptree__path i {
+  font-style: normal;
+  opacity: 0.6;
+}
+.ptree__head {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+.ptree__icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  min-width: 2.4rem;
+  height: 2.4rem;
+  padding-inline: 0.3rem;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--m) 14%, white);
+  color: color-mix(in srgb, var(--m) 80%, black);
+  font-family: var(--sl-font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+.ptree__icon--dir {
+  background: #fbf0d6;
+  color: #c98e1c;
+}
+.ptree__icon svg {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+.sl-markdown-content .ptree__name {
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: var(--ink);
+  font-family: var(--sl-font-mono);
+  font-size: 1.02rem;
+  font-weight: 650;
+  line-height: 1.3;
+}
+.ptree__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.75rem 0 0;
+}
+.ptree__kind {
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.ptree__desc {
+  margin: 0.8rem 0 0;
+  color: var(--text);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+.ptree__summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.9rem 0 0;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--line);
+}
+@media (max-width: 50rem) {
+  .ptree {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+  }
+  .ptree__detail {
+    order: -1;
+    position: static;
+    margin: 0.6rem 0.6rem 0;
+  }
+  .ptree__bar {
+    order: -2;
+  }
+  .ptree__tree {
+    max-height: 26rem;
+    padding: 0.4rem;
+  }
+  .ptree__list:not(.ptree__list--top) {
+    margin-inline-start: 0.45rem;
+    padding-inline-start: 0;
+  }
+  .ptree__row {
+    gap: 0.3rem;
+    padding-inline: 0.3rem;
+    flex-wrap: wrap;
+  }
+  .ptree__glyph:not(.ptree__glyph--dir) {
+    min-width: 1.5rem;
+  }
+}

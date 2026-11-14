@@ -98,6 +98,23 @@ Esse código não é compilado pelo repositório. Se o alterares, compila-o à p
 
 Os exemplos usam o Bruno. A coleção usada no projeto final está na página «Autenticação JWT».
 
+## Árvore de ficheiros
+
+Nas páginas do projeto final, a estrutura escreve-se com o componente `FileTree` do Starlight, numa lista Markdown. O site transforma-a numa árvore clicável: ao escolher um item, o painel da direita mostra a descrição e o caminho (`site/src/scripts/project-tree.ts`).
+
+```md
+<FileTree>
+
+- BankingApp/ Descrição da pasta.
+  - **Account.cs** (novo) Descrição do ficheiro.
+  - **Customer.cs** (alterado) Descrição do ficheiro.
+  - **(apagar)** (a apagar) Ficheiros que se apagam, separados por vírgulas.
+
+</FileTree>
+```
+
+As etiquetas reconhecidas, logo a seguir ao nome, são `(novo)`, `(alterado)` e `(a apagar)`.
+
 ## Antes de entregar
 
 Segue o checklist de [docs/style-guide.md](docs/style-guide.md).
