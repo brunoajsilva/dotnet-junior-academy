@@ -1,0 +1,30 @@
+---
+// Índice «Nesta página», com um botão para o encolher (a escolha fica guardada no browser).
+import Default from "@astrojs/starlight/components/TableOfContents.astro";
+---
+
+<button type="button" class="toc-toggle" aria-controls="toc-panel" aria-expanded="true" title="Esconder o índice">
+  <svg class="toc-toggle__hide" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+  <svg class="toc-toggle__show" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+  <span class="sr-only">Índice da página</span>
+</button>
+<div id="toc-panel" class="toc-panel"><Default /></div>
+
+<script>
+  const button = document.querySelector<HTMLButtonElement>(".toc-toggle");
+  const root = document.documentElement;
+  function render() {
+    const collapsed = root.dataset.toc === "collapsed";
+    button?.setAttribute("aria-expanded", String(!collapsed));
+    button?.setAttribute("title", collapsed ? "Mostrar o índice" : "Esconder o índice");
+  }
+  button?.addEventListener("click", () => {
+    const collapsed = root.dataset.toc !== "collapsed";
+    root.dataset.toc = collapsed ? "collapsed" : "open";
+    try {
+      localStorage.setItem("academy-toc", root.dataset.toc);
+    } catch {}
+    render();
+  });
+  render();
+</script>

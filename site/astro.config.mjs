@@ -24,6 +24,7 @@ export default defineConfig({
       components: {
         Footer: "./src/components/Footer.astro",
         PageTitle: "./src/components/PageTitle.astro",
+        TableOfContents: "./src/components/TableOfContents.astro",
         ThemeProvider: "./src/components/ThemeProvider.astro",
         ThemeSelect: "./src/components/Empty.astro",
       },

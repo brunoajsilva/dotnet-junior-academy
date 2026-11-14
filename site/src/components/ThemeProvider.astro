@@ -1,7 +1,11 @@
 ---
 // A academia só tem tema claro: fixa-o antes de a página ser desenhada.
+// Repõe também o índice «Nesta página» encolhido ou aberto, como ficou da última vez.
 ---
 
 <script is:inline>
   document.documentElement.dataset.theme = "light";
+  try {
+    document.documentElement.dataset.toc = localStorage.getItem("academy-toc") === "collapsed" ? "collapsed" : "open";
+  } catch {}
 </script>
