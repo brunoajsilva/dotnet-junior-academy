@@ -8,7 +8,7 @@ A academia foi primeiro um site Astro com motor próprio: o conteúdo estava em 
 
 ## Decisão
 
-- O site passa a Starlight, com uma página Markdown por capítulo. Pesquisa, blocos de código com botão de copiar e avisos vêm de origem.
+- O site passa a Starlight, só com tema claro e sem pesquisa, com uma página Markdown por capítulo. Blocos de código com botão de copiar, avisos e menu lateral vêm de origem.
 - Os exemplos de código, incluindo os do projeto final, ficam dentro das páginas, em blocos de código. Não há soluções .NET no repositório.
 - As versões do Astro (7.4.5) e do Starlight (0.43.1) estão fixas no `package.json`. Atualizam-se de propósito, num ramo próprio.
 - O pipeline compila o site.
@@ -22,6 +22,7 @@ Ganhou-se:
 
 Perdeu-se:
 
+- A pesquisa e o modo escuro, por decisão: o site só tem tema claro e não tem pesquisa.
 - A garantia de que o código C# do projeto final compila: não há solução .NET nem testes no repositório.
 - O progresso do aluno guardado no browser (marcar lições como vistas).
 - O quiz com pontuação: as perguntas ficam com a resposta escondida num bloco «Ver resposta».

@@ -14,17 +14,17 @@ O site é feito com [Starlight](https://starlight.astro.build) (Astro). Cada cap
 cd site
 npm install
 npm run dev        # http://localhost:4321, recarrega ao guardar
-npm run build      # gera site/dist e o índice de pesquisa
+npm run build      # gera site/dist
 npm run preview    # serve site/dist
 ```
-
-A pesquisa só existe depois de `npm run build`.
 
 ## Estrutura
 
 ```text
 site/                     o site Starlight
-  astro.config.mjs        título, menu lateral e ordem dos módulos
+  astro.config.mjs        título e configuração do Starlight
+  src/modules.ts          os módulos, pela ordem do menu lateral
+  src/components/         título da página com a etiqueta do módulo
   src/content/docs/       as páginas: academia/, csharp/, dotnet/, auth/, projeto/
   src/styles/academy.css  a cor e os ajustes da academia
 resources/                ficheiros para os formandos

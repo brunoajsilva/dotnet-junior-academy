@@ -88,10 +88,10 @@ Dentro de um módulo, a ordem é o número `sidebar.order` no cabeçalho de cada
 ## Acrescentar um módulo
 
 1. Cria a pasta `site/src/content/docs/<módulo>/` com um `index.md` (`sidebar.order: 0`, `sidebar.label: "Visão geral"`) e as páginas.
-2. Em `site/astro.config.mjs`, acrescenta uma entrada à lista `sidebar`, na posição onde o módulo deve aparecer:
+2. Em `site/src/modules.ts`, acrescenta uma linha à lista, na posição onde o módulo deve aparecer. A posição define o número e a cor do módulo (até 8):
 
-```js
-{ label: "Logging", items: [{ autogenerate: { directory: "logging" } }] },
+```ts
+{ dir: "logging", label: "Logging" },
 ```
 
 ## Avisos

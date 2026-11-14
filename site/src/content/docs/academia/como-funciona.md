@@ -51,7 +51,3 @@ Os blocos com este nome abrem por baixo do texto, com a explicação completa, s
 Abre-se e fecha-se com um clique no título do bloco. Podes abri-lo em qualquer tema, por qualquer ordem.
 
 </details>
-
-### Pesquisa
-
-Usa a caixa de pesquisa no topo (ou o atalho Ctrl K) para encontrares um tema, uma pergunta ou um excerto de código.

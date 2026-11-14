@@ -1,11 +1,476 @@
-/* Cor de destaque da academia. É o único CSS próprio do site. */
-:root {
-  --sl-color-accent-low: #1c1a4d;
-  --sl-color-accent: #6f6ce0;
-  --sl-color-accent-high: #e3e0ff;
-}
-:root[data-theme="light"] {
-  --sl-color-accent-low: #e3e0ff;
+/*
+ * Estilo da academia: claro, legível e orientado ao percurso.
+ * A ideia central: cada módulo tem um número e uma cor (--module-1 a --module-5), que aparecem no menu,
+ * na etiqueta por cima do título e na página inicial. A ordem é a de src/modules.ts (até 8 módulos).
+ */
+
+/* ---------- Tokens (só tema claro) ---------- */
+:root,
+:root[data-theme] {
+  color-scheme: light;
+
+  --ink: #14213d;
+  --text: #29344f;
+  --muted: #5d6882;
+  --line: #e1e5f0;
+  --paper: #f6f7fb;
+  --sheet: #ffffff;
+  --tint: #eef0f9;
+
+  --module-1: #566685;
+  --module-2: #8a3fd6;
+  --module-3: #1f6fe5;
+  --module-4: #0e8f84;
+  --module-5: #dc6228;
+  --module-6: #c0398a;
+  --module-7: #3f8a2c;
+  --module-8: #8a6a3a;
+
+  --radius: 12px;
+
+  /* Starlight */
+  --sl-font: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --sl-font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --sl-content-width: 46rem;
+  --sl-text-body: 1.0625rem;
+  --sl-text-h1: 2.5rem;
+  --sl-text-h2: 1.7rem;
+  --sl-text-h3: 1.3rem;
+  --sl-text-h4: 1.1rem;
+  --sl-line-height: 1.72;
+  --sl-line-height-headings: 1.2;
+
+  --sl-color-accent-low: #e6e5fa;
   --sl-color-accent: #4a47c2;
-  --sl-color-accent-high: #0e0a68;
+  --sl-color-accent-high: #2a2790;
+  --sl-color-white: var(--ink);
+  --sl-color-gray-1: #26324d;
+  --sl-color-gray-2: #34405c;
+  --sl-color-gray-3: #5d6882;
+  --sl-color-gray-4: #7a859f;
+  --sl-color-gray-5: #c9cfe0;
+  --sl-color-gray-6: #eef0f9;
+  --sl-color-gray-7: #f6f7fb;
+  --sl-color-black: #ffffff;
+  --sl-color-text: var(--text);
+  --sl-color-text-accent: #3c39b0;
+  --sl-color-bg: var(--paper);
+  --sl-color-bg-nav: var(--sheet);
+  --sl-color-bg-sidebar: var(--sheet);
+  --sl-color-bg-inline-code: #eceefa;
+  --sl-color-hairline: var(--line);
+  --sl-color-hairline-light: var(--line);
+  --sl-color-hairline-shade: var(--line);
+
+  /* Avisos: tons suaves, um por tipo (dica verde, nota azul, armadilha laranja, perigo vermelho) */
+  --sl-color-purple: #0e8f84;
+  --sl-color-purple-low: #e5f4f2;
+  --sl-color-purple-high: #0a5c54;
+  --sl-color-blue: #2f6fd6;
+  --sl-color-blue-low: #e7effc;
+  --sl-color-blue-high: #1d4797;
+  --sl-color-orange: #d9772b;
+  --sl-color-orange-low: #fdf0e1;
+  --sl-color-orange-high: #8a4510;
+  --sl-color-red: #d1434b;
+  --sl-color-red-low: #fdebec;
+  --sl-color-red-high: #8d2229;
+}
+
+/* ---------- Cabeçalho ---------- */
+.right-group {
+  display: none !important;
+}
+.header {
+  font-weight: 600;
+}
+.site-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+header.header {
+  border-bottom: 1px solid var(--line);
+}
+
+/* ---------- Menu lateral: o percurso ---------- */
+.sidebar-pane {
+  border-inline-end: 1px solid var(--line);
+}
+.sidebar-content {
+  counter-reset: module;
+  gap: 0.25rem;
+}
+.sidebar-content ul.top-level > li {
+  counter-increment: module;
+  margin-top: 0.4rem;
+  --m: var(--module-1);
+}
+.sidebar-content ul.top-level > li:nth-child(2) { --m: var(--module-2); }
+.sidebar-content ul.top-level > li:nth-child(3) { --m: var(--module-3); }
+.sidebar-content ul.top-level > li:nth-child(4) { --m: var(--module-4); }
+.sidebar-content ul.top-level > li:nth-child(5) { --m: var(--module-5); }
+.sidebar-content ul.top-level > li:nth-child(6) { --m: var(--module-6); }
+.sidebar-content ul.top-level > li:nth-child(7) { --m: var(--module-7); }
+.sidebar-content ul.top-level > li:nth-child(8) { --m: var(--module-8); }
+
+.sidebar-content summary {
+  padding: 0.55rem 0.5rem;
+  border-radius: 10px;
+}
+.sidebar-content summary:hover {
+  background: var(--tint);
+}
+.sidebar-content .group-label {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+.sidebar-content .group-label::before {
+  content: counter(module);
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  background: var(--m);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+.sidebar-content .group-label .large {
+  font-size: 0.97rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+.sidebar-content details > ul {
+  margin-inline-start: 1.15rem;
+  padding-inline-start: 0.5rem;
+  border-inline-start: 2px solid color-mix(in srgb, var(--m) 28%, white);
+}
+.sidebar-content details a {
+  padding: 0.38rem 0.7rem;
+  border-radius: 8px;
+  font-size: 0.93rem;
+  color: var(--text);
+}
+.sidebar-content details a:hover {
+  background: var(--tint);
+  color: var(--ink);
+}
+.sidebar-content details a[aria-current="page"] {
+  background: color-mix(in srgb, var(--m) 13%, white);
+  color: color-mix(in srgb, var(--m) 70%, black);
+  font-weight: 600;
+}
+
+/* ---------- Título e etiqueta do módulo ---------- */
+.module-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.25rem;
+  padding: 0.2rem 0.75rem 0.2rem 0.25rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--m) 12%, white);
+  color: color-mix(in srgb, var(--m) 72%, black);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.module-tag__number {
+  display: grid;
+  place-items: center;
+  width: 1.45rem;
+  height: 1.45rem;
+  border-radius: 50%;
+  background: var(--m);
+  color: #fff;
+  font-size: 0.75rem;
+}
+h1#_top {
+  margin-top: 0.6rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+}
+
+/* ---------- Conteúdo ---------- */
+.sl-markdown-content {
+  --sl-content-gap-y: 1.15rem;
+}
+.sl-markdown-content :is(h2, h3, h4) {
+  color: var(--ink);
+  letter-spacing: -0.015em;
+  font-weight: 650;
+}
+/* Cada lição abre com uma linha, para se ver onde uma acaba e a seguinte começa. */
+.sl-markdown-content h2 {
+  margin-top: 3.25rem;
+}
+.sl-markdown-content .sl-heading-wrapper.level-h2 {
+  margin-top: 3.25rem;
+  padding-top: 1.6rem;
+  border-top: 1px solid var(--line);
+}
+.sl-markdown-content .sl-heading-wrapper.level-h3 {
+  margin-top: 2rem;
+}
+.sl-markdown-content a:not(.sl-anchor-link):not([class]) {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+.sl-markdown-content ul > li::marker {
+  color: var(--sl-color-accent);
+}
+.sl-markdown-content ol > li::marker {
+  color: var(--sl-color-accent);
+  font-weight: 600;
+}
+.sl-markdown-content :not(pre) > code {
+  padding: 0.12em 0.4em;
+  border-radius: 6px;
+  color: #3c39b0;
+  font-size: 0.88em;
+}
+.sl-markdown-content strong {
+  color: var(--ink);
+}
+
+/* «Saber mais», «Ver resposta» e «Pista»: abrem por baixo do texto */
+.sl-markdown-content details:not(starlight-file-tree *) {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--sheet);
+  overflow: clip;
+}
+.sl-markdown-content details:not(starlight-file-tree *) > summary {
+  position: relative;
+  padding: 0.8rem 1rem 0.8rem 2.7rem;
+  list-style: none;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--ink);
+}
+.sl-markdown-content details:not(starlight-file-tree *) > summary::-webkit-details-marker {
+  display: none;
+}
+.sl-markdown-content details:not(starlight-file-tree *) > summary::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0.95rem;
+  top: 50%;
+  width: 1rem;
+  height: 1rem;
+  margin-top: -0.5rem;
+  background: var(--sl-color-accent);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M6 3l5 5-5 5' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M6 3l5 5-5 5' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  transition: transform 0.15s ease;
+}
+.sl-markdown-content details:not(starlight-file-tree *)[open] > summary::before {
+  transform: rotate(90deg);
+}
+.sl-markdown-content details:not(starlight-file-tree *) > summary:hover {
+  background: var(--tint);
+}
+.sl-markdown-content details:not(starlight-file-tree *)[open] > summary {
+  border-bottom: 1px solid var(--line);
+  background: var(--tint);
+}
+.sl-markdown-content details:not(starlight-file-tree *) > :not(summary) {
+  margin-inline: 1.1rem;
+}
+.sl-markdown-content details:not(starlight-file-tree *) > summary + * {
+  margin-top: 1rem;
+}
+.sl-markdown-content details:not(starlight-file-tree *) > :last-child {
+  margin-bottom: 1.1rem;
+}
+
+/* Avisos */
+.sl-markdown-content .starlight-aside {
+  border-radius: 10px;
+  border-width: 1px 1px 1px 4px;
+  border-style: solid;
+  border-color: color-mix(in srgb, var(--sl-color-asides-text-accent) 30%, white);
+  border-inline-start-color: var(--sl-color-asides-text-accent);
+  padding: 0.9rem 1.1rem;
+}
+.sl-markdown-content .starlight-aside__title {
+  font-weight: 650;
+}
+
+/* Código */
+.sl-markdown-content .expressive-code {
+  margin-top: 1.25rem;
+  --ec-brdRad: 10px;
+  --ec-brdCol: var(--line);
+  --ec-codeFontFml: var(--sl-font-mono);
+  --ec-codeFontSize: 0.88rem;
+  --ec-frm-frameBoxShdCssVal: none;
+}
+
+/* Tabelas */
+.sl-markdown-content table {
+  display: table;
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: clip;
+}
+.sl-markdown-content th {
+  background: var(--tint);
+  color: var(--ink);
+  font-weight: 600;
+}
+.sl-markdown-content :is(th, td) {
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid var(--line);
+}
+.sl-markdown-content tr:last-child td {
+  border-bottom: 0;
+}
+
+/* Página anterior e seguinte */
+.pagination-links a {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--sheet);
+  box-shadow: none;
+}
+.pagination-links a:hover {
+  border-color: var(--sl-color-accent);
+}
+.pagination-links .link-title {
+  color: var(--ink);
+}
+
+/* Índice da página */
+.right-sidebar a[aria-current="true"] {
+  color: var(--sl-color-accent);
+  font-weight: 600;
+}
+
+/* ---------- Página inicial ---------- */
+html:not([data-has-sidebar]) .sl-container {
+  max-width: 62rem;
+}
+html:not([data-has-sidebar]) .content-panel {
+  border: 0;
+  padding-block: 1rem;
+}
+html:not([data-has-sidebar]) h1#_top {
+  font-size: clamp(2.4rem, 5.5vw, 3.7rem);
+  line-height: 1.08;
+  margin-top: 1.5rem;
+}
+.home-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: 2.5rem;
+  align-items: center;
+  margin-top: 1.25rem;
+}
+.home-hero > :first-child > p:first-child {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+.home-hero .expressive-code {
+  margin: 0;
+  --ec-codeFontSize: 0.9rem;
+  --ec-codePadInl: 1.2rem;
+  --ec-codePadBlk: 1.2rem;
+}
+.home-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+.sl-markdown-content a.button {
+  display: inline-block;
+  padding: 0.7rem 1.4rem;
+  border-radius: 10px;
+  background: var(--sl-color-accent);
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+}
+.sl-markdown-content a.button:hover {
+  background: var(--sl-color-accent-high);
+}
+.home-facts {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* O percurso: os cinco módulos, pela ordem */
+.path {
+  list-style: none;
+  margin: 3rem 0 0;
+  padding: 0;
+  counter-reset: step;
+  border-top: 1px solid var(--line);
+}
+.sl-markdown-content .path > li {
+  counter-increment: step;
+  margin: 0;
+  border-bottom: 1px solid var(--line);
+  --m: var(--module-1);
+}
+.path > li:nth-child(2) { --m: var(--module-2); }
+.path > li:nth-child(3) { --m: var(--module-3); }
+.path > li:nth-child(4) { --m: var(--module-4); }
+.path > li:nth-child(5) { --m: var(--module-5); }
+.path > li:nth-child(6) { --m: var(--module-6); }
+.path > li:nth-child(7) { --m: var(--module-7); }
+.path > li:nth-child(8) { --m: var(--module-8); }
+.sl-markdown-content .path a {
+  display: grid;
+  grid-template-columns: 3.5rem minmax(0, 1fr);
+  column-gap: 1rem;
+  align-items: baseline;
+  padding: 1.4rem 0.5rem;
+  color: inherit;
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+.path a::before {
+  content: counter(step);
+  grid-row: span 2;
+  font-size: 2.6rem;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--m);
+}
+.path a:hover {
+  background: color-mix(in srgb, var(--m) 7%, white);
+}
+.path a strong {
+  font-size: 1.25rem;
+  font-weight: 650;
+  color: var(--ink);
+}
+.path a span {
+  margin-top: 0.2rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+@media (max-width: 50rem) {
+  .home-hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .path a {
+    grid-template-columns: 2.4rem minmax(0, 1fr);
+  }
+  .path a::before {
+    font-size: 2rem;
+  }
 }
