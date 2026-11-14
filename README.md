@@ -18,7 +18,7 @@ A ordem é a de `content/manifest.yaml`.
 
 ## Requisitos
 
-- Node.js 20 ou superior (o CI usa 22)
+- Node.js 22.23.4 ou superior (o CI usa 22)
 
 ## Correr localmente
 
@@ -62,7 +62,7 @@ Como tudo se liga está em `docs/ARCHITECTURE.md`.
 
 Os campos têm nomes por extenso (`title`, `keyPoints`, `learnMore`, `question`, `correctIndex`, `wrapUp`...). Um nome desconhecido ou mal escrito falha o build com o caminho do problema.
 
-**Nunca mudes o `id` de uma lição, capítulo, secção ou fase já publicados**: o progresso dos alunos é guardado por id. Depois de publicar, corre `npm run check -- --update-ids` para os registar em `content/ids.lock`; o `check` falha se algum desaparecer.
+**Nunca mudes o `id` de uma lição, capítulo, secção ou fase já publicados**: o progresso dos alunos é guardado por id. Depois de publicar, corre `npx tsx tools/check.ts --update-ids` para os registar em `content/ids.lock`; o `check` falha se algum desaparecer.
 
 ## Publicar
 

@@ -17,7 +17,7 @@ Código e comentários de código: **inglês**. Domínio dos exemplos: um banco 
    Módulo novo: `npm run new:module -- <id> "Título" "Nome curto"` cria `content/_drafts/<id>/`. Completa-o seguindo `docs/CONTENT-SCHEMA.md`, move-o para `content/modules/<id>/` e acrescenta `modules/<id>/module.yaml` ao `content/manifest.yaml`, antes do projeto final.
 3. Valida: `npm run check` (diz exatamente o ficheiro e o campo com problema).
 4. Testa: `npm test` (precisa de `npm install` e `npx playwright install chromium` uma vez).
-5. Quando as lições estiverem publicadas: `npm run check -- --update-ids` regista os ids em `content/ids.lock`.
+5. Quando as lições estiverem publicadas: `npx tsx tools/check.ts --update-ids` regista os ids em `content/ids.lock`.
 6. Resume ao utilizador o que criaste (capítulos, lições, perguntas) e o que não conseguiste verificar.
 
 Há um prompt pronto a usar em `prompts/novo-modulo.md`.

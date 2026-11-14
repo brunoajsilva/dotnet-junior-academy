@@ -2,7 +2,7 @@
 
 ## Requisitos
 
-Node 20 ou superior. Uma vez: `npm install` e `npx playwright install chromium` (para o teste de fumo).
+Node 22.23.4 ou superior. Uma vez: `npm install` e `npx playwright install chromium` (para o teste de fumo).
 
 ## Comandos
 
@@ -24,7 +24,7 @@ Node 20 ou superior. Uma vez: `npm install` e `npx playwright install chromium` 
 
 ## Ids publicados
 
-O progresso do aluno é guardado no browser por id. Depois de publicar, `npm run check -- --update-ids` regista os ids em `content/ids.lock`; a partir daí, remover ou mudar um id falha o `check`.
+O progresso do aluno é guardado no browser por id. Depois de publicar, `npx tsx tools/check.ts --update-ids` regista os ids em `content/ids.lock`; a partir daí, remover ou mudar um id falha o `check`.
 
 ## Publicar no GitHub Pages
 
