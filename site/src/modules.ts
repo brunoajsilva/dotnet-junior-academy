@@ -7,5 +7,5 @@ export const modules = [
   { dir: "csharp", label: "Introdução ao C#" },
   { dir: "dotnet", label: "Introdução ao .NET" },
   { dir: "auth", label: "Autenticação e Autorização" },
-  { dir: "projeto", label: "Projeto final: BankingApp" },
+  { dir: "projeto", label: "Projeto Final" },
 ] as const;

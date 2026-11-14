@@ -41,7 +41,7 @@ Os exemplos de código estão dentro das páginas, em blocos de código. O códi
 | `csharp/` | Introdução ao C# |
 | `dotnet/` | Introdução ao .NET |
 | `auth/` | Autenticação e Autorização |
-| `projeto/` | Projeto final: BankingApp |
+| `projeto/` | Projeto Final |
 
 ## Contribuir
 

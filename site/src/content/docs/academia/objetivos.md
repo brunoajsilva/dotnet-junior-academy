@@ -49,7 +49,7 @@ Resultado verificável: uma API pequena que faz login, emite um JWT, protege end
 
 Uma API de um banco com Clean Architecture, construída de raiz: dois dias guiados e depois um enunciado com mais user stories do que as que cabem no tempo, para planeares e escolheres.
 
-Módulo: [Projeto final: BankingApp](../../projeto/)
+Módulo: [Projeto Final](../../projeto/)
 
 <details>
 <summary>Saber mais</summary>

@@ -1,5 +1,5 @@
 ---
-title: "Projeto final: BankingApp"
+title: "Projeto Final"
 description: "Uma API de um banco, em 6 dias: montas a base com os passos guiados e depois decides, planeias e constróis sozinho."
 sidebar:
   order: 0

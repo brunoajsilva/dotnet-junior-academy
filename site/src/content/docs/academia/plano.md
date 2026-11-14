@@ -38,7 +38,7 @@ A diferença entre Basic Auth e OAuth 2.0, como funciona um JWT e um hands-on on
 - [Hands-on II: autorização](../../auth/hands-on-ii-autorizacao/)
 - [Segurança na prática](../../auth/seguranca-na-pratica/)
 
-### [Projeto final: BankingApp](../../projeto/)
+### [Projeto Final](../../projeto/)
 
 Uma API de um banco, em 6 dias: montas a base com os passos guiados e depois decides, planeias e constróis sozinho.
 
