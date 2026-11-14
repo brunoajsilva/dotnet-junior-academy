@@ -489,18 +489,45 @@ h1#_top {
   border-bottom: 0;
 }
 
-/* Página anterior e seguinte */
+/* Página anterior e seguinte: duas ligações discretas, sem caixas */
+.pagination-links {
+  gap: 1rem;
+  margin-top: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--line);
+}
 .pagination-links a {
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--sheet);
+  gap: 0.5rem;
+  padding: 0.35rem 0.6rem;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
   box-shadow: none;
+  font-size: 0.8rem;
+  color: var(--sl-color-gray-3);
 }
 .pagination-links a:hover {
-  border-color: var(--m);
+  background: var(--tint);
+}
+.pagination-links a svg {
+  width: 1rem;
+  height: 1rem;
+  color: var(--m);
 }
 .pagination-links .link-title {
+  display: block;
   color: var(--ink);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+.content-panel footer.sl-flex {
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+.content-panel footer .meta {
+  font-size: 0.8rem;
+  margin-top: 0;
 }
 
 /* ---------- Página inicial ---------- */
