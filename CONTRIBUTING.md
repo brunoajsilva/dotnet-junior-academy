@@ -115,6 +115,12 @@ Nas páginas do projeto final, a estrutura escreve-se com o componente `FileTree
 
 As etiquetas reconhecidas, logo a seguir ao nome, são `(novo)`, `(alterado)` e `(a apagar)`.
 
+## User stories
+
+Na página «Enunciado: user stories», cada título `### USn · Título` aparece como uma linha; ao clicar, o resto do conteúdo (até ao próximo título `##` ou `###`) abre numa modal com navegação entre user stories (`site/src/scripts/user-stories.ts`). Escreve cada user story com o título nesse formato e tudo o que a descreve por baixo.
+
+A «Descrição» e os «Acceptance Criteria» para o Azure DevOps escrevem-se em blocos ` ```markdown title="Descrição" ` e ` ```markdown title="Acceptance Criteria" `, para que o botão «Copiar» entregue Markdown já formatado. Os cenários seguem o modelo `**Cenário N: nome**` e, por baixo, `- **Dado** ...`, `- **Quando** ...`, `- **Então** ...`, `- **E** ...`.
+
 ## Antes de entregar
 
 Segue o checklist de [docs/style-guide.md](docs/style-guide.md).
