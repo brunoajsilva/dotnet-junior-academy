@@ -21,7 +21,6 @@ Como acrescentar ou corrigir conteúdo: [CONTRIBUTING.md](CONTRIBUTING.md). Regr
 ```text
 site/src/content/docs/   as páginas (editar aqui)
 site/astro.config.mjs    menu lateral e ordem dos módulos
-reference/               código do projeto final que compila (as páginas importam-no)
 resources/               ficheiros para os formandos
 docs/                    guia de estilo e decisões
 ```
@@ -29,5 +28,4 @@ docs/                    guia de estilo e decisões
 ## Antes de entregar
 
 - `cd site && npm run build` termina com `Complete!`.
-- Se mexeste em `reference/`, `dotnet build` e `dotnet test` na solução alterada.
-- Diz sempre o que não conseguiste verificar (por exemplo, código C# que não compilaste).
+- O código C# das páginas não é compilado pelo repositório. Diz sempre o que não conseguiste verificar (por exemplo, código C# que não compilaste).

@@ -100,20 +100,19 @@ Usa os blocos de Starlight: `:::note[Título]`, `:::tip[Título]`, `:::caution[T
 
 ## Código no projeto final
 
-O código do projeto final vive em `reference/` e compila. As páginas `projeto/*.mdx` importam-no:
+Os exemplos do projeto final estão dentro das páginas `projeto/*`, em blocos de código com o caminho do ficheiro no título:
 
-```mdx
-import { Code } from "@astrojs/starlight/components";
-import customer from "../../../../../reference/01-solucao-base/src/BankingApp.Domain/Customers/Customer.cs?raw";
-
-<Code code={customer} lang="csharp" title="BankingApp.Domain/Customers/Customer.cs" />
+````md
+```csharp title="BankingApp.Domain/Customers/Customer.cs"
+public class Customer { }
 ```
+````
 
-Para mudar o código, edita o ficheiro em `reference/` e corre `dotnet build` e `dotnet test` nessa solução.
+Esse código não é compilado pelo repositório. Se o alterares, compila-o à parte (numa solução tua) antes de o publicar, e diz no pull request que o fizeste.
 
 ## Pedidos HTTP
 
-Os exemplos usam o Bruno. A coleção está em `reference/02-autenticacao-jwt/docs/bruno/`.
+Os exemplos usam o Bruno. A coleção usada no projeto final está na página «Autenticação JWT».
 
 ## Antes de entregar
 

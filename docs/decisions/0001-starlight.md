@@ -9,9 +9,9 @@ A academia foi primeiro um site Astro com motor próprio: o conteúdo estava em 
 ## Decisão
 
 - O site passa a Starlight, com uma página Markdown por capítulo. Pesquisa, blocos de código com botão de copiar e avisos vêm de origem.
-- O código do projeto final vive em `reference/` como duas soluções .NET (`BankingApp.sln`), e as páginas importam-no.
+- Os exemplos de código, incluindo os do projeto final, ficam dentro das páginas, em blocos de código. Não há soluções .NET no repositório.
 - As versões do Astro (7.4.5) e do Starlight (0.43.1) estão fixas no `package.json`. Atualizam-se de propósito, num ramo próprio.
-- O pipeline compila o site e as soluções de referência.
+- O pipeline compila o site.
 
 ## Consequências
 
@@ -19,10 +19,10 @@ Ganhou-se:
 
 - Qualquer pessoa edita uma lição num ficheiro de texto, sem schemas nem passos de geração.
 - Não há motor próprio para manter. Atualizar o Starlight traz melhorias de graça.
-- O código do projeto final passa a ser compilável e testável.
 
 Perdeu-se:
 
+- A garantia de que o código C# do projeto final compila: não há solução .NET nem testes no repositório.
 - O progresso do aluno guardado no browser (marcar lições como vistas).
 - O quiz com pontuação: as perguntas ficam com a resposta escondida num bloco «Ver resposta».
 - O plano pessoal do aluno e a árvore de ficheiros clicável com painel lateral. A árvore passou a ser a do Starlight, com a descrição de cada ficheiro.

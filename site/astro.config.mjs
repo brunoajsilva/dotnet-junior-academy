@@ -29,6 +29,6 @@ export default defineConfig({
       ],
     }),
   ],
-  // As páginas do projeto final importam o código de ../reference (a solução de referência).
+  // A página «Entrega final» importa o prompt de ../resources.
   vite: { server: { fs: { allow: [".."] } } },
 });
