@@ -31,7 +31,7 @@
   /* Starlight */
   --sl-font: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --sl-font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  --sl-content-width: 60rem;
+  --sl-content-width: 100rem;
   --sl-content-pad-x: 2.5rem;
   --sl-text-body: 1.0625rem;
   --sl-text-h1: 2.5rem;
@@ -174,9 +174,9 @@ header.header {
   position: relative;
   display: grid;
   gap: 0.15rem;
-  margin: 0 0.5rem 0.6rem 1.2rem;
-  padding: 0 0 0 1.05rem;
-  border-inline-start: 2px solid color-mix(in srgb, var(--m) 25%, white);
+  margin: 0 0.5rem 0.6rem 0.5rem;
+  padding: 0;
+  border: 0;
 }
 .sidebar-content details a {
   position: relative;
@@ -195,15 +195,6 @@ header.header {
   color: color-mix(in srgb, var(--m) 72%, black);
   font-weight: 600;
   box-shadow: 0 1px 2px rgb(20 33 61 / 0.08), 0 0 0 1px color-mix(in srgb, var(--m) 22%, white);
-}
-.sidebar-content details a[aria-current="page"]::before {
-  content: "";
-  position: absolute;
-  inset-block: 0.5rem;
-  inset-inline-start: -2.25rem;
-  width: 4px;
-  border-radius: 4px;
-  background: var(--m);
 }
 
 /* ---------- Título e etiqueta do módulo ---------- */
@@ -343,10 +334,7 @@ h1#_top {
 /* Avisos */
 .sl-markdown-content .starlight-aside {
   border-radius: 10px;
-  border-width: 1px 1px 1px 4px;
-  border-style: solid;
-  border-color: color-mix(in srgb, var(--sl-color-asides-text-accent) 30%, white);
-  border-inline-start-color: var(--sl-color-asides-text-accent);
+  border: 1px solid color-mix(in srgb, var(--sl-color-asides-text-accent) 30%, white);
   padding: 0.9rem 1.1rem;
 }
 .sl-markdown-content .starlight-aside__title {
@@ -498,95 +486,6 @@ h1#_top {
 }
 .pagination-links .link-title {
   color: var(--ink);
-}
-
-/* Índice da página: estreito, em letra pequena, e que se pode encolher */
-@media (min-width: 72rem) {
-  :root {
-    --toc-w: 15rem;
-  }
-  html[data-toc="collapsed"] {
-    --toc-w: 3.25rem;
-  }
-  .right-sidebar-container {
-    width: var(--toc-w);
-  }
-  .right-sidebar {
-    width: var(--toc-w);
-  }
-  /* O conteúdo ocupa tudo o que sobra entre o menu e o índice, encostado ao menu */
-  [data-has-sidebar][data-has-toc] .main-pane {
-    width: calc(100% - var(--toc-w));
-    --sl-content-margin-inline: 0 auto;
-  }
-  html[data-toc="collapsed"] .toc-panel {
-    display: none;
-  }
-  .right-sidebar {
-    padding-inline: 0.5rem;
-  }
-  .right-sidebar-panel {
-    padding-inline: 0.75rem 0.5rem;
-  }
-  .right-sidebar-panel .sl-container {
-    width: auto;
-    max-width: none;
-  }
-}
-.toc-toggle {
-  position: absolute;
-  top: calc(var(--sl-nav-height) + 0.9rem);
-  inset-inline-end: 0.75rem;
-  z-index: 1;
-  display: grid;
-  place-items: center;
-  width: 1.9rem;
-  height: 1.9rem;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  background: var(--sheet);
-  color: var(--muted);
-  cursor: pointer;
-}
-.toc-toggle:hover {
-  background: var(--tint);
-  color: var(--ink);
-}
-.toc-toggle:focus-visible {
-  outline: 2px solid var(--m);
-  outline-offset: 2px;
-}
-.toc-toggle__show,
-html[data-toc="collapsed"] .toc-toggle__hide {
-  display: none;
-}
-html[data-toc="collapsed"] .toc-toggle__show {
-  display: block;
-}
-@media (max-width: 71.99rem) {
-  .toc-toggle {
-    display: none;
-  }
-}
-.right-sidebar starlight-toc h2 {
-  margin: 0 0 0.4rem;
-  padding-inline-end: 2.5rem;
-  font-size: 0.8rem;
-  font-weight: 650;
-  color: var(--ink);
-}
-.right-sidebar starlight-toc a {
-  padding-block: 0.2rem;
-  font-size: 0.78rem;
-  line-height: 1.35;
-  color: var(--muted);
-}
-.right-sidebar starlight-toc li li a {
-  padding-inline-start: 0.5rem;
-}
-.right-sidebar a[aria-current="true"] {
-  color: color-mix(in srgb, var(--m) 82%, black);
-  font-weight: 600;
 }
 
 /* ---------- Página inicial ---------- */
@@ -892,7 +791,7 @@ html:has(dialog.drawer[open]) {
 
 /* Texto corrido com linhas de leitura confortável; código, tabelas e avisos usam a largura toda */
 html[data-has-sidebar] .sl-markdown-content > :is(p, ul, ol) {
-  max-width: 50rem;
+  max-width: 56rem;
 }
 html[data-has-sidebar] {
   --sl-content-margin-inline: 0 auto;
@@ -940,7 +839,7 @@ starlight-file-tree.ptree-source {
   --ptree-del: #c2353d;
   --ptree-del-bg: #fdeaeb;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 19rem;
+  grid-template-columns: minmax(17rem, 26rem) minmax(0, 1fr);
   grid-template-rows: auto minmax(0, 1fr);
   margin: 1.5rem 0;
   border: 1px solid var(--line);
@@ -977,7 +876,6 @@ starlight-file-tree.ptree-source {
 .ptree__list:not(.ptree__list--top) {
   margin-inline-start: 0.8rem;
   padding-inline-start: 0.2rem;
-  border-inline-start: 1px solid var(--line);
 }
 .ptree__item {
   margin: 0;
@@ -1003,7 +901,6 @@ starlight-file-tree.ptree-source {
 .ptree__row[aria-current="true"] {
   background: color-mix(in srgb, var(--m) 12%, white);
   color: var(--ink);
-  box-shadow: inset 3px 0 0 var(--m);
 }
 .ptree__row:focus-visible {
   outline: 2px solid var(--m);
@@ -1122,6 +1019,8 @@ starlight-file-tree.ptree-source {
   align-self: start;
   position: sticky;
   top: calc(var(--sl-nav-height) + 1rem);
+  max-height: calc(100vh - var(--sl-nav-height) - 2rem);
+  overflow: auto;
   margin: 0.6rem 0.6rem 0.6rem 0;
   padding: 1.1rem 1.2rem 1.3rem;
   border: 1px solid var(--line);
@@ -1211,6 +1110,8 @@ starlight-file-tree.ptree-source {
   .ptree__detail {
     order: -1;
     position: static;
+    max-height: none;
+    overflow: visible;
     margin: 0.6rem 0.6rem 0;
   }
   .ptree__bar {
@@ -1232,4 +1133,17 @@ starlight-file-tree.ptree-source {
   .ptree__glyph:not(.ptree__glyph--dir) {
     min-width: 1.5rem;
   }
+}
+
+.ptree__code {
+  margin-top: 1.1rem;
+}
+.ptree__code figure.frame {
+  box-shadow: none;
+}
+.ptree__code .copy button[data-state="copied"]::after {
+  content: "Copiado!";
+}
+.ptree__code .copy .feedback {
+  display: none;
 }

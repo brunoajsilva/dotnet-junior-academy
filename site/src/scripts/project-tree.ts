@@ -1,5 +1,5 @@
 // Transforma cada <FileTree> do Starlight numa árvore de ficheiros clicável: à esquerda a árvore,
-// à direita o contexto do item escolhido (descrição, caminho e etiqueta). Sem JavaScript, fica a árvore normal.
+// à direita o contexto do item escolhido (descrição, caminho, etiqueta e o código do ficheiro). Sem JavaScript, fica a árvore normal.
 // O Markdown não muda: `- **Account.cs** (novo) Descrição` e `- Pasta/ Descrição`.
 
 type Badge = "novo" | "alterado" | "apagar";
@@ -80,14 +80,52 @@ function files(entry: Entry): Entry[] {
   return entry.kind === "file" ? [entry] : entry.children.flatMap(files);
 }
 
+/** Os blocos de código da página com um caminho no título (ex.: BankingApp.Domain/Customers/Customer.cs). */
+function codeBlocks(): Map<string, HTMLElement> {
+  const blocks = new Map<string, HTMLElement>();
+  for (const frame of document.querySelectorAll<HTMLElement>(".sl-markdown-content figure.frame.has-title")) {
+    const title = clean(frame.querySelector("figcaption .title")?.textContent);
+    const wrapper = frame.closest<HTMLElement>(".expressive-code");
+    if (title.includes("/") && wrapper && !wrapper.closest(".ptree")) blocks.set(title, wrapper);
+  }
+  return blocks;
+}
+
+/** Procura o bloco cujo caminho é o fim do caminho do ficheiro na árvore. */
+function findCode(entry: Entry, blocks: Map<string, HTMLElement>): HTMLElement | undefined {
+  const full = [...pathOf(entry), entry.name].join("/");
+  let best: string | undefined;
+  for (const title of blocks.keys()) {
+    if (full === title || full.endsWith(`/${title}`)) if (!best || title.length > best.length) best = title;
+  }
+  return best ? blocks.get(best) : undefined;
+}
+
+function copyable(wrapper: HTMLElement): HTMLElement {
+  const clone = wrapper.cloneNode(true) as HTMLElement;
+  clone.querySelectorAll("link, script").forEach((node) => node.remove());
+  clone.classList.add("ptree__code");
+  const button = clone.querySelector<HTMLButtonElement>(".copy button");
+  button?.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(button.dataset.code ?? "");
+      button.dataset.state = "copied";
+      setTimeout(() => delete button.dataset.state, 1600);
+    } catch {}
+  });
+  return clone;
+}
+
 function enhance(source: HTMLElement) {
   const rootList = source.querySelector(":scope > ul");
   if (!rootList) return;
   const roots = [...rootList.children].map((li) => parse(li));
   const all = roots.flatMap((root) => [root, ...flat(root)]);
   const rows = new Map<Entry, HTMLButtonElement>();
+  const blocks = codeBlocks();
 
   const widget = el("div", "ptree not-content");
+  widget.classList.toggle("ptree--code", blocks.size > 0);
   const toolbar = el("div", "ptree__bar");
   const tree = el("div", "ptree__tree");
   const detail = el("aside", "ptree__detail");
@@ -119,6 +157,8 @@ function enhance(source: HTMLElement) {
     const text = el("p", "ptree__desc");
     text.textContent = entry.desc || (entry.kind === "dir" ? "Pasta do projeto." : "Sem descrição.");
     detail.append(text);
+    const code = entry.kind === "file" ? findCode(entry, blocks) : undefined;
+    if (code) detail.append(copyable(code));
     if (entry.kind === "dir") {
       const inside = files(entry);
       const changed = (Object.keys(BADGES) as Badge[]).map((badge) => ({ badge, n: inside.filter((f) => f.badge === badge).length })).filter((c) => c.n);

@@ -100,7 +100,7 @@ Os exemplos usam o Bruno. A coleção usada no projeto final está na página «
 
 ## Árvore de ficheiros
 
-Nas páginas do projeto final, a estrutura escreve-se com o componente `FileTree` do Starlight, numa lista Markdown. O site transforma-a numa árvore clicável: ao escolher um item, o painel da direita mostra a descrição e o caminho (`site/src/scripts/project-tree.ts`).
+Nas páginas do projeto final, a estrutura escreve-se com o componente `FileTree` do Starlight, numa lista Markdown. O site transforma-a numa árvore clicável: ao escolher um item, o painel da direita mostra a descrição, o caminho e o código do ficheiro (`site/src/scripts/project-tree.ts`). O código vem do bloco da página cujo título é o caminho do ficheiro a partir da pasta do projeto, por exemplo `title="BankingApp.Domain/Customers/Customer.cs"`. Se não houver um bloco com esse título, o painel mostra só a descrição.
 
 ```md
 <FileTree>

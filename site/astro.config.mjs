@@ -21,10 +21,10 @@ export default defineConfig({
       locales: { root: { label: "Português", lang: "pt-PT" } },
       // Sem pesquisa e só com tema claro.
       pagefind: false,
+      tableOfContents: false,
       components: {
         Footer: "./src/components/Footer.astro",
         PageTitle: "./src/components/PageTitle.astro",
-        TableOfContents: "./src/components/TableOfContents.astro",
         ThemeProvider: "./src/components/ThemeProvider.astro",
         ThemeSelect: "./src/components/Empty.astro",
       },

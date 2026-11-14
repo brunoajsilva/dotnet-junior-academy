@@ -24,7 +24,7 @@ npm run preview    # serve site/dist
 site/                     o site Starlight
   astro.config.mjs        título e configuração do Starlight
   src/modules.ts          os módulos, pela ordem do menu lateral
-  src/components/         título com a etiqueta do módulo, gaveta «Saber mais» e índice que encolhe
+  src/components/         título com a etiqueta do módulo, gaveta «Saber mais»
   src/content/docs/       as páginas: academia/, csharp/, dotnet/, auth/, projeto/
   src/styles/academy.css  a cor e os ajustes da academia
 resources/                ficheiros para os formandos
