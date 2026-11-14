@@ -63,7 +63,8 @@ const REQUIREMENT_LABEL = { required: "Necessário", optional: "Opcional", later
 function md(text: string): string {
   return text
     .replace(/([\\`*_[\]<>{}|&])/g, "\\$1")
-    .replace(/^(\s*)([#>+-]|\d+\.)(?=\s)/gm, "$1\\$2");
+    .replace(/^(\s*)([#>+-])(?=\s)/gm, "$1\\$2")
+    .replace(/^(\s*)(\d+)\.(?=\s)/gm, "$1$2\\.");
 }
 
 /** Plain text with blank lines between paragraphs, as written in the YAML. */
@@ -233,7 +234,7 @@ function lessonBody(lesson: Lesson): string {
       const flow = lesson.cards.slice(0, flowCount);
       const rest = lesson.cards.slice(flowCount);
       const flowList = flow.length
-        ? flow.map((card, index) => `${index + 1}. **${md(card.title.replace(/\s+/g, " "))}** ${md(card.lines.join(" "))}`).join("\n")
+        ? flow.map((card, index) => `${index + 1}. **${md(card.title.replace(/\s+/g, " ").replace(/^\d+\.\s*/, ""))}** ${md(card.lines.join(" "))}`).join("\n")
         : "";
       const cards = rest.map((card) => {
         if (card.isNote) return aside("note", card.title || "Nota", card.lines.join("\n\n"));

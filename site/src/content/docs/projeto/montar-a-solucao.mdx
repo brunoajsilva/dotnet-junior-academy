@@ -1,0 +1,307 @@
+---
+title: "Montar a solução"
+description: "Deixar a aplicação funcional: estrutura de pastas, Entity Framework, ligação à base de dados, a primeira entidade, o repositório, o Swagger e o primeiro teste."
+sidebar:
+  order: 2
+---
+
+import { Code, FileTree } from "@astrojs/starlight/components";
+import code1 from "../../../../../reference/01-solucao-base/src/BankingApp.Domain/Common/DomainException.cs?raw";
+import code2 from "../../../../../reference/01-solucao-base/src/BankingApp.Domain/Customers/Customer.cs?raw";
+import code3 from "../../../../../reference/01-solucao-base/src/BankingApp.Application/Common/Error.cs?raw";
+import code4 from "../../../../../reference/01-solucao-base/src/BankingApp.Application/Common/Request.cs?raw";
+import code5 from "../../../../../reference/01-solucao-base/src/BankingApp.Application/Common/Response.cs?raw";
+import code6 from "../../../../../reference/01-solucao-base/src/BankingApp.Application/Common/Empty.cs?raw";
+import code7 from "../../../../../reference/01-solucao-base/src/BankingApp.Application/Abstractions/IHandler.cs?raw";
+import code8 from "../../../../../reference/01-solucao-base/src/BankingApp.Application/Abstractions/ICustomerRepository.cs?raw";
+import code9 from "../../../../../reference/01-solucao-base/src/BankingApp.Application/Handlers/CommandHandlers/CreateCustomer/CreateCustomerCommand.cs?raw";
+import code10 from "../../../../../reference/01-solucao-base/src/BankingApp.Application/Handlers/CommandHandlers/CreateCustomer/CustomerResult.cs?raw";
+import code11 from "../../../../../reference/01-solucao-base/src/BankingApp.Application/Handlers/CommandHandlers/CreateCustomer/CreateCustomerHandler.cs?raw";
+import code12 from "../../../../../reference/01-solucao-base/src/BankingApp.Application/Handlers/QueryHandlers/ListCustomers/ListCustomersQuery.cs?raw";
+import code13 from "../../../../../reference/01-solucao-base/src/BankingApp.Application/Handlers/QueryHandlers/ListCustomers/ListCustomersHandler.cs?raw";
+import code14 from "../../../../../reference/01-solucao-base/src/BankingApp.Application/DependencyInjection.cs?raw";
+import code15 from "../../../../../reference/01-solucao-base/src/BankingApp.Infrastructure/Persistence/BankingAppContext.cs?raw";
+import code16 from "../../../../../reference/01-solucao-base/src/BankingApp.Infrastructure/Persistence/Configurations/CustomerConfiguration.cs?raw";
+import code17 from "../../../../../reference/01-solucao-base/src/BankingApp.Infrastructure/Repositories/CustomerRepository.cs?raw";
+import code18 from "../../../../../reference/01-solucao-base/src/BankingApp.Infrastructure/DependencyInjection.cs?raw";
+import code19 from "../../../../../reference/01-solucao-base/src/BankingApp.Api/appsettings.json?raw";
+import code20 from "../../../../../reference/01-solucao-base/src/BankingApp.Api/Contracts/Customers/NewCustomer.cs?raw";
+import code21 from "../../../../../reference/01-solucao-base/src/BankingApp.Api/Contracts/Customers/CustomerResponse.cs?raw";
+import code22 from "../../../../../reference/01-solucao-base/src/BankingApp.Api/Controllers/CustomersController.cs?raw";
+import code23 from "../../../../../reference/01-solucao-base/src/BankingApp.Api/Responses/ValidationResponse.cs?raw";
+import code24 from "../../../../../reference/01-solucao-base/src/BankingApp.Api/Middleware/ExceptionMiddleware.cs?raw";
+import code25 from "../../../../../reference/01-solucao-base/src/BankingApp.Api/Program.cs?raw";
+import code26 from "../../../../../reference/01-solucao-base/src/BankingApp.Api/Properties/launchSettings.json?raw";
+import code27 from "../../../../../reference/01-solucao-base/tests/BankingApp.Tests/Domain/CustomerTests.cs?raw";
+import code28 from "../../../../../reference/01-solucao-base/tests/BankingApp.Tests/Application/ResponseTests.cs?raw";
+
+**Dia 1.** Deixar a aplicação funcional: estrutura de pastas, Entity Framework, ligação à base de dados, a primeira entidade, o repositório, o Swagger e o primeiro teste.
+
+Usa o que aprendeste em: [A plataforma .NET](../../dotnet/a-plataforma-net/), [ASP.NET Core e Web API](../../dotnet/asp-net-core-e-web-api/), [Entity Framework Core](../../dotnet/entity-framework-core/), [Organização do código](../../dotnet/organizacao-do-codigo/).
+
+## Estrutura de pastas e ficheiros
+
+A árvore mostra o que cada ficheiro faz. O código de cada um está nas secções seguintes.
+
+<FileTree>
+
+- BankingApp/ Pasta raiz do repositório. Tem a solução e duas pastas: src (código) e tests (testes).
+  - BankingApp.sln A solução. Só lista os cinco projetos, para o IDE os abrir em conjunto.
+  - src/ Todo o código que vai para produção.
+    - BankingApp.Domain/ Camada 1, o centro. Regras do negócio. Não referencia nada.
+      - Common/ Tipos partilhados por todo o Domain.
+        - DomainException.cs Exceção base das regras do negócio. O ExceptionMiddleware converte-a num erro validation.
+      - Customers/ Tudo o que diz respeito a clientes.
+        - Customer.cs A primeira entidade. Valida nome e NIF na criação; setters privados.
+    - BankingApp.Application/ Camada 2. Casos de uso e contratos. Só referencia o Domain.
+      - Abstractions/ Interfaces que a Application precisa mas não implementa.
+        - IHandler.cs O contrato de todos os casos de uso: Request entra, Response sai.
+        - ICustomerRepository.cs O contrato do repositório. A implementação vive na Infrastructure.
+      - Common/ A abstração de entrada e de saída (a base da API RPC).
+        - Request.cs Classe base de todos os comandos e consultas.
+        - Response.cs Response\<T\>: success, errors e data.
+        - Empty.cs Os dados de um caso de uso que não devolve nada.
+        - Error.cs Um erro: código e mensagem, com uma fábrica por tipo.
+      - Handlers/ Os casos de uso, separados em comandos (alteram dados) e consultas (só leem).
+        - CommandHandlers/ Um caso de uso por pasta, com tudo o que lhe diz respeito: comando, resultado e handler.
+          - CreateCustomer/ O caso de uso CreateCustomer.
+            - CreateCustomerCommand.cs Os dados de entrada de CreateCustomer.
+            - CustomerResult.cs O resultado: um cliente.
+            - CreateCustomerHandler.cs O caso de uso CreateCustomer.
+        - QueryHandlers/ O mesmo para as consultas, que só leem dados.
+          - ListCustomers/ O caso de uso ListCustomers.
+            - ListCustomersQuery.cs A consulta ListCustomers.
+            - ListCustomersHandler.cs O caso de uso ListCustomers.
+      - DependencyInjection.cs AddApplication(): regista os handlers no container.
+    - BankingApp.Infrastructure/ Camada 3. Detalhes técnicos: EF Core e base de dados. Referencia a Application.
+      - Persistence/ Tudo o que é EF Core.
+        - BankingAppContext.cs O DbContext. Um DbSet por tabela.
+        - Configurations/ Uma classe IEntityTypeConfiguration por entidade (Fluent API).
+          - CustomerConfiguration.cs Tamanhos, obrigatoriedade e índice único do NIF.
+        - Migrations/ Gerada pelo comando dotnet ef. Não se escreve à mão: revê-se.
+          - (ficheiros gerados) InitialCreate, o snapshot do modelo e o Designer.
+      - Repositories/ Implementações dos contratos da Application.
+        - CustomerRepository.cs Implementa ICustomerRepository com o EF Core.
+      - DependencyInjection.cs AddInfrastructure(): DbContext, connection string e repositórios.
+    - BankingApp.Api/ Camada 4. HTTP. Referencia a Application e a Infrastructure (só para a registar).
+      - Contracts/ DTOs: o formato dos pedidos e das respostas.
+        - Customers/ Contratos dos endpoints de clientes.
+          - NewCustomer.cs O pedido, com validação.
+          - CustomerResponse.cs A resposta.
+      - Controllers/ Um controller por recurso.
+        - CustomersController.cs Operações de clientes (create e list), todas POST. Converte o pedido num comando e devolve um Response.
+      - Responses/ Respostas fora do controller.
+        - ValidationResponse.cs DTO inválido: responde 200 com a lista de erros.
+      - Middleware/ Componentes do pipeline.
+        - ExceptionMiddleware.cs Converte exceções em Response com erro, sempre com HTTP 200.
+      - Properties/ Gerada pelo template.
+        - launchSettings.json Portas e URL de arranque. Põe "launchUrl": "swagger".
+      - appsettings.json Configuração: connection string e logging.
+      - Program.cs Ponto de entrada: serviços, pipeline e Swagger UI.
+  - tests/ Projetos de teste.
+    - BankingApp.Tests/ xUnit. Referencia o Domain e a Application.
+      - Domain/ Testes às regras do Domain.
+        - CustomerTests.cs O primeiro teste: valida o NIF e o nome.
+      - Application/ Testes à Application.
+        - ResponseTests.cs Testa o Response: Ok, Fail e Map.
+
+</FileTree>
+
+## Criar a solução, os projetos e as referências
+
+Convenção do projeto inteiro: tudo são classes (sem records), uma classe por ficheiro, e cada classe com uma única responsabilidade. A solução e os projetos criam-se no IDE (Visual Studio ou VS Code), sem linha de comandos. As referências entre projetos são a arquitetura: se o Domain não referencia nada, ninguém o consegue contaminar com EF Core. Os únicos comandos deste passo instalam dependências.
+
+1. Criar a solução BankingApp, com as pastas src e tests
+2. Criar os cinco projetos: Domain, Application e Infrastructure (Class Library), Api (ASP.NET Core Web API com controllers, .NET 10) e Tests (xUnit)
+3. Configurar as Project References segundo a regra das dependências
+4. Apagar os ficheiros de exemplo dos templates (Class1, WeatherForecast e UnitTest1)
+5. Instalar os pacotes NuGet, a UI do Swagger e a ferramenta dotnet-ef
+6. Compilar a solução (Build Solution)
+
+```text title="Project References"
+BankingApp.Domain          (sem referências)
+BankingApp.Application     -> BankingApp.Domain
+BankingApp.Infrastructure  -> BankingApp.Application
+BankingApp.Api             -> BankingApp.Application, BankingApp.Infrastructure
+BankingApp.Tests           -> BankingApp.Domain, BankingApp.Application
+```
+
+```bash title="Instalar dependências"
+# NuGet packages (or use the NuGet window of the IDE)
+dotnet add src/BankingApp.Application    package Microsoft.Extensions.DependencyInjection.Abstractions
+dotnet add src/BankingApp.Infrastructure package Microsoft.EntityFrameworkCore.SqlServer
+dotnet add src/BankingApp.Api            package Microsoft.EntityFrameworkCore.Design
+dotnet add src/BankingApp.Api            package Swashbuckle.AspNetCore.SwaggerUI
+dotnet add tests/BankingApp.Tests        package NSubstitute
+
+# the EF Core command-line tool, once per machine
+dotnet tool install --global dotnet-ef
+```
+
+:::tip[Resultado esperado]
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+:::
+
+## Domain: a primeira entidade
+
+Customer é a primeira entidade. A validação vive dentro da própria classe, e os setters são privados para o estado só mudar por métodos da classe.
+
+<Code code={code1} lang="csharp" title="BankingApp.Domain/Common/DomainException.cs" />
+
+<Code code={code2} lang="csharp" title="BankingApp.Domain/Customers/Customer.cs" />
+
+## Application: a abstração de entrada e de saída (API RPC)
+
+Esta API é RPC: o HTTP é só o transporte. Todos os pedidos são POST, para /api/\<área\>/\<ação\> (por exemplo, /api/accounts/deposit), e os parâmetros vão sempre no corpo JSON, nunca na rota nem na query string. Se o pedido chegou ao servidor e foi processado, a resposta é sempre 200 OK, e o resultado vem no corpo. Para isso, todos os casos de uso recebem um Request e devolvem um Response, que tem uma lista de erros. Quem chama lê success e errors em vez do código HTTP. Criamos já estas peças, porque tudo o que vem a seguir as usa.
+
+1. Criar o Error, com uma fábrica por tipo (validation, not\_found, conflict, unauthorized, forbidden)
+2. Criar a classe base Request, de onde herdam todos os comandos e consultas
+3. Criar o Response\<T\>: success é «não há erros»; Data guarda o resultado; Empty é para os casos de uso sem dados
+4. Criar o IHandler\<TRequest, TData\>, o contrato de qualquer caso de uso
+
+<Code code={code3} lang="csharp" title="BankingApp.Application/Common/Error.cs" />
+
+<Code code={code4} lang="csharp" title="BankingApp.Application/Common/Request.cs" />
+
+<Code code={code5} lang="csharp" title="BankingApp.Application/Common/Response.cs" />
+
+<Code code={code6} lang="csharp" title="BankingApp.Application/Common/Empty.cs" />
+
+<Code code={code7} lang="csharp" title="BankingApp.Application/Abstractions/IHandler.cs" />
+
+## Application: contratos e o primeiro caso de uso
+
+A Application define o que precisa (ICustomerRepository) e escreve cada caso de uso em três classes pequenas, cada uma no seu ficheiro: ficam todas juntas na pasta do caso de uso, dentro de Handlers/CommandHandlers (comandos) ou de Handlers/QueryHandlers (consultas), por exemplo Handlers/CommandHandlers/CreateCustomer. A pasta Handlers agrupa os dois. Um handler recebe um Request e devolve um Response: os erros de negócio devolvem-se, não se lançam. Não sabe nada de EF Core nem de HTTP.
+
+<Code code={code8} lang="csharp" title="BankingApp.Application/Abstractions/ICustomerRepository.cs" />
+
+<Code code={code9} lang="csharp" title="BankingApp.Application/Handlers/CommandHandlers/CreateCustomer/CreateCustomerCommand.cs" />
+
+<Code code={code10} lang="csharp" title="BankingApp.Application/Handlers/CommandHandlers/CreateCustomer/CustomerResult.cs" />
+
+<Code code={code11} lang="csharp" title="BankingApp.Application/Handlers/CommandHandlers/CreateCustomer/CreateCustomerHandler.cs" />
+
+<Code code={code12} lang="csharp" title="BankingApp.Application/Handlers/QueryHandlers/ListCustomers/ListCustomersQuery.cs" />
+
+<Code code={code13} lang="csharp" title="BankingApp.Application/Handlers/QueryHandlers/ListCustomers/ListCustomersHandler.cs" />
+
+<Code code={code14} lang="csharp" title="BankingApp.Application/DependencyInjection.cs" />
+
+## Infrastructure: Entity Framework Core, repositório e ligação à base de dados
+
+O DbContext, a configuração da entidade com a Fluent API, o repositório que implementa o contrato da Application e a connection string. No fim, a primeira migration cria a base de dados.
+
+1. Criar o BankingAppContext e a CustomerConfiguration
+2. Implementar o CustomerRepository
+3. Criar AddInfrastructure() com o DbContext e o repositório
+4. Pôr a connection string no appsettings.json da Api
+5. Criar a migration InitialCreate e aplicá-la
+
+<Code code={code15} lang="csharp" title="BankingApp.Infrastructure/Persistence/BankingAppContext.cs" />
+
+<Code code={code16} lang="csharp" title="BankingApp.Infrastructure/Persistence/Configurations/CustomerConfiguration.cs" />
+
+<Code code={code17} lang="csharp" title="BankingApp.Infrastructure/Repositories/CustomerRepository.cs" />
+
+<Code code={code18} lang="csharp" title="BankingApp.Infrastructure/DependencyInjection.cs" />
+
+<Code code={code19} lang="json" title="BankingApp.Api/appsettings.json" />
+
+```bash title="Terminal (migrations)"
+dotnet ef migrations add InitialCreate -p src/BankingApp.Infrastructure -s src/BankingApp.Api -o Persistence/Migrations
+dotnet ef database update            -p src/BankingApp.Infrastructure -s src/BankingApp.Api
+```
+
+:::tip[Resultado esperado]
+Applying migration '20261103100000\_InitialCreate'.
+Done.
+:::
+
+## Api: controller, DTOs, tratamento de erros e Swagger
+
+O controller só converte o pedido num comando e devolve o Response do handler. Há três caminhos para um erro, e os três acabam em 200 com a lista de errors: o handler devolve-o, o ValidationResponse apanha os DTOs inválidos, e o ExceptionMiddleware apanha as exceções. O Swagger UI fica disponível em /swagger, em desenvolvimento.
+
+1. Criar os DTOs com validação
+2. Criar o CustomersController
+3. Criar o ValidationResponse
+4. Criar o ExceptionMiddleware
+5. Montar o Program.cs com o OpenAPI e o Swagger UI
+6. Em Properties/launchSettings.json, pôr o launchUrl a swagger
+
+<Code code={code20} lang="csharp" title="BankingApp.Api/Contracts/Customers/NewCustomer.cs" />
+
+<Code code={code21} lang="csharp" title="BankingApp.Api/Contracts/Customers/CustomerResponse.cs" />
+
+<Code code={code22} lang="csharp" title="BankingApp.Api/Controllers/CustomersController.cs" />
+
+<Code code={code23} lang="csharp" title="BankingApp.Api/Responses/ValidationResponse.cs" />
+
+<Code code={code24} lang="csharp" title="BankingApp.Api/Middleware/ExceptionMiddleware.cs" />
+
+<Code code={code25} lang="csharp" title="BankingApp.Api/Program.cs" />
+
+<Code code={code26} lang="json" title="BankingApp.Api/Properties/launchSettings.json" />
+
+## Testes: os primeiros testes
+
+O projeto de testes já existe. Escreve-se o primeiro teste ao Domain para ficar o padrão (Theory para os casos inválidos, Fact para o caso feliz) e os testes ao Response, que é a peça de que tudo depende.
+
+<Code code={code27} lang="csharp" title="BankingApp.Tests/Domain/CustomerTests.cs" />
+
+<Code code={code28} lang="csharp" title="BankingApp.Tests/Application/ResponseTests.cs" />
+
+:::tip[Resultado esperado]
+Test Explorer
+7 passed, 0 failed, 0 skipped
+:::
+
+## Correr e verificar
+
+A aplicação está funcional quando consegues criar e listar clientes pelo Swagger UI e ver a linha na base de dados. Repara que todas as respostas são 200: o que muda é o corpo.
+
+1. Correr a BankingApp.Api no IDE (F5) e abrir /swagger
+2. POST /api/customers/create com um cliente válido: 200 com success true
+3. Repetir o POST: 200 com success false e o erro conflict
+4. POST com NIF "123": 200 com success false e o erro validation
+5. POST /api/customers/list e confirmar a linha na tabela Customers (cliente SQL)
+
+```http title="Pedido de exemplo"
+POST https://localhost:5001/api/customers/create
+Content-Type: application/json
+
+{ "name": "Ana Pereira", "taxId": "123456789" }
+
+# 200 OK
+# { "success": true, "errors": [], "data": { "id": 1, "name": "Ana Pereira", "taxId": "123456789" } }
+#
+# repeat the same request -> still 200 OK, but the body says it failed
+# { "success": false,
+#   "errors": [ { "code": "conflict", "message": "A customer with tax id 123456789 already exists." } ],
+#   "data": null }
+```
+
+:::tip[Resultado esperado]
+HTTP 200  success: true   (cliente criado)
+HTTP 200  success: false  errors: conflict    (NIF repetido)
+HTTP 200  success: false  errors: validation  (NIF inválido)
+HTTP 200  success: true   (lista com 1 cliente)
+:::
+
+<details>
+<summary>Saber mais</summary>
+
+Ao fim do dia 1 tens uma aplicação pequena mas completa, de ponta a ponta: pedido HTTP, caso de uso, regra no Domain, gravação na base de dados e resposta. Tudo o que vem a seguir é repetir esta receita.
+
+Os três ficheiros mais importantes para perceber são o Program.cs (liga tudo), a DependencyInjection de cada camada (cada camada regista o que é seu) e o ExceptionMiddleware (traduz as exceções inesperadas em Response com erro).
+
+:::caution[Armadilha]
+Esquecer de registar um handler ou um repositório. O erro só aparece no primeiro pedido, quando o container não consegue criar o controller.
+:::
+
+:::tip[Experimenta]
+Apaga a linha do AddScoped do CreateCustomerHandler, corre o POST e lê a mensagem de erro. Depois volta a pô-la.
+:::
+
+</details>

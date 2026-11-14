@@ -1,0 +1,1881 @@
+---
+title: "Enunciado: user stories"
+description: "O catálogo de user stories que o banco quer. São mais do que consegues fazer: decide o que entra no teu plano."
+sidebar:
+  order: 4
+---
+
+**Dias 2 a 5.** O catálogo de user stories que o banco quer. São mais do que consegues fazer: decide o que entra no teu plano.
+
+Usa o que aprendeste em: [ASP.NET Core e Web API](../../dotnet/asp-net-core-e-web-api/), [Entity Framework Core](../../dotnet/entity-framework-core/), [Testes unitários](../../dotnet/testes-unitarios/), [Hands-on II: autorização](../../auth/hands-on-ii-autorizacao/).
+
+## Regras
+
+- Há mais user stories do que tempo. Não as tentes fazer todas: lê o enunciado até ao fim, estima e escolhe (Introdução ao Projeto Final).
+- Cada user story segue a mesma receita: regra no domain, caso de uso na application, repositório e migration na infrastructure, controller e dtos na api, testes e pedido no Bruno.
+- Todos os pedidos são POST, com os parâmetros no corpo JSON (RPC). O id do cliente vem sempre do token, nunca do pedido. Dinheiro é decimal com precisão (18,2) e as datas guardam-se em UTC.
+- A API é RPC: responde sempre HTTP 200 e o resultado vai no Response (success, data, errors). Os erros esperados devolvem-se com Error.NotFound, Error.Conflict, etc.; os erros de regras do Domain lançam DomainException.
+- Convenção do projeto: tudo são classes (sem records), uma classe por ficheiro e uma responsabilidade por classe.
+- Uma user story só está pronta com testes e um pedido na coleção do Bruno.
+- Se ficares bloqueado, abre o «Saber mais» da user story: tem uma pista de abordagem, sem a solução.
+
+## F1 · Gestão de contas
+
+Abrir, consultar e fechar as contas do cliente.
+
+### US1 · Abrir conta adicional
+
+Como cliente autenticado, quero abrir uma conta nova para separar o meu dinheiro.
+
+**Pedido:** `POST /api/accounts/open`  
+**Valor de negócio:** Alto  
+**Estimativa:** 3 pontos
+
+```json title="Corpo do pedido"
+{ "initialDeposit": 100.00 }
+```
+
+**Regras**
+
+- O número da conta é gerado pelo sistema e é único
+- O depósito inicial não pode ser negativo
+- Um cliente tem no máximo 5 contas ativas
+- O cliente vem do token, nunca do corpo do pedido
+
+| Resultado | Quando |
+| --- | --- |
+| success | Conta criada, com o número da conta nova em data |
+| validation | Depósito inicial negativo |
+| unauthorized | Sem token válido |
+| conflict | Já tem 5 contas ativas |
+
+**Critérios de aceitação**
+
+- [ ] A regra das 5 contas está no Domain ou no handler, e sei explicar porquê
+- [ ] A resposta traz o número da conta criada
+- [ ] Há testes ao limite (4, 5 e 6 contas)
+- [ ] O pedido está na coleção do Bruno
+
+<details>
+<summary>Pista de abordagem</summary>
+
+Pensa onde vive a regra «máximo de 5 contas». Se está no Customer (por exemplo, um método OpenAccount), o Domain protege-se a si próprio. Se está no handler, tens de repetir a verificação em todos os sítios que abram contas.
+
+:::tip[Experimenta]
+Escreve primeiro o teste que falha com a sexta conta e só depois a implementação.
+:::
+
+</details>
+
+<details>
+<summary>User story completa para o Azure DevOps</summary>
+
+```text title="Título"
+US1 · Abrir conta adicional
+```
+
+```text title="Descrição"
+Como cliente autenticado, quero abrir uma conta adicional, para separar o meu dinheiro por objetivos.
+
+O cliente pode ter várias contas no mesmo banco, por exemplo uma para despesas correntes e outra para poupança. O número da conta é gerado pelo sistema e o titular é sempre o cliente do token.
+
+Regras de negócio
+- O número da conta é gerado pelo sistema e é único
+- O depósito inicial não pode ser negativo
+- Um cliente tem no máximo 5 contas ativas
+- O cliente vem do token, nunca do corpo do pedido
+
+Fora do âmbito
+- Tipos de conta (ordem, poupança, a prazo)
+- Contas com mais do que um titular
+```
+
+```text title="Acceptance Criteria"
+Cenário 1: Abrir conta com depósito inicial
+Dado tenho 2 contas ativas
+Quando peço uma nova conta com depósito inicial de 100,00
+Então recebo success com o número da nova conta
+E a conta fica com saldo 100,00 e estado Active
+
+Cenário 2: Depósito inicial negativo
+Dado tenho sessão iniciada
+Quando peço uma conta com depósito inicial de -1
+Então recebo validation com o erro no campo do valor
+E nenhuma conta é criada
+
+Cenário 3: Limite de contas atingido
+Dado tenho 5 contas ativas
+Quando peço uma nova conta
+Então recebo conflict
+E continuo com 5 contas
+
+Cenário 4: Pedido sem token
+Dado não enviei o token JWT
+Quando peço uma nova conta
+Então recebo unauthorized
+```
+
+</details>
+
+### US2 · Consultar contas
+
+Como cliente, quero ver as minhas contas e o detalhe de cada uma.
+
+**Pedido:** `POST /api/accounts/list  ·  POST /api/accounts/get`  
+**Valor de negócio:** Alto  
+**Estimativa:** 2 pontos  
+**Depende de:** US1
+
+```json title="Corpo do pedido"
+{ "status": "Active" }
+```
+
+**Regras**
+
+- Só devolve contas do cliente autenticado
+- Uma conta de outro cliente responde not\_found, igual a uma conta inexistente
+- Filtro opcional status (Active ou Closed), enviado no corpo
+- O detalhe (get) recebe o número da conta no corpo: \{ "number": "AC-123456" \}
+- Ordenado por número
+
+| Resultado | Quando |
+| --- | --- |
+| success | Lista ou detalhe da conta |
+| unauthorized | Sem token válido |
+| not\_found | A conta não existe ou não é do cliente |
+
+**Critérios de aceitação**
+
+- [ ] Não é possível ver contas de outro cliente (testado)
+- [ ] O filtro por estado é feito na base de dados, não em memória
+- [ ] Usa AsNoTracking nas consultas
+- [ ] Os pedidos estão na coleção do Bruno
+
+<details>
+<summary>Pista de abordagem</summary>
+
+Responder not\_found em vez de forbidden para contas de outros clientes evita revelar que o número existe. O filtro construído com IQueryable só vai à base de dados no fim, por isso podes acrescentar o Where apenas quando o parâmetro vier preenchido.
+
+:::caution[Armadilha]
+Chamar ToList antes do Where traz todas as contas de todos os clientes para memória.
+:::
+
+</details>
+
+<details>
+<summary>User story completa para o Azure DevOps</summary>
+
+```text title="Título"
+US2 · Consultar contas
+```
+
+```text title="Descrição"
+Como cliente autenticado, quero ver as minhas contas e o detalhe de cada uma, para saber quanto tenho e onde.
+
+Listagem das contas do cliente, com filtro opcional por estado, e consulta do detalhe de uma conta pelo número. Uma conta que não é do cliente é indistinguível de uma conta que não existe.
+
+Regras de negócio
+- Só devolve contas do cliente autenticado
+- Uma conta de outro cliente responde not_found, igual a uma conta inexistente
+- Filtro opcional status (Active ou Closed), enviado no corpo
+- O detalhe (get) recebe o número da conta no corpo: { "number": "AC-123456" }
+- Ordenado por número
+
+Fora do âmbito
+- Pesquisa por texto
+- Paginação da lista de contas
+```
+
+```text title="Acceptance Criteria"
+Cenário 1: Listar as minhas contas
+Dado tenho 3 contas, uma delas fechada
+Quando peço a lista de contas
+Então recebo success com as 3 contas ordenadas por número
+
+Cenário 2: Filtrar por estado
+Dado tenho 3 contas, uma delas fechada
+Quando peço a lista com o filtro status Active
+Então recebo apenas as 2 contas ativas
+
+Cenário 3: Conta de outro cliente
+Dado a conta 123 pertence a outro cliente
+Quando peço o detalhe da conta 123
+Então recebo not_found, igual a uma conta inexistente
+```
+
+</details>
+
+### US3 · Fechar conta
+
+Como cliente, quero fechar uma conta que já não uso.
+
+**Pedido:** `POST /api/accounts/close`  
+**Valor de negócio:** Médio  
+**Estimativa:** 3 pontos  
+**Depende de:** US1
+
+```json title="Corpo do pedido"
+{ "number": "AC-123456" }
+```
+
+**Regras**
+
+- Só se o saldo for zero
+- Uma conta já fechada não pode voltar a ser fechada
+- Fechar não apaga: o estado passa a Closed
+- Não pode fechar a última conta ativa
+
+| Resultado | Quando |
+| --- | --- |
+| success | Conta fechada |
+| unauthorized | Sem token válido |
+| not\_found | A conta não existe ou não é do cliente |
+| conflict | Saldo diferente de zero, já fechada ou última conta ativa |
+
+**Critérios de aceitação**
+
+- [ ] A mudança de estado é um método da entidade Account
+- [ ] Cada uma das três regras tem um teste
+- [ ] O dashboard deixa de mostrar a conta fechada
+- [ ] O pedido está na coleção do Bruno
+
+<details>
+<summary>Pista de abordagem</summary>
+
+O estado só deve mudar por um método da própria Account (por exemplo, Close), que valida as regras. Assim, nenhum handler consegue fechar uma conta com saldo.
+
+</details>
+
+<details>
+<summary>User story completa para o Azure DevOps</summary>
+
+```text title="Título"
+US3 · Fechar conta
+```
+
+```text title="Descrição"
+Como cliente autenticado, quero fechar uma conta que já não uso, para manter apenas as contas de que preciso.
+
+Fechar não apaga a conta: o estado passa a Closed e o histórico mantém-se. Só é possível com saldo zero e nunca deixa o cliente sem contas ativas.
+
+Regras de negócio
+- Só se o saldo for zero
+- Uma conta já fechada não pode voltar a ser fechada
+- Fechar não apaga: o estado passa a Closed
+- Não pode fechar a última conta ativa
+
+Fora do âmbito
+- Reabrir contas fechadas
+- Transferir o saldo automaticamente antes de fechar
+```
+
+```text title="Acceptance Criteria"
+Cenário 1: Fechar conta sem saldo
+Dado tenho 2 contas ativas e a conta A tem saldo 0
+Quando fecho a conta A
+Então recebo success
+E a conta A fica Closed
+E o dashboard deixa de a mostrar
+
+Cenário 2: Conta com saldo
+Dado a conta A tem saldo 10,00
+Quando fecho a conta A
+Então recebo conflict
+E a conta continua Active
+
+Cenário 3: Última conta ativa
+Dado tenho apenas uma conta ativa
+Quando fecho essa conta
+Então recebo conflict
+
+Cenário 4: Conta já fechada
+Dado a conta A já está Closed
+Quando volto a fechar a conta A
+Então recebo conflict
+```
+
+</details>
+
+## F2 · Movimentos e extratos
+
+Depósitos, levantamentos, transferências e tudo o que se consulta sobre eles.
+
+### US4 · Depósito
+
+Como cliente, quero depositar dinheiro numa das minhas contas.
+
+**Pedido:** `POST /api/accounts/deposit`  
+**Valor de negócio:** Alto  
+**Estimativa:** 3 pontos  
+**Depende de:** US1
+
+```json title="Corpo do pedido"
+{ "number": "AC-123456", "amount": 250.00, "description": "Salary" }
+```
+
+**Regras**
+
+- Nova entidade Transaction: tipo, valor, saldo depois do movimento, descrição e data (UTC)
+- O valor tem de ser maior que zero e ter no máximo duas casas decimais
+- A conta tem de estar ativa
+- O saldo e a Transaction são gravados juntos, numa só chamada a SaveChanges
+
+| Resultado | Quando |
+| --- | --- |
+| success | Movimento criado, com o novo saldo |
+| validation | Valor inválido |
+| unauthorized | Sem token válido |
+| not\_found | A conta não existe ou não é do cliente |
+| conflict | Conta fechada |
+
+**Critérios de aceitação**
+
+- [ ] A entidade Transaction tem configuração e migration
+- [ ] Account.Deposit atualiza o saldo e o handler cria a Transaction
+- [ ] Há Theory para os valores inválidos (0, negativo, três casas)
+- [ ] O pedido está na coleção do Bruno
+
+<details>
+<summary>Pista de abordagem</summary>
+
+Pensa em quem cria a Transaction: o método Deposit da conta pode devolvê-la, para garantir que o saldo e o movimento nunca ficam desalinhados. O campo BalanceAfter permite reconstruir o extrato sem recalcular tudo.
+
+:::caution[Armadilha]
+Fazer duas gravações separadas (saldo e movimento). Se a segunda falhar, ficas com dinheiro sem movimento.
+:::
+
+</details>
+
+<details>
+<summary>User story completa para o Azure DevOps</summary>
+
+```text title="Título"
+US4 · Depósito
+```
+
+```text title="Descrição"
+Como cliente autenticado, quero depositar dinheiro numa das minhas contas, para aumentar o saldo disponível.
+
+Cada depósito atualiza o saldo e cria uma Transaction com o saldo depois do movimento. As duas alterações são gravadas na mesma chamada a SaveChanges.
+
+Regras de negócio
+- Nova entidade Transaction: tipo, valor, saldo depois do movimento, descrição e data (UTC)
+- O valor tem de ser maior que zero e ter no máximo duas casas decimais
+- A conta tem de estar ativa
+- O saldo e a Transaction são gravados juntos, numa só chamada a SaveChanges
+
+Fora do âmbito
+- Depósito por cheque ou multibanco
+- Comissões
+```
+
+```text title="Acceptance Criteria"
+Cenário 1: Depósito válido
+Dado a conta A tem saldo 100,00
+Quando deposito 50,00
+Então recebo success com o novo saldo 150,00
+E fica registada uma Transaction do tipo Deposit com saldo depois 150,00
+
+Cenário 2: Valor inválido
+Dado tenho sessão iniciada
+Quando deposito 0, -5 ou 10,001
+Então recebo validation em todos os casos
+E o saldo não muda
+
+Cenário 3: Conta fechada
+Dado a conta A está Closed
+Quando deposito 10,00
+Então recebo conflict
+
+Cenário 4: Conta de outro cliente
+Dado a conta B não é minha
+Quando deposito 10,00 na conta B
+Então recebo not_found
+```
+
+</details>
+
+### US5 · Levantamento
+
+Como cliente, quero levantar dinheiro de uma das minhas contas.
+
+**Pedido:** `POST /api/accounts/withdraw`  
+**Valor de negócio:** Alto  
+**Estimativa:** 5 pontos  
+**Depende de:** US4
+
+```json title="Corpo do pedido"
+{ "number": "AC-123456", "amount": 80.00, "description": "ATM" }
+```
+
+**Regras**
+
+- As regras de valor e de conta ativa do depósito aplicam-se aqui
+- Não pode ficar com saldo negativo: erro conflict próprio («Insufficient funds»)
+- Limite diário de 500 € por conta, somando os levantamentos do dia (UTC)
+- A soma do dia é calculada na base de dados
+
+| Resultado | Quando |
+| --- | --- |
+| success | Movimento criado, com o novo saldo |
+| validation | Valor inválido |
+| unauthorized | Sem token válido |
+| not\_found | A conta não existe ou não é do cliente |
+| conflict | Saldo insuficiente, limite diário ou conta fechada |
+
+**Critérios de aceitação**
+
+- [ ] O saldo insuficiente é devolvido como Response.Fail, sem lançar exceção
+- [ ] O limite diário usa SumAsync na base de dados
+- [ ] Há testes ao limite exato (500 permitido, 500,01 recusado)
+- [ ] O pedido está na coleção do Bruno
+
+<details>
+<summary>Pista de abordagem</summary>
+
+Para o limite diário precisas de uma consulta ao repositório (por exemplo, a soma dos levantamentos de hoje). Define esse método no contrato da Application e implementa-o na Infrastructure com Where e SumAsync.
+
+:::tip[Experimenta]
+Faz dois levantamentos de 300 € seguidos e confirma que o segundo é recusado.
+:::
+
+</details>
+
+<details>
+<summary>User story completa para o Azure DevOps</summary>
+
+```text title="Título"
+US5 · Levantamento
+```
+
+```text title="Descrição"
+Como cliente autenticado, quero levantar dinheiro de uma das minhas contas, para dispor do meu dinheiro quando preciso.
+
+O levantamento reutiliza as regras de valor e de conta ativa do depósito e acrescenta duas: saldo suficiente e limite diário, calculado na base de dados.
+
+Regras de negócio
+- As regras de valor e de conta ativa do depósito aplicam-se aqui
+- Não pode ficar com saldo negativo: erro conflict próprio («Insufficient funds»)
+- Limite diário de 500 € por conta, somando os levantamentos do dia (UTC)
+- A soma do dia é calculada na base de dados
+
+Fora do âmbito
+- Levantamento em caixa automático
+- Limites diferentes por conta (ver US6)
+```
+
+```text title="Acceptance Criteria"
+Cenário 1: Levantamento válido
+Dado a conta A tem saldo 200,00
+Quando levanto 50,00
+Então recebo success com o novo saldo 150,00
+E fica registada uma Transaction do tipo Withdrawal
+
+Cenário 2: Saldo insuficiente
+Dado a conta A tem saldo 20,00
+Quando levanto 50,00
+Então recebo conflict com a mensagem «Insufficient funds»
+E o saldo não muda
+
+Cenário 3: Limite diário no limite exato
+Dado já levantei 450,00 hoje
+Quando levanto 50,00
+Então recebo success
+
+Cenário 4: Limite diário excedido
+Dado já levantei 450,00 hoje
+Quando levanto 50,01
+Então recebo conflict
+```
+
+</details>
+
+### US6 · Limites por conta
+
+Como cliente, quero definir o meu limite diário de levantamentos.
+
+**Pedido:** `POST /api/accounts/set-daily-limit`  
+**Valor de negócio:** Baixo  
+**Estimativa:** 3 pontos  
+**Depende de:** US5
+
+```json title="Corpo do pedido"
+{ "number": "AC-123456", "dailyWithdrawal": 300.00 }
+```
+
+**Regras**
+
+- Por omissão é 500 €
+- Tem de estar entre 50 € e 2 000 €
+- A US5 passa a usar o limite da conta em vez do valor fixo
+- Baixar o limite aplica-se logo; subir só tem efeito no dia seguinte
+
+| Resultado | Quando |
+| --- | --- |
+| success | Limite alterado |
+| validation | Fora dos valores permitidos |
+| unauthorized | Sem token válido |
+| not\_found | Conta inexistente ou de outro cliente |
+
+**Critérios de aceitação**
+
+- [ ] Há migration para o novo campo, com valor por omissão
+- [ ] A regra «subir só no dia seguinte» tem teste
+- [ ] A US5 continua a passar nos testes
+
+<details>
+<summary>Pista de abordagem</summary>
+
+Acrescentar uma coluna a uma tabela com dados exige um valor por omissão na migration. Lê a migration que o EF gera antes de a aplicar.
+
+</details>
+
+<details>
+<summary>User story completa para o Azure DevOps</summary>
+
+```text title="Título"
+US6 · Limites por conta
+```
+
+```text title="Descrição"
+Como cliente autenticado, quero definir o meu limite diário de levantamentos, para controlar o risco em caso de perda ou roubo do cartão.
+
+Cada conta passa a ter o seu limite diário, entre 50 € e 2 000 €. Baixar o limite aplica-se logo; subir só tem efeito no dia seguinte.
+
+Regras de negócio
+- Por omissão é 500 €
+- Tem de estar entre 50 € e 2 000 €
+- A US5 passa a usar o limite da conta em vez do valor fixo
+- Baixar o limite aplica-se logo; subir só tem efeito no dia seguinte
+
+Fora do âmbito
+- Limites por tipo de operação
+- Limites mais altos com autorização
+```
+
+```text title="Acceptance Criteria"
+Cenário 1: Baixar o limite
+Dado o limite atual é 500,00
+Quando defino 200,00
+Então recebo success
+E o novo limite aplica-se de imediato
+
+Cenário 2: Subir o limite
+Dado o limite atual é 500,00
+Quando defino 1 000,00
+Então recebo success
+E o novo limite só tem efeito no dia seguinte
+
+Cenário 3: Fora do intervalo
+Dado tenho sessão iniciada
+Quando defino 10,00 ou 5 000,00
+Então recebo validation
+
+Cenário 4: Regressão do levantamento
+Dado o limite da conta é 300,00
+Quando levanto 300,01
+Então recebo conflict
+```
+
+</details>
+
+### US7 · Transferência entre contas
+
+Como cliente, quero transferir dinheiro de uma das minhas contas para outra conta do banco.
+
+**Pedido:** `POST /api/transfers/create`  
+**Valor de negócio:** Alto  
+**Estimativa:** 5 pontos  
+**Depende de:** US5
+
+```json title="Corpo do pedido"
+{ "fromAccount": "AC-123456", "toAccount": "AC-654321", "amount": 50.00, "description": "Rent" }
+```
+
+**Regras**
+
+- A origem tem de ser do cliente autenticado; o destino pode ser de qualquer cliente
+- Origem e destino têm de ser diferentes e ambos ativos
+- As regras de saldo e de limite diário da origem aplicam-se
+- Cria duas Transaction (saída e entrada) e grava tudo numa só chamada a SaveChanges
+- Se algo falhar, nada é gravado
+
+| Resultado | Quando |
+| --- | --- |
+| success | Transferência feita, com o novo saldo da origem |
+| validation | Valor inválido ou contas iguais |
+| unauthorized | Sem token válido |
+| not\_found | Origem não é do cliente ou destino não existe |
+| conflict | Saldo insuficiente, limite diário ou conta fechada |
+
+**Critérios de aceitação**
+
+- [ ] Os dois movimentos e os dois saldos mudam na mesma gravação
+- [ ] Há um teste que prova que, se a regra falha, nenhum saldo muda
+- [ ] O destino inexistente devolve o erro not\_found
+- [ ] O pedido está na coleção do Bruno
+
+<details>
+<summary>Pista de abordagem</summary>
+
+O SaveChangesAsync grava tudo o que o DbContext está a acompanhar numa única transação. Se carregares as duas contas e alterares os dois saldos antes de gravar, ou grava tudo ou não grava nada. Reutiliza os métodos de depósito e levantamento das entidades.
+
+:::caution[Armadilha]
+Gravar a origem e depois o destino em chamadas separadas. Se a segunda falhar, o dinheiro desaparece.
+:::
+
+</details>
+
+<details>
+<summary>User story completa para o Azure DevOps</summary>
+
+```text title="Título"
+US7 · Transferência entre contas
+```
+
+```text title="Descrição"
+Como cliente autenticado, quero transferir dinheiro de uma das minhas contas para outra conta do banco, para pagar a outras pessoas e mover dinheiro entre as minhas contas.
+
+Uma transferência é uma operação atómica: debita a origem, credita o destino e cria duas Transaction. Se qualquer regra falhar, nenhum saldo muda.
+
+Regras de negócio
+- A origem tem de ser do cliente autenticado; o destino pode ser de qualquer cliente
+- Origem e destino têm de ser diferentes e ambos ativos
+- As regras de saldo e de limite diário da origem aplicam-se
+- Cria duas Transaction (saída e entrada) e grava tudo numa só chamada a SaveChanges
+- Se algo falhar, nada é gravado
+
+Fora do âmbito
+- Transferências para outros bancos
+- Transferências agendadas
+```
+
+```text title="Acceptance Criteria"
+Cenário 1: Transferência válida
+Dado a conta A tem 200,00 e a conta B tem 0
+Quando transfiro 50,00 da A para a B
+Então recebo success
+E A fica com 150,00 e B com 50,00
+E ficam duas Transaction (saída e entrada)
+
+Cenário 2: Origem igual ao destino
+Dado tenho sessão iniciada
+Quando transfiro da conta A para a conta A
+Então recebo validation
+
+Cenário 3: Destino inexistente
+Dado o número de destino não existe
+Quando peço a transferência
+Então recebo not_found
+E nenhum saldo muda
+
+Cenário 4: Falha a meio
+Dado a origem não tem saldo suficiente
+Quando peço a transferência
+Então recebo conflict
+E nenhum saldo nem Transaction foram gravados
+```
+
+</details>
+
+### US8 · Cancelar transferência
+
+Como cliente, quero cancelar uma transferência que fiz por engano.
+
+**Pedido:** `POST /api/transfers/reverse`  
+**Valor de negócio:** Baixo  
+**Estimativa:** 5 pontos  
+**Depende de:** US7
+
+```json title="Corpo do pedido"
+{ "transferId": 17 }
+```
+
+**Regras**
+
+- Só nos 5 minutos seguintes à transferência
+- Só quem a fez a pode cancelar
+- O destino tem de ter saldo para devolver
+- Cria dois movimentos de estorno e marca a transferência como Reversed
+- Não se cancela duas vezes
+- Pede que a US7 guarde um identificador comum (TransferId) nos dois movimentos
+
+| Resultado | Quando |
+| --- | --- |
+| success | Estorno feito |
+| unauthorized | Sem token válido |
+| not\_found | Transferência inexistente ou de outro cliente |
+| conflict | Fora do prazo, já cancelada ou destino sem saldo |
+
+**Critérios de aceitação**
+
+- [ ] O prazo vem de configuração e não está escrito no código
+- [ ] Há teste ao limite dos 5 minutos
+- [ ] Tudo grava numa só chamada a SaveChanges
+- [ ] Pedido na coleção do Bruno
+
+<details>
+<summary>Pista de abordagem</summary>
+
+O relógio é uma dependência. Se o handler chamar DateTime.UtcNow diretamente, é impossível testar «passaram 5 minutos». Pensa numa interface pequena para a hora atual que consegues substituir num teste.
+
+:::caution[Armadilha]
+Testes que usam Thread.Sleep ou datas escritas à mão que deixam de funcionar daqui a um ano.
+:::
+
+</details>
+
+<details>
+<summary>User story completa para o Azure DevOps</summary>
+
+```text title="Título"
+US8 · Cancelar transferência
+```
+
+```text title="Descrição"
+Como cliente autenticado, quero cancelar uma transferência que fiz por engano, para recuperar o dinheiro enviado por erro.
+
+O estorno só é possível durante uma janela curta, configurável, e apenas se o destino ainda tiver saldo. Cria dois movimentos de estorno e marca a transferência como Reversed.
+
+Regras de negócio
+- Só nos 5 minutos seguintes à transferência
+- Só quem a fez a pode cancelar
+- O destino tem de ter saldo para devolver
+- Cria dois movimentos de estorno e marca a transferência como Reversed
+- Não se cancela duas vezes
+- Pede que a US7 guarde um identificador comum (TransferId) nos dois movimentos
+
+Fora do âmbito
+- Estorno parcial
+- Aprovação do destinatário
+```
+
+```text title="Acceptance Criteria"
+Cenário 1: Estorno dentro do prazo
+Dado fiz uma transferência há 2 minutos
+E o destino tem saldo suficiente
+Quando peço o estorno
+Então recebo success
+E os saldos voltam ao valor anterior
+E a transferência fica Reversed
+
+Cenário 2: Fora do prazo
+Dado a transferência tem 6 minutos
+Quando peço o estorno
+Então recebo conflict
+
+Cenário 3: Transferência de outro cliente
+Dado a transferência foi feita por outro cliente
+Quando peço o estorno
+Então recebo not_found
+
+Cenário 4: Segundo estorno
+Dado a transferência já está Reversed
+Quando peço o estorno outra vez
+Então recebo conflict
+```
+
+</details>
+
+### US9 · Extrato com filtros e paginação
+
+Como cliente, quero consultar os movimentos de uma conta, filtrando por tipo e datas.
+
+**Pedido:** `POST /api/accounts/list-transactions`  
+**Valor de negócio:** Alto  
+**Estimativa:** 5 pontos  
+**Depende de:** US4
+
+```json title="Corpo do pedido"
+{ "number": "AC-123456", "type": "Deposit", "from": "2026-01-01", "to": "2026-01-31", "page": 1, "pageSize": 20 }
+```
+
+**Regras**
+
+- Ordenado do mais recente para o mais antigo
+- Filtros opcionais: tipo, data inicial e data final
+- Paginação: página 1 por omissão, 20 por página por omissão, máximo 100
+- A resposta inclui os itens, o total, a página e o tamanho da página
+- Consulta só de leitura, com o filtro e a paginação feitos na base de dados
+
+| Resultado | Quando |
+| --- | --- |
+| success | Página de movimentos |
+| validation | pageSize acima de 100 ou datas trocadas |
+| unauthorized | Sem token válido |
+| not\_found | A conta não existe ou não é do cliente |
+
+**Critérios de aceitação**
+
+- [ ] Usa IQueryable: Where condicional, OrderByDescending, Skip e Take
+- [ ] O total vem de uma consulta Count, não de carregar tudo
+- [ ] Usa AsNoTracking
+- [ ] O pedido está na coleção do Bruno
+
+<details>
+<summary>Pista de abordagem</summary>
+
+Constrói a consulta por partes: começa com os movimentos da conta, acrescenta cada Where só se o filtro vier preenchido, faz o Count, e só no fim aplica o Skip e o Take. Nada corre na base de dados até ao ToListAsync e ao CountAsync.
+
+:::caution[Armadilha]
+Aplicar a paginação em memória, depois de ToList.
+:::
+
+</details>
+
+<details>
+<summary>User story completa para o Azure DevOps</summary>
+
+```text title="Título"
+US9 · Extrato com filtros e paginação
+```
+
+```text title="Descrição"
+Como cliente autenticado, quero consultar os movimentos de uma conta, filtrando por tipo e datas, para perceber para onde foi o meu dinheiro.
+
+Consulta só de leitura, ordenada do mais recente para o mais antigo, com filtros opcionais e paginação. O filtro e a paginação são feitos na base de dados.
+
+Regras de negócio
+- Ordenado do mais recente para o mais antigo
+- Filtros opcionais: tipo, data inicial e data final
+- Paginação: página 1 por omissão, 20 por página por omissão, máximo 100
+- A resposta inclui os itens, o total, a página e o tamanho da página
+- Consulta só de leitura, com o filtro e a paginação feitos na base de dados
+
+Fora do âmbito
+- Pesquisa por descrição
+- Exportação (ver US11)
+```
+
+```text title="Acceptance Criteria"
+Cenário 1: Primeira página por omissão
+Dado a conta A tem 45 movimentos
+Quando peço o extrato sem parâmetros
+Então recebo os 20 movimentos mais recentes
+E total 45, página 1, tamanho 20
+
+Cenário 2: Filtrar por tipo e datas
+Dado a conta A tem depósitos e levantamentos
+Quando filtro por type Deposit, com from e to
+Então recebo apenas depósitos dentro do intervalo
+
+Cenário 3: Tamanho de página acima do máximo
+Dado tenho sessão iniciada
+Quando envio pageSize 500
+Então recebo validation
+
+Cenário 4: Conta de outro cliente
+Dado a conta B não é minha
+Quando peço o extrato da conta B
+Então recebo not_found
+```
+
+</details>
+
+### US10 · Dashboard completo
+
+Como cliente, quero ver no dashboard o que se passou no último mês.
+
+**Pedido:** `POST /api/dashboard/retrieve`  
+**Valor de negócio:** Médio  
+**Estimativa:** 5 pontos  
+**Depende de:** US4, US9
+
+**Regras**
+
+- Acrescenta os últimos 5 movimentos de todas as contas, do mais recente para o mais antigo
+- Acrescenta o total depositado e o total levantado no mês corrente
+- As transferências contam como depósito e levantamento
+- O número de consultas à base de dados é fixo e não cresce com o número de contas
+
+| Resultado | Quando |
+| --- | --- |
+| success | Dashboard completo |
+| unauthorized | Sem token válido |
+
+**Critérios de aceitação**
+
+- [ ] Não há consulta dentro de um ciclo (sem N+1)
+- [ ] Os totais são calculados na base de dados
+- [ ] A resposta antiga continua válida (campos novos, nenhum removido)
+- [ ] O pedido está na coleção do Bruno
+
+<details>
+<summary>Pista de abordagem</summary>
+
+Pede ao repositório os movimentos já filtrados (clientes, mês) e agrega com GroupBy e Sum. Se tiveres de fazer uma consulta por conta, estás a cair no N+1.
+
+</details>
+
+<details>
+<summary>User story completa para o Azure DevOps</summary>
+
+```text title="Título"
+US10 · Dashboard completo
+```
+
+```text title="Descrição"
+Como cliente autenticado, quero ver no dashboard o que se passou no último mês, para ter uma visão rápida das minhas finanças.
+
+O dashboard passa a incluir os últimos 5 movimentos e os totais depositado e levantado no mês corrente. O número de consultas à base de dados é fixo, independentemente do número de contas.
+
+Regras de negócio
+- Acrescenta os últimos 5 movimentos de todas as contas, do mais recente para o mais antigo
+- Acrescenta o total depositado e o total levantado no mês corrente
+- As transferências contam como depósito e levantamento
+- O número de consultas à base de dados é fixo e não cresce com o número de contas
+
+Fora do âmbito
+- Gráficos
+- Comparação com meses anteriores
+```
+
+```text title="Acceptance Criteria"
+Cenário 1: Dashboard completo
+Dado tenho 3 contas com movimentos este mês
+Quando abro o dashboard
+Então vejo as contas e os saldos
+E vejo os 5 movimentos mais recentes de todas as contas
+E vejo o total depositado e o total levantado no mês
+
+Cenário 2: Transferências nos totais
+Dado fiz uma transferência este mês
+Quando abro o dashboard
+Então a saída conta como levantamento e a entrada como depósito
+
+Cenário 3: Compatibilidade
+Dado o cliente da API usa os campos antigos
+Quando abro o dashboard
+Então os campos antigos continuam presentes e inalterados
+```
+
+</details>
+
+### US11 · Exportar extrato em CSV
+
+Como cliente, quero descarregar o extrato para abrir numa folha de cálculo.
+
+**Pedido:** `POST /api/accounts/export-transactions`  
+**Valor de negócio:** Baixo  
+**Estimativa:** 3 pontos  
+**Depende de:** US9
+
+```json title="Corpo do pedido"
+{ "number": "AC-123456", "from": "2026-01-01", "to": "2026-12-31" }
+```
+
+**Regras**
+
+- Usa os mesmos filtros da US9
+- Máximo de 12 meses por pedido
+- Colunas: data, tipo, descrição, valor, saldo depois
+- Content-Type text/csv e nome de ficheiro no Content-Disposition
+- Valores com ponto decimal, datas em ISO 8601
+
+| Resultado | Quando |
+| --- | --- |
+| success | Ficheiro CSV |
+| validation | Intervalo acima de 12 meses |
+| unauthorized | Sem token válido |
+| not\_found | Conta inexistente ou de outro cliente |
+
+**Critérios de aceitação**
+
+- [ ] Descrições com vírgulas e aspas ficam bem escapadas
+- [ ] O ficheiro abre corretamente numa folha de cálculo
+- [ ] Pedido na coleção do Bruno
+
+<details>
+<summary>Pista de abordagem</summary>
+
+Escrever CSV à mão parece trivial até uma descrição ter uma vírgula ou aspas. Decide como tratas esses casos antes de escreveres o código.
+
+</details>
+
+<details>
+<summary>User story completa para o Azure DevOps</summary>
+
+```text title="Título"
+US11 · Exportar extrato em CSV
+```
+
+```text title="Descrição"
+Como cliente autenticado, quero descarregar o extrato para abrir numa folha de cálculo, para arquivar e analisar os meus movimentos.
+
+Usa os mesmos filtros da US9 e devolve um ficheiro CSV. O período máximo por pedido é de 12 meses.
+
+Regras de negócio
+- Usa os mesmos filtros da US9
+- Máximo de 12 meses por pedido
+- Colunas: data, tipo, descrição, valor, saldo depois
+- Content-Type text/csv e nome de ficheiro no Content-Disposition
+- Valores com ponto decimal, datas em ISO 8601
+
+Fora do âmbito
+- Exportação em PDF ou Excel
+- Envio do extrato por email
+```
+
+```text title="Acceptance Criteria"
+Cenário 1: Exportar
+Dado a conta A tem movimentos
+Quando peço a exportação com from e to
+Então recebo um ficheiro text/csv
+E o nome do ficheiro vem no Content-Disposition
+
+Cenário 2: Escape de caracteres
+Dado uma descrição contém vírgulas e aspas
+Quando exporto o extrato
+Então o CSV mantém essa descrição numa única célula
+
+Cenário 3: Período excessivo
+Dado tenho sessão iniciada
+Quando peço um intervalo de 13 meses
+Então recebo validation
+
+Cenário 4: Formatos
+Dado exportei o extrato
+Quando abro o ficheiro
+Então os valores usam ponto decimal e as datas ISO 8601
+```
+
+</details>
+
+## F3 · Pagamentos
+
+Pagar a quem se deve: beneficiários guardados e serviços por entidade e referência.
+
+### US12 · Beneficiários
+
+Como cliente, quero guardar os dados de quem pago com frequência.
+
+**Pedido:** `POST /api/beneficiaries/add  ·  POST /api/beneficiaries/list  ·  POST /api/beneficiaries/remove`  
+**Valor de negócio:** Médio  
+**Estimativa:** 3 pontos  
+**Depende de:** US1
+
+```json title="Corpo do pedido"
+{ "name": "Landlord", "accountNumber": "AC-654321" }
+```
+
+**Regras**
+
+- A conta de destino tem de existir e estar ativa
+- Cada cliente só vê e apaga os seus beneficiários
+- Não pode repetir o mesmo número de conta no mesmo cliente
+- Uma conta própria não pode ser beneficiária
+
+| Resultado | Quando |
+| --- | --- |
+| success | Beneficiário criado |
+| success | Lista dos meus beneficiários |
+| success | Beneficiário apagado |
+| validation | Conta própria |
+| unauthorized | Sem token válido |
+| not\_found | Conta inexistente ou beneficiário de outro cliente |
+| conflict | Já existe |
+
+**Critérios de aceitação**
+
+- [ ] Há índice único (cliente, conta) na base de dados
+- [ ] O not\_found não revela beneficiários de outros
+- [ ] Testes às quatro regras
+- [ ] Pedidos na coleção do Bruno
+
+<details>
+<summary>Pista de abordagem</summary>
+
+Duas pessoas podem ter o mesmo beneficiário, por isso a unicidade é por cliente. Pensa se a verificação é só no handler ou também no índice da base de dados: se duas chamadas chegarem ao mesmo tempo, quem protege?
+
+</details>
+
+<details>
+<summary>User story completa para o Azure DevOps</summary>
+
+```text title="Título"
+US12 · Beneficiários
+```
+
+```text title="Descrição"
+Como cliente autenticado, quero guardar os dados de quem pago com frequência, para pagar mais depressa e sem repetir números de conta.
+
+Um beneficiário é uma conta de destino guardada com um nome. Cada cliente só vê e gere os seus beneficiários.
+
+Regras de negócio
+- A conta de destino tem de existir e estar ativa
+- Cada cliente só vê e apaga os seus beneficiários
+- Não pode repetir o mesmo número de conta no mesmo cliente
+- Uma conta própria não pode ser beneficiária
+
+Fora do âmbito
+- Transferir diretamente a partir do beneficiário
+- Editar o nome do beneficiário
+```
+
+```text title="Acceptance Criteria"
+Cenário 1: Adicionar beneficiário
+Dado a conta de destino existe e está Active
+Quando adiciono o beneficiário «Senhorio»
+Então recebo success
+E o beneficiário aparece na minha lista
+
+Cenário 2: Beneficiário repetido
+Dado já tenho a conta X como beneficiária
+Quando adiciono outra vez a conta X
+Então recebo conflict
+
+Cenário 3: Conta própria
+Dado a conta A é minha
+Quando adiciono a conta A como beneficiária
+Então recebo validation
+
+Cenário 4: Apagar beneficiário de outro cliente
+Dado o beneficiário 9 é de outro cliente
+Quando peço para o apagar
+Então recebo not_found
+E o beneficiário continua a existir
+```
+
+</details>
+
+### US13 · Pagamento de serviços
+
+Como cliente, quero pagar uma fatura com a entidade e a referência.
+
+**Pedido:** `POST /api/payments/pay`  
+**Valor de negócio:** Médio  
+**Estimativa:** 5 pontos  
+**Depende de:** US5
+
+```json title="Corpo do pedido"
+{ "accountNumber": "AC-123456", "entity": "21312", "reference": "123456789", "amount": 45.20 }
+```
+
+**Regras**
+
+- A entidade tem 5 dígitos e a referência 9
+- A mesma entidade e referência não podem ser pagas duas vezes
+- Segue as regras do levantamento (saldo, conta ativa e limite diário)
+- Cria um movimento do tipo Payment com a entidade e a referência
+
+| Resultado | Quando |
+| --- | --- |
+| success | Pagamento feito |
+| validation | Entidade ou referência inválidas |
+| unauthorized | Sem token válido |
+| not\_found | Conta inexistente ou de outro cliente |
+| conflict | Já pago, saldo insuficiente ou limite diário |
+
+**Critérios de aceitação**
+
+- [ ] Há índice único (entidade, referência)
+- [ ] As regras de levantamento não foram duplicadas
+- [ ] Testes às validações
+- [ ] Pedido na coleção do Bruno
+
+<details>
+<summary>Pista de abordagem</summary>
+
+Antes de copiares as regras do levantamento, pensa se as consegues partilhar: um método da conta que ambos os casos de uso usam evita ter a mesma regra em dois sítios.
+
+</details>
+
+<details>
+<summary>User story completa para o Azure DevOps</summary>
+
+```text title="Título"
+US13 · Pagamento de serviços
+```
+
+```text title="Descrição"
+Como cliente autenticado, quero pagar uma fatura com a entidade e a referência, para pagar serviços sem sair da aplicação.
+
+O pagamento segue as regras do levantamento (saldo, conta ativa, limite diário) e regista a entidade e a referência no movimento Payment.
+
+Regras de negócio
+- A entidade tem 5 dígitos e a referência 9
+- A mesma entidade e referência não podem ser pagas duas vezes
+- Segue as regras do levantamento (saldo, conta ativa e limite diário)
+- Cria um movimento do tipo Payment com a entidade e a referência
+
+Fora do âmbito
+- Validar a referência com a entidade
+- Pagamentos agendados
+```
+
+```text title="Acceptance Criteria"
+Cenário 1: Pagamento válido
+Dado a conta A tem saldo suficiente
+Quando pago a entidade de 5 dígitos com a referência de 9 dígitos
+Então recebo success
+E fica uma Transaction do tipo Payment com a entidade e a referência
+
+Cenário 2: Formato inválido
+Dado tenho sessão iniciada
+Quando envio uma entidade com 4 dígitos
+Então recebo validation
+
+Cenário 3: Fatura já paga
+Dado já paguei esta entidade e referência
+Quando pago de novo
+Então recebo conflict
+
+Cenário 4: Saldo insuficiente
+Dado a conta A não tem saldo
+Quando pago uma fatura
+Então recebo conflict e o saldo não muda
+```
+
+</details>
+
+## F4 · Poupança e crédito
+
+Juros sobre o saldo e empréstimos, da simulação ao pedido.
+
+### US14 · Juros
+
+Como cliente, quero ver e receber os juros da minha conta.
+
+**Pedido:** `POST /api/accounts/get-interest  ·  POST /api/accounts/apply-interest`  
+**Valor de negócio:** Médio  
+**Estimativa:** 5 pontos  
+**Depende de:** US4
+
+```json title="Corpo do pedido"
+{ "number": "AC-123456" }
+```
+
+**Regras**
+
+- Usa IInterestCalculator, com StandardInterest (1 % ao ano) e PromoInterest(taxa)
+- A taxa é escolhida por configuração (IOptions)
+- Juros mensais = saldo × taxa ÷ 12, arredondados a 2 casas decimais
+- Aplicar cria um movimento de depósito do tipo Interest
+- Só pode aplicar-se uma vez por mês
+- Conta fechada não recebe juros
+
+| Resultado | Quando |
+| --- | --- |
+| success | Juros calculados |
+| success | Juros aplicados |
+| unauthorized | Sem token válido |
+| not\_found | Conta inexistente ou de outro cliente |
+| conflict | Já aplicados este mês ou conta fechada |
+
+**Critérios de aceitação**
+
+- [ ] A estratégia é injetada pelo container, não criada com new
+- [ ] Theory com vários saldos e taxas
+- [ ] O arredondamento tem um teste
+- [ ] Pedidos na coleção do Bruno
+
+<details>
+<summary>Pista de abordagem</summary>
+
+É o padrão Strategy que viste no módulo C#: a mesma interface com várias implementações. A escolha entre Standard e Promo faz-se no registo do container, e o handler nem sabe qual está a usar.
+
+</details>
+
+<details>
+<summary>User story completa para o Azure DevOps</summary>
+
+```text title="Título"
+US14 · Juros
+```
+
+```text title="Descrição"
+Como cliente autenticado, quero ver e receber os juros da minha conta, para ser remunerado pelo dinheiro que mantenho no banco.
+
+O cálculo dos juros é uma estratégia (IInterestCalculator) escolhida por configuração. Os juros mensais são saldo × taxa ÷ 12, arredondados a duas casas decimais, e só podem ser aplicados uma vez por mês.
+
+Regras de negócio
+- Usa IInterestCalculator, com StandardInterest (1 % ao ano) e PromoInterest(taxa)
+- A taxa é escolhida por configuração (IOptions)
+- Juros mensais = saldo × taxa ÷ 12, arredondados a 2 casas decimais
+- Aplicar cria um movimento de depósito do tipo Interest
+- Só pode aplicar-se uma vez por mês
+- Conta fechada não recebe juros
+
+Fora do âmbito
+- Capitalização diária
+- Execução automática por job agendado
+```
+
+```text title="Acceptance Criteria"
+Cenário 1: Simular juros
+Dado a conta A tem saldo 1 200,00 e a taxa é 1 % ao ano
+Quando consulto os juros
+Então vejo 1,00 de juros mensais
+
+Cenário 2: Aplicar juros
+Dado ainda não apliquei juros este mês
+Quando peço para aplicar os juros
+Então recebo success
+E fica uma Transaction do tipo Interest
+E o saldo aumenta
+
+Cenário 3: Segunda aplicação no mês
+Dado já apliquei juros este mês
+Quando peço para aplicar outra vez
+Então recebo conflict
+
+Cenário 4: Conta fechada
+Dado a conta A está Closed
+Quando peço para aplicar juros
+Então recebo conflict
+```
+
+</details>
+
+### US15 · Simulador de empréstimo
+
+Como cliente, quero saber quanto pagaria por um empréstimo antes de o pedir.
+
+**Pedido:** `POST /api/loans/simulate`  
+**Valor de negócio:** Baixo  
+**Estimativa:** 3 pontos
+
+```json title="Corpo do pedido"
+{ "amount": 10000.00, "months": 24 }
+```
+
+**Regras**
+
+- Valor entre 500 € e 50 000 €, prazo entre 6 e 84 meses
+- A taxa anual depende do prazo, lida da configuração
+- Calcula prestação mensal, total de juros e total a pagar
+- Usa uma interface ILoanCalculator
+- Não grava nada
+
+| Resultado | Quando |
+| --- | --- |
+| success | Simulação |
+| validation | Valores fora dos limites |
+| unauthorized | Sem token válido |
+
+**Critérios de aceitação**
+
+- [ ] A fórmula da prestação tem testes com valores conhecidos
+- [ ] A taxa não está no código
+- [ ] Todos os valores arredondados a 2 casas
+- [ ] Pedido na coleção do Bruno
+
+<details>
+<summary>Pista de abordagem</summary>
+
+A prestação constante usa a fórmula P = V × i ÷ (1 − (1 + i)^−n), com i a taxa mensal. Confirma com um exemplo que consigas calcular à mão antes de escreveres o teste.
+
+</details>
+
+<details>
+<summary>User story completa para o Azure DevOps</summary>
+
+```text title="Título"
+US15 · Simulador de empréstimo
+```
+
+```text title="Descrição"
+Como cliente autenticado, quero saber quanto pagaria por um empréstimo antes de o pedir, para decidir com informação.
+
+Simulação sem efeitos: calcula prestação mensal, total de juros e total a pagar. A taxa anual depende do prazo e vem da configuração.
+
+Regras de negócio
+- Valor entre 500 € e 50 000 €, prazo entre 6 e 84 meses
+- A taxa anual depende do prazo, lida da configuração
+- Calcula prestação mensal, total de juros e total a pagar
+- Usa uma interface ILoanCalculator
+- Não grava nada
+
+Fora do âmbito
+- Simulação com taxa promocional
+- Guardar simulações
+```
+
+```text title="Acceptance Criteria"
+Cenário 1: Simulação válida
+Dado tenho sessão iniciada
+Quando simulo 10 000,00 a 36 meses
+Então recebo a prestação, o total de juros e o total a pagar, com 2 casas decimais
+
+Cenário 2: Valor fora do intervalo
+Dado tenho sessão iniciada
+Quando simulo 100,00 ou 60 000,00
+Então recebo validation
+
+Cenário 3: Prazo fora do intervalo
+Dado tenho sessão iniciada
+Quando simulo 5 ou 90 meses
+Então recebo validation
+
+Cenário 4: Sem efeitos
+Dado fiz uma simulação
+Quando consulto a base de dados
+Então não foi gravado nada
+```
+
+</details>
+
+### US16 · Pedido de empréstimo
+
+Como cliente, quero pedir um empréstimo e acompanhar o estado.
+
+**Pedido:** `POST /api/loans/request  ·  POST /api/loans/list  ·  POST /api/loans/cancel`  
+**Valor de negócio:** Médio  
+**Estimativa:** 5 pontos  
+**Depende de:** US4, US15
+
+```json title="Corpo do pedido"
+{ "amount": 10000.00, "months": 24, "accountNumber": "AC-123456" }
+```
+
+**Regras**
+
+- Nova entidade Loan, com estados Pending e Cancelled
+- Cada cliente só pode ter um pedido Pending
+- O cliente só vê e cancela os seus pedidos
+- Um pedido cancelado não volta a Pending
+- O pedido guarda o valor, o prazo, a conta e a taxa em vigor
+
+| Resultado | Quando |
+| --- | --- |
+| success | Pedido criado |
+| success | Lista dos meus pedidos |
+| success | Pedido cancelado |
+| unauthorized | Sem token válido |
+| not\_found | Pedido inexistente ou de outro cliente |
+| conflict | Já há um pedido pendente ou o pedido já foi cancelado |
+
+**Critérios de aceitação**
+
+- [ ] Há teste ao segundo pedido pendente
+- [ ] O cliente não vê pedidos de outros
+- [ ] Transições de estado com testes
+- [ ] Pedidos na coleção do Bruno
+
+<details>
+<summary>Pista de abordagem</summary>
+
+As transições de estado (Pending → Cancelled) devem ser métodos da entidade Loan, tal como o Close da Account. Assim o handler não consegue aprovar um pedido já rejeitado.
+
+</details>
+
+<details>
+<summary>User story completa para o Azure DevOps</summary>
+
+```text title="Título"
+US16 · Pedido de empréstimo
+```
+
+```text title="Descrição"
+Como cliente autenticado, quero pedir um empréstimo e acompanhar o estado, para financiar um projeto sem sair da aplicação.
+
+O cliente regista um pedido de empréstimo, consulta o estado e pode cancelá-lo enquanto está Pending. O pedido guarda o valor, o prazo, a conta e a taxa em vigor.
+
+Regras de negócio
+- Nova entidade Loan, com estados Pending e Cancelled
+- Cada cliente só pode ter um pedido Pending
+- O cliente só vê e cancela os seus pedidos
+- Um pedido cancelado não volta a Pending
+- O pedido guarda o valor, o prazo, a conta e a taxa em vigor
+
+Fora do âmbito
+- Aprovação ou rejeição do pedido
+- Reembolso e plano de pagamentos
+```
+
+```text title="Acceptance Criteria"
+Cenário 1: Pedir empréstimo
+Dado não tenho nenhum pedido Pending
+Quando peço um empréstimo
+Então recebo success
+E o pedido fica Pending
+
+Cenário 2: Segundo pedido pendente
+Dado já tenho um pedido Pending
+Quando peço outro empréstimo
+Então recebo conflict
+
+Cenário 3: Cancelar
+Dado tenho um pedido Pending
+Quando cancelo o pedido
+Então o pedido fica Cancelled
+
+Cenário 4: Pedido de outro cliente
+Dado o pedido 7 é de outro cliente
+Quando tento cancelá-lo
+Então recebo not_found
+```
+
+</details>
+
+## F5 · Identidade e segurança
+
+Perfil, sessões renovadas e proteção contra tentativas de acesso indevido.
+
+### US17 · Perfil e password
+
+Como cliente, quero ver os meus dados e mudar a minha password.
+
+**Pedido:** `POST /api/profile/get  ·  POST /api/profile/change-password`  
+**Valor de negócio:** Médio  
+**Estimativa:** 3 pontos
+
+```json title="Corpo do pedido"
+{ "currentPassword": "Passw0rd!", "newPassword": "N3w-Passw0rd" }
+```
+
+**Regras**
+
+- O get devolve nome, email, NIF e o número de contas
+- A password atual tem de estar certa
+- A nova tem pelo menos 8 caracteres e é diferente da atual
+- Guarda-se só o hash
+- Os tokens antigos continuam válidos até expirarem
+
+| Resultado | Quando |
+| --- | --- |
+| success | Dados do cliente |
+| success | Password alterada |
+| validation | Password nova inválida |
+| unauthorized | Sem token ou password atual errada |
+
+**Critérios de aceitação**
+
+- [ ] Reutiliza IPasswordHasher
+- [ ] A password nunca aparece em logs nem em respostas
+- [ ] Testes às regras da nova password
+- [ ] Pedidos na coleção do Bruno
+
+<details>
+<summary>Pista de abordagem</summary>
+
+Pensa onde vive a regra «pelo menos 8 caracteres e diferente da atual». Se já existe no Register, evita duplicá-la.
+
+</details>
+
+<details>
+<summary>User story completa para o Azure DevOps</summary>
+
+```text title="Título"
+US17 · Perfil e password
+```
+
+```text title="Descrição"
+Como cliente autenticado, quero ver os meus dados e mudar a minha password, para manter a minha conta segura e os meus dados atualizados.
+
+Consulta do perfil (nome, email, NIF e número de contas) e alteração da password. A password é guardada apenas como hash e nunca aparece em respostas nem em logs.
+
+Regras de negócio
+- O get devolve nome, email, NIF e o número de contas
+- A password atual tem de estar certa
+- A nova tem pelo menos 8 caracteres e é diferente da atual
+- Guarda-se só o hash
+- Os tokens antigos continuam válidos até expirarem
+
+Fora do âmbito
+- Recuperação de password por email
+- Invalidar os tokens já emitidos
+```
+
+```text title="Acceptance Criteria"
+Cenário 1: Ver perfil
+Dado tenho sessão iniciada
+Quando peço o meu perfil
+Então vejo nome, email, NIF e número de contas
+E não vejo hash nem password
+
+Cenário 2: Mudar password
+Dado conheço a password atual
+Quando envio a atual e uma nova com 8 ou mais caracteres
+Então recebo success
+E consigo fazer login com a nova password
+
+Cenário 3: Password atual errada
+Dado tenho sessão iniciada
+Quando envio uma password atual incorreta
+Então recebo unauthorized
+E a password não muda
+
+Cenário 4: Nova password inválida
+Dado tenho sessão iniciada
+Quando envio uma nova com 5 caracteres ou igual à atual
+Então recebo validation
+```
+
+</details>
+
+### US18 · Refresh token
+
+Como cliente, quero manter a sessão sem voltar a escrever a password.
+
+**Pedido:** `POST /api/auth/refresh`  
+**Valor de negócio:** Médio  
+**Estimativa:** 5 pontos
+
+```json title="Corpo do pedido"
+{ "refreshToken": "a1b2c3..." }
+```
+
+**Regras**
+
+- O Login passa a devolver também um refresh token aleatório com validade de 7 dias
+- Guarda-se apenas o hash do refresh token, numa nova entidade RefreshToken
+- Cada refresh troca o token por um novo e invalida o antigo (rotation)
+- Reutilizar um refresh token antigo revoga todas as sessões do cliente
+
+| Resultado | Quando |
+| --- | --- |
+| success | Novo access token e novo refresh token |
+| unauthorized | Refresh token inválido, expirado ou revogado |
+
+**Critérios de aceitação**
+
+- [ ] O refresh token tem pelo menos 32 bytes aleatórios
+- [ ] Nenhum refresh token está em claro na base de dados
+- [ ] Há teste à reutilização de um token antigo
+- [ ] Pedidos na coleção do Bruno
+
+<details>
+<summary>Pista de abordagem</summary>
+
+O refresh token não é um JWT mas sim um valor aleatório, que só tem significado no teu servidor. Para o guardar com hash, usa um hash rápido e determinístico (SHA-256): precisas de o procurar por valor, e a sua aleatoriedade já impede os ataques de dicionário.
+
+:::caution[Armadilha]
+Guardar o refresh token em claro. Quem ler a base de dados passa a ter todas as sessões.
+:::
+
+</details>
+
+<details>
+<summary>User story completa para o Azure DevOps</summary>
+
+```text title="Título"
+US18 · Refresh token
+```
+
+```text title="Descrição"
+Como cliente autenticado, quero manter a sessão sem voltar a escrever a password, para usar a aplicação sem interrupções e com segurança.
+
+O login devolve também um refresh token aleatório. Cada refresh troca o token por um novo (rotation) e a reutilização de um token antigo revoga todas as sessões do cliente.
+
+Regras de negócio
+- O Login passa a devolver também um refresh token aleatório com validade de 7 dias
+- Guarda-se apenas o hash do refresh token, numa nova entidade RefreshToken
+- Cada refresh troca o token por um novo e invalida o antigo (rotation)
+- Reutilizar um refresh token antigo revoga todas as sessões do cliente
+
+Fora do âmbito
+- Gestão de dispositivos
+- Sessões simultâneas por dispositivo
+```
+
+```text title="Acceptance Criteria"
+Cenário 1: Renovar sessão
+Dado tenho um refresh token válido
+Quando peço um refresh
+Então recebo um novo access token e um novo refresh token
+E o refresh token antigo deixa de funcionar
+
+Cenário 2: Reutilização de token antigo
+Dado já troquei o refresh token A pelo B
+Quando envio o token A
+Então recebo unauthorized
+E todas as minhas sessões são revogadas
+
+Cenário 3: Token expirado
+Dado o refresh token tem mais de 7 dias
+Quando peço um refresh
+Então recebo unauthorized
+
+Cenário 4: Armazenamento seguro
+Dado foi emitido um refresh token
+Quando consulto a base de dados
+Então só existe o hash do token, nunca o valor em claro
+```
+
+</details>
+
+### US19 · Logout
+
+Como cliente, quero terminar a sessão, para que ninguém a possa reutilizar.
+
+**Pedido:** `POST /api/auth/logout`  
+**Valor de negócio:** Médio  
+**Estimativa:** 2 pontos  
+**Depende de:** US18
+
+```json title="Corpo do pedido"
+{ "refreshToken": "a1b2c3..." }
+```
+
+**Regras**
+
+- Recebe o refresh token da sessão a terminar
+- Apaga esse refresh token, sem afetar as sessões dos outros dispositivos
+- O access token continua válido até expirar
+- Repetir o logout com o mesmo token não é erro: responde success
+- Usa a entidade RefreshToken da US18
+
+| Resultado | Quando |
+| --- | --- |
+| success | Sessão terminada |
+| validation | Pedido sem refresh token |
+
+**Critérios de aceitação**
+
+- [ ] Depois do logout, o refresh token deixa de funcionar
+- [ ] As outras sessões do cliente continuam ativas
+- [ ] Há teste ao logout repetido
+- [ ] Pedido na coleção do Bruno
+
+<details>
+<summary>Pista de abordagem</summary>
+
+O access token é um JWT sem estado: o servidor não o consegue apagar. Por isso o logout só impede a renovação, e o access token acaba por expirar sozinho. Pensa porque é que o access token deve ter validade curta.
+
+</details>
+
+<details>
+<summary>User story completa para o Azure DevOps</summary>
+
+```text title="Título"
+US19 · Logout
+```
+
+```text title="Descrição"
+Como cliente autenticado, quero terminar a sessão, para garantir que ninguém a pode reutilizar.
+
+O logout apaga o refresh token da sessão. O access token continua válido até expirar, por isso deve ter uma validade curta.
+
+Regras de negócio
+- Recebe o refresh token da sessão a terminar
+- Apaga esse refresh token, sem afetar as sessões dos outros dispositivos
+- O access token continua válido até expirar
+- Repetir o logout com o mesmo token não é erro: responde success
+- Usa a entidade RefreshToken da US18
+
+Fora do âmbito
+- Logout de todos os dispositivos
+- Invalidar o access token já emitido
+```
+
+```text title="Acceptance Criteria"
+Cenário 1: Logout
+Dado tenho um refresh token válido
+Quando faço logout
+Então recebo success
+E o refresh token deixa de funcionar
+
+Cenário 2: Outras sessões
+Dado tenho sessão noutro dispositivo
+Quando faço logout neste
+Então a outra sessão continua ativa
+
+Cenário 3: Logout repetido
+Dado já fiz logout com este token
+Quando faço logout outra vez
+Então recebo success
+
+Cenário 4: Pedido sem token
+Dado o corpo não tem refresh token
+Quando faço logout
+Então recebo validation
+```
+
+</details>
+
+### US20 · Limitar tentativas de login
+
+Como banco, quero travar quem tenta adivinhar passwords.
+
+**Pedido:** `POST /api/auth/login (alteração)`  
+**Valor de negócio:** Médio  
+**Estimativa:** 5 pontos
+
+**Regras**
+
+- Após 5 falhas em 15 minutos, o email fica bloqueado durante 15 minutos
+- Devolve o erro rate\_limited com o tempo de espera na mensagem
+- Um login certo repõe o contador
+- As falhas gravam-se por email, também para emails que não existem
+- A resposta continua igual para email desconhecido e password errada
+
+| Resultado | Quando |
+| --- | --- |
+| success | Login certo |
+| unauthorized | Credenciais inválidas |
+| rate\_limited | Demasiadas tentativas |
+
+**Critérios de aceitação**
+
+- [ ] O bloqueio funciona também para emails inexistentes
+- [ ] A janela e o limite vêm de configuração
+- [ ] Testes às fronteiras (4.ª, 5.ª e 6.ª tentativas)
+
+<details>
+<summary>Pista de abordagem</summary>
+
+Se só contares falhas de emails que existem, um atacante descobre que emails estão registados pela diferença de comportamento. Conta todas as falhas.
+
+</details>
+
+<details>
+<summary>User story completa para o Azure DevOps</summary>
+
+```text title="Título"
+US20 · Limitar tentativas de login
+```
+
+```text title="Descrição"
+Como responsável de segurança do banco, quero travar quem tenta adivinhar passwords, para reduzir o risco de acesso indevido às contas dos clientes.
+
+Após 5 falhas em 15 minutos, o email fica bloqueado durante 15 minutos. As falhas são contadas por email, mesmo que não exista, e a resposta não revela se o email é conhecido.
+
+Regras de negócio
+- Após 5 falhas em 15 minutos, o email fica bloqueado durante 15 minutos
+- Devolve o erro rate_limited com o tempo de espera na mensagem
+- Um login certo repõe o contador
+- As falhas gravam-se por email, também para emails que não existem
+- A resposta continua igual para email desconhecido e password errada
+
+Fora do âmbito
+- Captcha
+- Bloqueio por endereço IP
+```
+
+```text title="Acceptance Criteria"
+Cenário 1: Bloqueio à 5.ª falha
+Dado falhei o login 4 vezes em 15 minutos
+Quando falho a 5.ª vez
+Então recebo unauthorized
+E o email fica bloqueado
+
+Cenário 2: Tentativa durante o bloqueio
+Dado o email está bloqueado
+Quando tento fazer login
+Então recebo rate_limited com o tempo de espera na mensagem
+
+Cenário 3: Login certo repõe o contador
+Dado falhei 3 vezes
+Quando faço login com a password certa
+Então recebo success
+E o contador volta a zero
+
+Cenário 4: Email inexistente
+Dado o email não existe
+Quando falho 5 vezes
+Então fica bloqueado e a resposta é igual à de uma password errada
+```
+
+</details>
+
+<details>
+<summary>Saber mais</summary>
+
+O número de user stories é propositadamente alto. Se concluíres que consegues fazer todas em 6 dias, estimaste mal. O que se avalia é a qualidade do plano e da execução: uma user story pronta e bem testada vale mais do que cinco a meio.
+
+:::tip[Experimenta]
+Antes de estimares, lê todas as user stories e tenta adivinhar quais têm mais risco. No fim do projeto, compara com o que realmente aconteceu.
+:::
+
+</details>

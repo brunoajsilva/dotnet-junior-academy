@@ -85,6 +85,8 @@ async function checkLinks(): Promise<void> {
   let checked = 0;
   for (const file of await listFiles(DIST, [".html"])) {
     const html = await readFile(file, "utf8");
+    const stray = html.match(/>[^<]*\\\d[^<]*</);
+    if (stray) problems.push(`barra invertida solta em ${file.slice(DIST.length)}: ${stray[0].slice(0, 60)}`);
     for (const [, href] of html.matchAll(/<a[^>]+href="([^"#?]+)/g)) {
       if (/^(https?:|mailto:|\/\/)/.test(href)) continue;
       const base = href.startsWith("/") ? DIST : resolve(file, "..");
