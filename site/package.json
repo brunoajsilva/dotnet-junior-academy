@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "version": "3.0.0",
-  "description": ".NET Backend Academy: site de ensino feito com Starlight. O conteúdo está em src/content/docs.",
+  "description": ".NET Academy: site de ensino feito com Starlight. O conteúdo está em src/content/docs.",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",

@@ -1,11 +1,11 @@
 ---
 title: "O que é"
-description: "O que é a .NET Backend Academy, o que vais conseguir fazer no fim, como está organizada e o que tens de instalar."
+description: "O que é a .NET Academy, o que vais conseguir fazer no fim, como está organizada e o que tens de instalar."
 sidebar:
   order: 1
 ---
 
-A .NET Backend Academy é o programa de integração técnica para quem chega à equipa de backend. Em vez de leres teoria durante semanas, escreves código desde o primeiro dia, num domínio que conheces do trabalho real: um banco, com clientes, contas e saldos.
+A .NET Academy é o programa de integração técnica para quem chega à equipa de backend. Em vez de leres teoria durante semanas, escreves código desde o primeiro dia, num domínio que conheces do trabalho real: um banco, com clientes, contas e saldos.
 
 Começas por C#, passas para a plataforma .NET, aprendes a proteger uma API e terminas com um projeto completo, construída de raiz com Clean Architecture. Cada módulo usa o que aprendeste no anterior, por isso nada fica a flutuar.
 

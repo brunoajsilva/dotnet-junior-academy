@@ -26,7 +26,6 @@
 - **Armadilha** (`:::caution[Armadilha]`): o erro que um júnior realmente comete, numa frase.
 - **Experimenta** (`:::tip[Experimenta]`): algo que o aluno faz em menos de 2 minutos para ver o efeito.
 - **Exercício**: 3 a 6 passos verificáveis («o endpoint devolve 404», não «perceber o endpoint»). Dá a pista sem dar a solução.
-- **Quiz**: perguntas de compreensão, não de memória de sintaxe. Opções erradas plausíveis. A explicação diz porquê.
 - **Progressão**: cada capítulo usa o anterior. Não introduzas dois conceitos novos na mesma lição.
 
 ## O que nunca escrever
@@ -42,10 +41,8 @@
 Marca tudo antes de entregar:
 
 - [ ] `npm run build` em `site/` termina com `Complete!`.
-- [ ] Cada capítulo tem um quiz de 3 a 6 perguntas.
 - [ ] Nenhum exemplo de código é maior do que um ecrã.
 - [ ] Todo o código está em inglês e usa `decimal` para dinheiro.
 - [ ] Nenhum texto tem emojis.
 - [ ] Os links para a documentação são oficiais e abrem.
-- [ ] As respostas certas do quiz não estão todas na mesma posição.
 - [ ] No resumo final disseste o que **não** conseguiste verificar (por exemplo, «o código não foi compilado»).

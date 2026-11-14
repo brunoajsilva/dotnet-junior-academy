@@ -25,7 +25,7 @@ Perdeu-se:
 - A pesquisa e o modo escuro, por decisão: o site só tem tema claro e não tem pesquisa.
 - A garantia de que o código C# do projeto final compila: não há solução .NET nem testes no repositório.
 - O progresso do aluno guardado no browser (marcar lições como vistas).
-- O quiz com pontuação: as perguntas ficam com a resposta escondida num bloco «Ver resposta».
+- O quiz: foi retirado, os capítulos terminam nos exercícios e nas ideias para praticar.
 - O plano pessoal do aluno e a árvore de ficheiros clicável com painel lateral. A árvore passou a ser a do Starlight, com a descrição de cada ficheiro.
 - Os ids estáveis e o ficheiro `ids.lock`, que só serviam para o progresso.
 - Os URLs mudaram. A correspondência entre os antigos e os novos está em [0001-routes.json](0001-routes.json).

@@ -81,14 +81,14 @@
 :root {
   --m: var(--sl-color-accent);
 }
-html:has(.top__nav li:nth-child(1) > a[aria-current]) { --m: var(--module-1); }
-html:has(.top__nav li:nth-child(2) > a[aria-current]) { --m: var(--module-2); }
-html:has(.top__nav li:nth-child(3) > a[aria-current]) { --m: var(--module-3); }
-html:has(.top__nav li:nth-child(4) > a[aria-current]) { --m: var(--module-4); }
-html:has(.top__nav li:nth-child(5) > a[aria-current]) { --m: var(--module-5); }
-html:has(.top__nav li:nth-child(6) > a[aria-current]) { --m: var(--module-6); }
-html:has(.top__nav li:nth-child(7) > a[aria-current]) { --m: var(--module-7); }
-html:has(.top__nav li:nth-child(8) > a[aria-current]) { --m: var(--module-8); }
+html:has(.sidebar-content ul.top-level > li:nth-child(1) a[aria-current="page"]) { --m: var(--module-1); }
+html:has(.sidebar-content ul.top-level > li:nth-child(2) a[aria-current="page"]) { --m: var(--module-2); }
+html:has(.sidebar-content ul.top-level > li:nth-child(3) a[aria-current="page"]) { --m: var(--module-3); }
+html:has(.sidebar-content ul.top-level > li:nth-child(4) a[aria-current="page"]) { --m: var(--module-4); }
+html:has(.sidebar-content ul.top-level > li:nth-child(5) a[aria-current="page"]) { --m: var(--module-5); }
+html:has(.sidebar-content ul.top-level > li:nth-child(6) a[aria-current="page"]) { --m: var(--module-6); }
+html:has(.sidebar-content ul.top-level > li:nth-child(7) a[aria-current="page"]) { --m: var(--module-7); }
+html:has(.sidebar-content ul.top-level > li:nth-child(8) a[aria-current="page"]) { --m: var(--module-8); }
 
 /* ---------- Cabeçalho ---------- */
 .right-group {
@@ -99,70 +99,11 @@ header.header {
   border-bottom: 1px solid var(--line);
   background: var(--sheet);
 }
-.top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
-  height: 100%;
-}
-.top__title {
-  min-width: 0;
-}
 .site-title {
   font-size: 1.1rem;
   font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--ink);
-}
-.top__nav ol {
-  display: flex;
-  gap: 0.25rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.top__nav a {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  padding: 0.3rem 0.8rem 0.3rem 0.35rem;
-  border-radius: 999px;
-  color: var(--text);
-  font-size: 0.9rem;
-  font-weight: 500;
-  text-decoration: none;
-  white-space: nowrap;
-  transition: background 0.15s ease, color 0.15s ease;
-}
-.top__nav a span {
-  display: grid;
-  place-items: center;
-  width: 1.4rem;
-  height: 1.4rem;
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--m) 14%, white);
-  color: color-mix(in srgb, var(--m) 80%, black);
-  font-size: 0.74rem;
-  font-weight: 700;
-}
-.top__nav a:hover {
-  background: var(--tint);
-  color: var(--ink);
-}
-.top__nav a[aria-current] {
-  background: color-mix(in srgb, var(--m) 12%, white);
-  color: color-mix(in srgb, var(--m) 75%, black);
-  font-weight: 600;
-}
-.top__nav a[aria-current] span {
-  background: var(--m);
-  color: #fff;
-}
-@media (max-width: 72rem) {
-  .top__nav {
-    display: none;
-  }
 }
 
 /* ---------- Menu lateral: o percurso ---------- */
@@ -376,15 +317,15 @@ h1#_top {
 /* Código: uma caixa de editor, com o nome da linguagem à esquerda e «Copiar» à direita */
 .sl-markdown-content .expressive-code {
   margin-top: 1.4rem;
-  --code-background: #0e1a35;
+  --code-background: #1e1e1e;
 }
 .expressive-code figure.frame {
   --lbl: "Código";
   overflow: clip;
-  border: 1px solid #1c2a4d;
+  border: 1px solid #333337;
   border-radius: 12px;
-  background: #0e1a35;
-  box-shadow: 0 1px 2px rgb(14 26 53 / 0.12), 0 14px 28px -16px rgb(14 26 53 / 0.45);
+  background: #1e1e1e;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.12), 0 14px 28px -16px rgb(0 0 0 / 0.45);
 }
 .expressive-code figure.frame pre {
   border: 0;
@@ -406,8 +347,8 @@ h1#_top {
   gap: 0.9rem;
   height: 2.6rem;
   padding-inline: 1.1rem 6rem;
-  background: #091328;
-  border-bottom: 1px solid #1c2a4d;
+  background: #252526;
+  border-bottom: 1px solid #333337;
 }
 .expressive-code figure.frame:not(.has-title):not(.is-terminal) > figcaption.header::before {
   content: "";
@@ -416,12 +357,12 @@ h1#_top {
   height: 0.7rem;
   margin-inline-end: 2.3rem;
   border-radius: 50%;
-  background: #3a4a74;
-  box-shadow: 1.1rem 0 #3a4a74, 2.2rem 0 #3a4a74;
+  background: #5a5a5e;
+  box-shadow: 1.1rem 0 #5a5a5e, 2.2rem 0 #5a5a5e;
 }
 .expressive-code figure.frame:not(.has-title):not(.is-terminal) > figcaption.header::after {
   content: var(--lbl);
-  color: #9fb1dc;
+  color: #cccccc;
   font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.02em;
@@ -437,7 +378,7 @@ h1#_top {
 }
 .expressive-code .frame.is-terminal:not(.has-title) .header span.title::after {
   content: "Terminal";
-  color: #9fb1dc;
+  color: #cccccc;
   font-family: var(--sl-font);
   font-size: 0.8rem;
   font-weight: 600;
@@ -453,9 +394,9 @@ h1#_top {
   width: auto;
   height: 1.7rem;
   padding: 0 0.85rem;
-  border: 1px solid #2c3e6b;
+  border: 1px solid #454549;
   border-radius: 999px;
-  background: #13244a;
+  background: #2d2d30;
 }
 .expressive-code .copy button div,
 .expressive-code .copy button::before {
@@ -469,14 +410,14 @@ h1#_top {
   background: none;
   -webkit-mask: none;
   mask: none;
-  color: #c9d4f0;
+  color: #d4d4d4;
   font-size: 0.78rem;
   font-weight: 600;
   line-height: 1.6rem;
 }
 .expressive-code .copy button:hover {
-  background: #1b3166;
-  border-color: #4660a3;
+  background: #3a3a3d;
+  border-color: #6a6a70;
 }
 .expressive-code .copy button:focus-visible {
   outline: 2px solid #8fb0ff;

@@ -1,4 +1,4 @@
-# .NET Backend Academy
+# .NET Academy
 
 Academia de .NET para programadores de backend: C#, .NET, autenticação e um projeto final guiado (BankingApp, Clean Architecture). O conteúdo está em português de Portugal; os termos técnicos ficam em inglês.
 
@@ -23,8 +23,8 @@ npm run preview    # serve site/dist
 ```text
 site/                     o site Starlight
   astro.config.mjs        título e configuração do Starlight
-  src/modules.ts          os módulos, pela ordem do menu e do cabeçalho
-  src/components/         cabeçalho com os módulos, título com a etiqueta do módulo
+  src/modules.ts          os módulos, pela ordem do menu lateral
+  src/components/         título da página com a etiqueta do módulo
   src/content/docs/       as páginas: academia/, csharp/, dotnet/, auth/, projeto/
   src/styles/academy.css  a cor e os ajustes da academia
 resources/                ficheiros para os formandos
