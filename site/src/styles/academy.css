@@ -33,11 +33,11 @@
   --sl-font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --sl-content-width: 100rem;
   --sl-content-pad-x: 2.5rem;
-  --sl-text-body: 1.0625rem;
-  --sl-text-h1: 2.5rem;
+  --sl-text-body: 0.95rem;
+  --sl-text-h1: 2.1rem;
   --sl-text-h2: 1.7rem;
-  --sl-text-h3: 1.3rem;
-  --sl-text-h4: 1.1rem;
+  --sl-text-h3: 1.12rem;
+  --sl-text-h4: 1rem;
   --sl-line-height: 1.65;
   --sl-line-height-headings: 1.2;
 
@@ -238,7 +238,7 @@ h1#_top {
 }
 /* Cada lição abre com uma linha, para se ver onde uma acaba e a seguinte começa. */
 .sl-markdown-content h2 {
-  font-size: 1.95rem;
+  font-size: 1.55rem;
 }
 .sl-markdown-content .sl-heading-wrapper.level-h2 {
   position: relative;
@@ -833,7 +833,7 @@ html:has(dialog[open]) {
 
 /* Texto corrido com linhas de leitura confortável; código, tabelas e avisos usam a largura toda */
 html[data-has-sidebar] .sl-markdown-content > :is(p, ul, ol) {
-  max-width: 56rem;
+  max-width: 52rem;
 }
 html[data-has-sidebar] {
   --sl-content-margin-inline: 0 auto;
